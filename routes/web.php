@@ -1,33 +1,59 @@
 <?php
 
-use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PosyanduController;
-use App\Http\Controllers\DashboardController;
-use Illuminate\Support\Facades\Route; // Pastikan ini ada
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\WargaController;
+use App\Http\Controllers\PosyanduController;
+use App\Http\Controllers\LoginController; // Pastikan ini LoginController
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
+|
+| Kita bungkus SEMUA rute dengan middleware 'web' untuk memastikan
+| session, CSRF, dan pesan pop up (sukses/error) berfungsi.
+|
 */
+Route::group(['middleware' => 'web'], function () {
 
-Route::get('/auth', [AuthController::class, 'index']);
-Route::post('/auth/login', [AuthController::class, 'login']);
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    /*
+    |--------------------------------------------------------------------------
+    | Rute Publik (Bisa diakses tanpa login)
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login')->middleware('guest');
+    Route::post('/login', [LoginController::class, 'login']);
 
-// Route untuk Home
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::resource('home', HomeController::class);
+    // Redirect halaman utama ('/') ke 'home'
+    Route::get('/', function () {
+        return redirect()->route('home');
+    });
 
-// INI ADALAH ROUTE UNTUK POSYANDU
-// Ini akan otomatis membuat URL /posyandu (GET), /posyandu (POST),
-// /posyandu/{id}/edit (GET), /posyandu/{id} (PUT/DELETE), dll.
-Route::resource('posyandu', PosyanduController::class);
+    /*
+    |--------------------------------------------------------------------------
+    | Rute Terproteksi (WAJIB LOGIN)
+    |--------------------------------------------------------------------------
+    */
+    Route::middleware(['auth'])->group(function () {
 
-// <-- 2. TAMBAHKAN BLOK INI UNTUK WARGA -->
-// INI ADALAH ROUTE UNTUK WARGA
-Route::resource('warga', WargaController::class);
-Route::middleware('web')
-    ->group(base_path('routes/warga.php'));
+        // Route untuk Logout
+        Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+        // Route untuk Home (Dashboard Anda)
+        Route::get('/home', [HomeController::class, 'index'])->name('home');
+        Route::resource('home', HomeController::class);
+
+        // Route Posyandu
+        Route::resource('posyandu', PosyanduController::class);
+
+        // Route Warga
+        Route::resource('warga', WargaController::class);
+
+        // Route User
+        Route::resource('user', UserController::class);
+
+    }); // Akhir dari middleware 'auth'
+
+}); // Akhir dari middleware 'web'

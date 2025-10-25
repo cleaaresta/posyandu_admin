@@ -22,22 +22,21 @@
     <div class="items-center block w-auto max-h-screen overflow-auto h-sidenav grow basis-full">
         <ul class="flex flex-col pl-0 mb-0">
             <li class="mt-0.5 w-full">
-                <a class="py-2.7 {{ Request::is('home') ? 'bg-blue-500/13' : '' }} text-sm my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold text-slate-700"
+                <a class="py-2.7 text-sm my-0 mx-2 flex items-center whitespace-nowrap px-4 {{ request()->is('home*') ? 'rounded-lg bg-blue-500/13 font-semibold text-slate-700' : 'text-slate-500' }}"
                     href="{{ url('/home') }}">
                     <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg">
-                        <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-tv-2"></i>
+                        <i
+                            class="relative top-0 text-sm leading-normal {{ request()->is('home*') ? 'text-blue-500' : 'text-slate-700' }} ni ni-tv-2"></i>
                     </div>
                     <span class="ml-1">Dashboard</span>
                 </a>
             </li>
 
-
             <li class="mt-0.5 w-full">
-                <a class="py-2.7 {{ Request::is('posyandu*') ? 'bg-blue-500/13' : '' }} text-sm my-0 mx-2 flex items-center whitespace-nowrap px-4"
-                    href="{{ route('posyandu.index') }}">
+                <a class="py-2.7 text-sm my-0 mx-2 flex items-center whitespace-nowrap px-4 {{ request()->is('posyandu*') ? 'rounded-lg bg-blue-500/13 font-semibold text-slate-700' : 'text-slate-500' }}"
+                    href="{{ url('/posyandu') }}">
                     <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg">
-                        <i
-                            class="relative top-0 text-sm leading-normal {{ Request::is('posyandu*') ? 'text-blue-500' : 'text-slate-700' }} ni ni-building"></i>
+                        <i class="relative top-0 text-sm leading-normal text-slate-700 ni ni-building"></i>
                     </div>
                     <span class="ml-1">Posyandu</span>
                 </a>
@@ -58,19 +57,17 @@
             </li>
 
             <li class="mt-0.5 w-full">
-                <a class="py-2.7 {{ Request::is('profile') ? 'bg-blue-500/13' : '' }} text-sm my-0 mx-2 flex items-center whitespace-nowrap px-4"
-                    href="{{ url('/profile') }}">
+                <a class="py-2.7 text-sm my-0 mx-2 flex items-center whitespace-nowrap px-4 {{ request()->is('user*') ? 'rounded-lg bg-blue-500/13 font-semibold text-slate-700' : 'text-slate-500' }}"
+                    href="{{ route('user.index') }}">
                     <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg">
                         <i
-                            class="relative top-0 text-sm leading-normal {{ Request::is('profile') ? 'text-blue-500' : 'text-slate-700' }} ni ni-single-02"></i>
+                            class="relative top-0 text-sm leading-normal {{ request()->is('user*') ? 'text-blue-500' : 'text-slate-700' }} ni ni-key-25"></i>
                     </div>
-                    <span class="ml-1">Profile</span>
+                    <span class="ml-1">User</span>
                 </a>
             </li>
         </ul>
     </div>
-
-
 
     <div class="mx-4">
         <p

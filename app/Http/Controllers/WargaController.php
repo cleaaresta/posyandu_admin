@@ -15,7 +15,7 @@ class WargaController extends Controller
     {
         $warga = Warga::latest()->paginate(10);
 
-        // PERBAIKAN: Path view menunjuk ke admin1.warga.index
+        // PERBAIKAN: Path view menunjuk ke warga.index
         return view('admin1.warga.index', compact('warga'));
     }
 
@@ -24,7 +24,7 @@ class WargaController extends Controller
      */
     public function create()
     {
-        // PERBAIKAN: Path view menunjuk ke admin1.warga.create
+        // PERBAIKAN: Path view menunjuk ke warga.create
         return view('admin1.warga.create');
     }
 
@@ -49,13 +49,12 @@ class WargaController extends Controller
     }
 
     /**
-     * Menampilkan detail satu warga.
+     * Menampilkan detail data warga.
      */
     public function show(Warga $warga)
     {
-        // PERBAIKAN: Path view menunjuk ke admin1.warga.show (jika Anda membuatnya)
-        // Jika tidak ada file show.blade.php, Anda bisa hapus fungsi ini.
-        return view('admin1.warga.show', compact('warga'));
+        // PERBAIKAN: Redirect ke index saja
+        return redirect()->route('warga.index');
     }
 
     /**
@@ -63,7 +62,7 @@ class WargaController extends Controller
      */
     public function edit(Warga $warga)
     {
-        // PERBAIKAN: Path view menunjuk ke admin1.warga.edit
+        // PERBAIKAN: Path view menunjuk ke warga.edit
         return view('admin1.warga.edit', compact('warga'));
     }
 
@@ -96,6 +95,7 @@ class WargaController extends Controller
     public function destroy(Warga $warga)
     {
         $warga->delete();
+
         return redirect()->route('warga.index')->with('success', 'Data warga berhasil dihapus.');
     }
 }
