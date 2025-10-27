@@ -12,9 +12,6 @@ class LoginController extends Controller
     /**
      * Menampilkan halaman form login.
      */
-    /**
-     * Menampilkan halaman form login.
-     */
     public function showLoginForm()
     {
         // Jika user sudah login, lempar ke 'home' (sesuai sidebar)
