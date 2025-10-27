@@ -13,12 +13,12 @@ class PosyanduController extends Controller
         // --- Gunakan paginate() BUKAN all() ---
         $posyandus = Posyandu::paginate(10);
 
-        return view('admin1.posyandu.index', compact('posyandus'));
+        return view('pages.posyandu.index', compact('posyandus'));
     }
 
     public function create()
     {
-        return view('admin1.posyandu.create');
+        return view('pages.posyandu.create');
     }
 
     public function store(Request $request)
@@ -51,7 +51,7 @@ class PosyanduController extends Controller
     public function edit(string $id)
     {
         $posyandu = Posyandu::findOrFail($id);
-        return view('admin1.posyandu.edit', compact('posyandu'));
+        return view('pages.posyandu.edit', compact('posyandu'));
     }
 
     public function update(Request $request, string $id)

@@ -7,7 +7,7 @@
                     <script>
                         document.write(new Date().getFullYear() + ",");
                     </script>
-                    made with <i class="fa fa-heart"></i> by
+                    made with by
                     <a href="https://www.creative-tim.com"
                         class="font-semibold text-slate-700 dark:text-white" target="_blank">Creative
                         Tim</a>
@@ -31,12 +31,6 @@
                             class="block px-4 pt-0 pb-1 text-sm font-normal transition-colors ease-in-out text-slate-500"
                             target="_blank">Blog</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="https://www.creative-tim.com/license"
-                            class="block px-4 pt-0 pb-1 pr-0 text-sm font-normal transition-colors ease-in-out text-slate-500"
-                            target="_blank">License</a>
-                    </li>
-                </ul>
             </div>
         </div>
     </div>

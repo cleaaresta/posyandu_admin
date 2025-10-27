@@ -16,7 +16,7 @@ class WargaController extends Controller
         $warga = Warga::latest()->paginate(10);
 
         // PERBAIKAN: Path view menunjuk ke warga.index
-        return view('admin1.warga.index', compact('warga'));
+        return view('pages.warga.index', compact('warga'));
     }
 
     /**
@@ -63,7 +63,7 @@ class WargaController extends Controller
     public function edit(Warga $warga)
     {
         // PERBAIKAN: Path view menunjuk ke warga.edit
-        return view('admin1.warga.edit', compact('warga'));
+        return view('pages.warga.edit', compact('warga'));
     }
 
     /**

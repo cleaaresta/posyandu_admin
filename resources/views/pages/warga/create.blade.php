@@ -1,4 +1,4 @@
-@extends('admin1.partials.app')
+@extends('admin1.partials/admin.app')
 
 @section('title', 'Tambah Data Warga')
 @section('page_title', 'Tambah Warga')

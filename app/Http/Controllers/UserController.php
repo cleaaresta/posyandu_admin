@@ -15,7 +15,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::paginate(10); // Menggunakan pagination
-        return view('admin1.user.index', compact('users'));
+        return view('pages.user.index', compact('users'));
     }
 
     /**
@@ -63,7 +63,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('admin1.user.edit', compact('user'));
+        return view('pages.user.edit', compact('user'));
     }
 
     /**
