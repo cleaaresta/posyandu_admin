@@ -25,7 +25,7 @@ class WargaController extends Controller
     public function create()
     {
         // PERBAIKAN: Path view menunjuk ke warga.create
-        return view('admin1.warga.create');
+        return view('pages.warga.create');
     }
 
     /**

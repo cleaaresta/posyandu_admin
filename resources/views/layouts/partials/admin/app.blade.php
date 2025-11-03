@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    @include('admin1.partials/admin.css')
+    @include('layouts.partials/admin.css')
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
@@ -40,21 +40,21 @@
     class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 text-slate-500">
     <div class="absolute w-full bg-blue-500 dark:hidden min-h-75"></div>
 
-    @include('admin1.partials/admin.sidebar')
+    @include('layouts.partials/admin.sidebar')
 
     <main class="relative h-full max-h-screen transition-all duration-200 ease-in-out xl:ml-68 rounded-xl">
 
-        @include('admin1.partials/admin.navbar')
+        @include('layouts.partials/admin.navbar')
 
         <div class="w-full px-6 py-6 mx-auto">
             @yield('content')
 
-            @include('admin1.partials/admin.footer')
+            @include('layouts.partials/admin.footer')
         </div>
     </main>
 
 
-    @include('admin1.partials/admin.js')
+    @include('layouts.partials/admin.js')
 
     <a href="https://api.whatsapp.com/send?text=Halo%2C%20saya%20tertarik%20dengan%20layanan%20Anda."
         class="whatsapp-fab" target="_blank">

@@ -14,12 +14,13 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
+
         // Jika user sudah login, lempar ke 'home' (sesuai sidebar)
-        if (Auth::check()) {
-            return redirect()->route('home'); // UBAH INI
-        }
+        // if (Auth::check()) {
+        //     return redirect()->route('home'); // UBAH INI
+        // }
         // Tampilkan view login
-        return view('auth.login');
+        return view('pages.auth.login');
     }
 
     public function login(Request $request)

@@ -8,11 +8,11 @@ use App\Http\Controllers\WargaController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'web'], function () {
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login')->middleware('guest');
-Route::post('/login', [LoginController::class, 'login']);
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login']);
 
     Route::get('/', function () {
-        return redirect()->route('home');
+        return redirect()->route('login');
     });
 
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

@@ -1,4 +1,4 @@
-@extends('admin1.partials/admin.app')
+@extends('layouts.partials/admin.app')
 
 {{-- Judul Halaman (tampil di tab browser) --}}
 @section('title', 'Data Warga')

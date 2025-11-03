@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    @include('admin1.partials/admin.css')
+ @include('layouts.partials/admin.css')
     <title>Login - Posyandu</title>
 
     {{--
@@ -81,7 +81,7 @@
         </section>
     </main>
 
-    @include('admin1.partials/admin.js')
+    @include('layouts.partials/admin.js')
 </body>
 
 </html>
