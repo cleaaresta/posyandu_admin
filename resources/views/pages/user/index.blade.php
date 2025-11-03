@@ -1,4 +1,4 @@
-@extends('layouts.partials/admin.app')
+@extends('layouts.admin.app')
 
 @section('title', 'Data User')
 @section('page_title', 'Data User')

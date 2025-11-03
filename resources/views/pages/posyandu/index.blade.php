@@ -1,4 +1,4 @@
-@extends('layouts.partials/admin.app') {{-- <--- PERBAIKAN DI SINI --}}
+@extends('layouts.admin.app') {{-- <--- PERBAIKAN DI SINI --}}
 
 {{-- Judul Halaman (tampil di tab browser) --}}
 @section('title', 'Data Posyandu')

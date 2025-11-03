@@ -1,4 +1,4 @@
-@extends('layouts.partials/admin.app')
+@extends('layouts.admin.app')
 
 @section('title', 'Edit Data Posyandu')
 @section('page_title', 'Edit Posyandu')
@@ -86,10 +86,32 @@
                         </div>
 
                         <div class="text-right mt-6">
+                            {{-- 
+                              ==================================================================
+                              PERUBAHAN DI SINI (Tombol Batal):
+                              - Menambahkan `inline-flex items-center justify-center`
+                              - Menambahkan tag <i> untuk ikon `fa-ban`
+                              ==================================================================
+                            --}}
                             <a href="{{ route('posyandu.index') }}"
-                                class="inline-block px-6 py-3 mr-2 font-bold text-center uppercase align-middle transition-all bg-gray-200 border-0 rounded-lg cursor-pointer text-slate-700 text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85">Batal</a>
+                                class="inline-flex items-center justify-center px-6 py-3 mr-2 font-bold text-center uppercase align-middle transition-all bg-gray-200 border-0 rounded-lg cursor-pointer text-slate-700 text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85">
+                                <i class="fas fa-ban mr-2"></i>
+                                <span>Batal</span>
+                            </a>
+                            
+                            {{-- 
+                              ==================================================================
+                              PERUBAHAN DI SINI (Tombol Update):
+                              - Menambahkan `inline-flex items-center justify-center`
+                              - Menambahkan tag <i> untuk ikon `fa-save`
+                              ==================================================================
+                            --}}
                             <button type="submit"
-                                class="inline-block px-6 py-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-blue-500 to-violet-500 leading-normal text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85">Update</button>
+                                class="inline-flex items-center justify-center px-6 py-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-blue-500 to-violet-500 leading-normal text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85">
+                                <i class="fas fa-save mr-2"></i>
+                                <span>Update</span>
+                            </button>
+                            {{-- ================================================================== --}}
                         </div>
                     </form>
                 </div>

@@ -2,14 +2,10 @@
 <html>
 
 <head>
-    @include('layouts.partials/admin.css')
-
-
+    @include('layouts.admin.css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-
     <style>
         .whatsapp-fab {
             position: fixed;
@@ -33,28 +29,27 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
     </style>
-
 </head>
 
 <body
     class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 text-slate-500">
     <div class="absolute w-full bg-blue-500 dark:hidden min-h-75"></div>
 
-    @include('layouts.partials/admin.sidebar')
+    @include('layouts.admin.sidebar')
 
     <main class="relative h-full max-h-screen transition-all duration-200 ease-in-out xl:ml-68 rounded-xl">
 
-        @include('layouts.partials/admin.navbar')
+        @include('layouts.admin.navbar')
 
         <div class="w-full px-6 py-6 mx-auto">
             @yield('content')
 
-            @include('layouts.partials/admin.footer')
+            @include('layouts.admin.footer')
         </div>
     </main>
 
 
-    @include('layouts.partials/admin.js')
+    @include('layouts.admin.js')
 
     <a href="https://api.whatsapp.com/send?text=Halo%2C%20saya%20tertarik%20dengan%20layanan%20Anda."
         class="whatsapp-fab" target="_blank">

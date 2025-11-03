@@ -1,4 +1,4 @@
-@extends('layouts.partials/admin.app')
+@extends('layouts.admin.app')
 
 @section('title', 'Dashboard Posyandu')
 @section('page_title', 'Dashboard')
