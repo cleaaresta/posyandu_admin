@@ -45,6 +45,16 @@
                 </a>
             </li>
 
+            <li class="mt-0.5 w-full">
+                <a class="py-2.7 text-sm my-0 mx-2 flex items-center whitespace-nowrap px-4 {{ request()->is('jadwal-posyandu*') ? 'rounded-lg bg-blue-500/13 font-semibold text-slate-700' : 'text-slate-500' }}"
+                    href="{{ route('jadwal-posyandu.index') }}">
+                    <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg">
+                        <i
+                            class="relative top-0 text-sm leading-normal {{ request()->is('jadwal-posyandu*') ? 'text-blue-500' : 'text-slate-700' }} ni ni-calendar-grid-58"></i>
+                    </div>
+                    <span class="ml-1">Jadwal Posyandu</span>
+                </a>
+            </li>
 
             <li class="w-full mt-4">
                 <h6 class="pl-6 ml-2 text-xs font-bold uppercase text-slate-600">Master Data</h6>

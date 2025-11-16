@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\PosyanduController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\WargaController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\WargaController;
+use App\Http\Controllers\PosyanduController;
+use App\Http\Controllers\JadwalPosyanduController;
 
 Route::group(['middleware' => 'web'], function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -21,5 +22,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::resource('posyandu', PosyanduController::class);
     Route::resource('warga', WargaController::class);
     Route::resource('user', UserController::class);
+    Route::resource('jadwal-posyandu', JadwalPosyanduController::class)->except(['show']);
 
 });
