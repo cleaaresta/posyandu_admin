@@ -20,4 +20,8 @@ class CreateFirstUser extends Seeder
             'password' => Hash::make('posyanduadmin')
         ]);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 0925ae51d5b0851252d055c5eed7a66eeb6cd325
