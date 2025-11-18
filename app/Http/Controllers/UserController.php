@@ -12,9 +12,22 @@ class UserController extends Controller
     /**
      * Menampilkan daftar semua user.
      */
-    public function index()
+    public function index(Request $request) // <--- Tambahkan Request $request
     {
-        $users = User::paginate(10); // Menggunakan pagination
+        // 1. Tentukan kolom yang bisa dicari (Nama dan Email)
+        $searchableColumns = ['name', 'email'];
+
+        // 2. Tentukan kolom filter (Kosongkan dulu jika belum ada kolom role/divisi)
+        $filterableColumns = []; 
+
+        // 3. Query Data
+        $users = User::query()
+            ->filter($request, $filterableColumns) // Panggil scopeFilter
+            ->search($request, $searchableColumns) // Panggil scopeSearch
+            ->latest()                             // Urutkan dari yang terbaru
+            ->paginate(10)                         // Pagination
+            ->withQueryString();                   // Agar search tidak hilang saat pindah hal
+
         return view('pages.user.index', compact('users'));
     }
 

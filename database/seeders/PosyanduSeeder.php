@@ -18,7 +18,7 @@ class PosyanduSeeder extends Seeder
         // 'id_ID' digunakan agar data (seperti alamat) sesuai format Indonesia
         $faker = Factory::create('id_ID'); 
 
-        foreach (range(1, 10) as $index) { // Kita akan buat 10 data Posyandu
+        foreach (range(1, 100) as $index) { // Kita akan buat 10 data Posyandu
             DB::table('posyandu')->insert([
                 'nama' => 'Posyandu ' . $faker->lastName, // Cth: Posyandu Lestari
                 'alamat' => $faker->address,

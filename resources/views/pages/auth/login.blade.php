@@ -1,84 +1,329 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    @include('layouts.admin.css')
-    <title>Login - Posyandu</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posyandu - Login Petugas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [TEMA POSYANDU - GRADASI UNGU-BIRU] */
+        :root {
+            /* Warna Gradasi Utama (Mirip Gambar Referensi) */
+            --gradient-primary: linear-gradient(to right, #6a11cb 0%, #2575fc 100%); 
+            
+            /* Warna Solid Pendukung (Ambil dari salah satu warna gradasi) */
+            --primary-color: #2575fc;       
+            --primary-color-dark: #1a5bca;  
+            
+            --background-dark: #f3f4f6;     
+            --card-background: #ffffff;
+            --border-color: #e5e7eb;
+            --text-color: #111827;          
+            --text-light: #ffffff;
+            --text-muted: #6b7280;
+            --danger-bg: #fef2f2;
+            --danger-text: #991b1b;
+            --danger-border: #fecaca;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-dark);
+            /* Background pattern halus */
+            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+            background-size: 20px 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+        /* Wrapper utama */
+        .login-container {
+            display: flex;
+            width: 100%;
+            max-width: 900px;
+            background: var(--card-background);
+            border-radius: 20px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Panel Kiri (Form) */
+        .login-form-panel {
+            flex: 1;
+            padding: 4rem 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: left;
+        }
+
+        /* Panel Kanan (Overlay Gradasi) */
+        .login-overlay-panel {
+            flex: 1;
+            /* Terapkan Gradasi di sini */
+            background: var(--gradient-primary);
+            
+            /* Lengkungan unik di kiri panel */
+            clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%); 
+            
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            text-align: center;
+            color: var(--text-light);
+            position: relative;
+        }
+
+        /* Header di Form */
+        .login-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .login-logo-container {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background-color: #f0f4ff; /* Biru sangat muda agar pas dengan ungu */
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Perbaikan: Warna ikon di panel kiri kini mengikuti primary-color (biru) */
+        .login-logo {
+            color: var(--primary-color); 
+            width: 32px;
+            height: 32px;
+        }
+        
+        /* Jika menggunakan gambar PNG/JPG untuk logo */
+        .login-logo-img {
+            width: 40px; /* Sesuaikan ukuran gambar logo */
+            height: auto;
+        }
+
+        h2 {
+            font-weight: 800;
+            color: var(--text-color);
+            margin: 0;
+            font-size: 1.875rem;
+            letter-spacing: -0.025em;
+        }
+
+        .login-overlay-panel h2 {
+            color: var(--text-light);
+            font-size: 2.25rem;
+            margin-bottom: 1rem;
+        }
+
+        p.subtitle {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-top: 0.75rem;
+            line-height: 1.5;
+        }
+
+        .login-overlay-panel p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            max-width: 80%;
+            opacity: 0.9;
+        }
+
+        /* Form styling */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 0.925rem;
+        }
+
+        input.form-control {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            background: var(--card-background);
+            color: var(--text-color);
+            transition: all 0.2s;
+        }
+
+        input.form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            /* Shadow focus mengikuti warna utama */
+            box-shadow: 0 0 0 4px rgba(37, 117, 252, 0.15); 
+        }
+
+        /* Tombol Submit dengan Gradasi */
+        button[type="submit"] {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            width: 100%;
+            padding: 0.875rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            
+            /* Background Gradasi pada Tombol */
+            background: var(--gradient-primary); 
+            
+            color: #fff;
+            border: none;
+            /* Shadow ungu/biru */
+            box-shadow: 0 4px 12px rgba(37, 117, 252, 0.3); 
+            transition: all 0.2s;
+            margin-top: 1rem;
+        }
+
+        button[type="submit"]:hover {
+            /* Efek hover sedikit mengangkat dan menambah shadow */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(37, 117, 252, 0.4);
+            /* Opsional: filter brightness untuk efek hover pada gradasi */
+            filter: brightness(1.1);
+        }
+
+        button[type="submit"]:active {
+            transform: translateY(0);
+        }
+
+        .login-footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875em;
+        }
+
+        /* Hiasan di Overlay (Ikon Kesehatan Putih) */
+        .overlay-illustration {
+            background: rgba(255,255,255,0.15); /* Transparansi sedikit lebih terang */
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .overlay-illustration svg {
+            width: 60px;
+            height: 60px;
+            color: white;
+            /* Menyesuaikan stroke-width agar lebih tebal dan terlihat */
+            stroke-width: 2.5; 
+        }
+
+        /* Responsif */
+        @media (max-width: 850px) {
+            .login-container {
+                flex-direction: column;
+                max-width: 450px;
+            }
+
+            .login-form-panel {
+                padding: 3rem 2rem;
+                order: 2;
+            }
+
+            .login-overlay-panel {
+                order: 1;
+                clip-path: none;
+                padding: 3rem 2rem;
+                border-radius: 0 0 0 0;
+            }
+            
+            .login-overlay-panel h2 {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
 </head>
-<body
-    class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 text-slate-500 flex items-center justify-center min-h-screen p-4">
+<body>
 
-    <main class="w-full max-w-sm mx-auto"> <!-- Ganti max-w-3xl menjadi max-w-sm untuk ukuran kecil -->
-        <section class="flex flex-col lg:flex-row min-w-0 break-words bg-white border-0 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border overflow-hidden">
+    <div class="login-container">
 
-            <!-- Kolom Kiri (Branding Panel) -->
-            <div class="hidden lg:flex flex-col justify-center items-center w-full lg:w-5/12 p-12 text-center text-white bg-gradient-to-r from-blue-500 to-purple-600">
-                <i class="fas fa-baby fa-5x mb-6"></i>
-                <h1 class="font-bold text-3xl mb-2">Selamat Datang!</h1>
-                <h4 class="font-semibold text-xl mb-1">Sistem Informasi Posyandu</h4>
-                <p class="text-sm text-blue-100">Manajemen Data Kesehatan Ibu dan Anak</p>
+        <!-- PANEL KIRI (FORM) -->
+        <div class="login-form-panel">
+            <div class="login-header">
+                <div class="login-logo-container">
+                    <!-- Ikon Petugas (User) - Sesuai konteks login petugas -->
+                    <svg class="login-logo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                    </svg>
+                </div>
+                <h2>Login Admin</h2>
+                <p class="subtitle">Selamat datang kembali! Silakan masukkan akun Admin Posyandu Anda.</p>
             </div>
 
-            <!-- Kolom Kanan (Form Panel) -->
-            <div class="w-full lg:w-7/12 flex-auto p-6 md:p-12">
-
-                <!-- Judul Form -->
-                <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent text-center lg:text-left">
-                    <h5 class="font-bold text-2xl">Sign In</h5>
-                    <p class="mb-0 text-slate-600">Masukkan email dan password untuk login</p>
+            <form action="#" method="POST" autocomplete="off">
+                
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Contoh: clea@gmail.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Kata Sandi</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Masukkan kata sandi">
                 </div>
 
-                <div class="flex-auto p-6 pt-0">
-                    <form role="form" method="POST" action="{{ route('login') }}">
-                        @csrf
+                <button type="submit">
+                    <span>Masuk Aplikasi</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </button>
+            </form>
 
-                        @error('email')
-                        <div id="error-alert" class="relative p-4 mt-4 mb-0 text-sm text-red-600 bg-red-500/30 rounded-lg"
-                            role="alert">
-                            <span class="font-semibold">Login Gagal!</span>
-                            {{ $message }}
-                            <button type="button"
-                                class="absolute top-0 bottom-0 right-0 px-4 py-3 text-red-600 pr-2"
-                                onclick="document.getElementById('error-alert').style.display='none'">
-                                <span class="text-2xl" aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        @enderror
+            <div class="login-footer">
+                <span>&copy; 2025 Sistem Informasi Posyandu Digital.</span>
+            </div>
+        </div>
 
-                        <!-- Input Email -->
-                        <div class="mb-4 mt-6">
-                            <label for="email" class="block text-sm font-medium text-slate-700 mb-2">Email</label>
-                            <input type="email" name="email" id="email" value="{{ old('email') }}" required
-                                class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding p-3 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none"
-                                placeholder="Email" aria-label="Email" />
-                        </div>
+        <!-- PANEL KANAN (OVERLAY BIRU) -->
+        <div class="login-overlay-panel">
+            <div class="overlay-illustration">
+                <!-- [DIUBAH] Ikon Posyandu (Palang Kesehatan di dalam Lingkaran) -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-3-3v6M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" />
+                </svg>
+            </div>
 
-                        <!-- Input Password -->
-                        <div class="mb-4">
-                            <label for="password" class="block text-sm font-medium text-slate-700 mb-2">Password</label>
-                            <input type="password" name="password" id="password" required
-                                class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding p-3 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none"
-                                placeholder="Password" aria-label="Password" />
-                        </div>
+            <h2>Posyandu</h2>
+            <p>
+                <strong>Aplikasi Layanan Kesehatan Masyarakat</strong>
+                <br><br>
+                Memudahkan pemantauan tumbuh kembang anak, imunisasi, dan kesehatan ibu hamil secara digital dan terintegrasi.
+            </p>
+        </div>
 
-                        <!-- Tombol Sign In yang Dimodifikasi dengan Tombol Sign Out -->
-                        <div class="text-center">
-                            <button type="submit"
-                                class="inline-block w-full px-6 py-3.5 mt-6 mb-0 text-sm font-bold leading-normal text-center text-white align-middle transition-all bg-blue-500 border-0 rounded-lg cursor-pointer hover:-translate-y-px active:opacity-85 hover:shadow-xs ease-in tracking-tight-rem shadow-md">
-                                <i class="fa fa-sign-out-alt sm:mr-1"></i> 
-                                <span class="hidden sm:inline">Sign In</span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div> <!-- Akhir Kolom Kanan -->
-
-        </section>
-    </main>
-
-    @include('layouts.admin.js')
+    </div>
 
 </body>
 </html>

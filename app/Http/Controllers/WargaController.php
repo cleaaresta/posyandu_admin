@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Warga;
@@ -9,28 +8,36 @@ use Illuminate\Validation\Rule;
 class WargaController extends Controller
 {
     /**
-     * Menampilkan daftar semua warga.
+     * Menampilkan daftar semua warga dengan Search & Pagination.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $warga = Warga::latest()->paginate(10);
+        // 1. Kolom yang bisa dicari (Search)
+        $searchableColumns = ['nama', 'no_ktp', 'email', 'telp'];
 
-        // PERBAIKAN: Path view menunjuk ke warga.index
+        // 2. Kolom yang bisa difilter (TAMBAHKAN DISINI)
+        // Kita akan memfilter berdasarkan Jenis Kelamin dan Agama
+        $filterableColumns = ['jenis_kelamin', 'agama'];
+
+        // 3. Query Data
+        $warga = Warga::query()
+            ->filter($request, $filterableColumns) // Fungsi filter berjalan disini
+            ->search($request, $searchableColumns)
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
         return view('pages.warga.index', compact('warga'));
     }
 
-    /**
-     * Menampilkan form untuk membuat warga baru.
-     */
+    // ... (Method create, store, edit, update, destroy biarkan tetap sama)
+    // Pastikan method lain di bawah ini tidak terhapus
+
     public function create()
     {
-        // PERBAIKAN: Path view menunjuk ke warga.create
         return view('pages.warga.create');
     }
 
-    /**
-     * Menyimpan data warga baru ke database.
-     */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -48,33 +55,22 @@ class WargaController extends Controller
         return redirect()->route('warga.index')->with('success', 'Data warga berhasil ditambahkan.');
     }
 
-    /**
-     * Menampilkan detail data warga.
-     */
     public function show(Warga $warga)
     {
-        // PERBAIKAN: Redirect ke index saja
         return redirect()->route('warga.index');
     }
 
-    /**
-     * Menampilkan form untuk mengedit data warga.
-     */
     public function edit(Warga $warga)
     {
-        // PERBAIKAN: Path view menunjuk ke warga.edit
         return view('pages.warga.edit', compact('warga'));
     }
 
-    /**
-     * Memperbarui data warga di database.
-     */
     public function update(Request $request, Warga $warga)
     {
         $validatedData = $request->validate([
             'no_ktp'        => [
                 'required', 'string', 'max:20',
-                Rule::unique('warga')->ignore($warga->warga_id, 'warga_id')
+                Rule::unique('warga')->ignore($warga->warga_id, 'warga_id'),
             ],
             'nama'          => 'required|string|max:100',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
@@ -89,13 +85,9 @@ class WargaController extends Controller
         return redirect()->route('warga.index')->with('success', 'Data warga berhasil diperbarui.');
     }
 
-    /**
-     * Menghapus data warga dari database.
-     */
     public function destroy(Warga $warga)
     {
         $warga->delete();
-
         return redirect()->route('warga.index')->with('success', 'Data warga berhasil dihapus.');
     }
 }
