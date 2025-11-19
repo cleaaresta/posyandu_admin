@@ -1,19 +1,36 @@
+<style>
+/* Style tambahan untuk animasi hover pada Sidebar Links */
+.sidebar-link-hover {
+    transition: all 0.2s ease-in-out;
+    /* Penting: Setel posisi relatif agar transform berfungsi dengan baik */
+    position: relative; 
+}
+
+.sidebar-link-hover:hover {
+    /* Menggeser link sedikit ke kanan saat hover */
+    transform: translateX(3px); 
+    /* Menambahkan shadow halus di sisi kanan */
+    box-shadow: 2px 0 8px rgba(37, 117, 252, 0.2); 
+}
+</style>
+
 <aside
     class="fixed inset-y-0 flex-wrap items-center justify-between block w-full p-0 my-4 overflow-y-auto antialiased transition-transform duration-200 -translate-x-full bg-white border-0 shadow-xl dark:shadow-none dark:bg-slate-850 max-w-64 ease-nav-brand z-990 xl:ml-6 rounded-2xl xl:left-0 xl:translate-x-0"
     aria-expanded="false">
-    <div class="h-19">
-        <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap dark:text-white text-slate-700"
+    
+    {{-- POSYANDU HEADER LOGO --}}
+    <div class="pt-4 pb-2">
+        <a class="py-2.7 text-sm my-0 mx-2 flex items-center whitespace-nowrap px-4 text-slate-700"
             href="https://demos.creative-tim.com/argon-dashboard-tailwind/pages/dashboard.html" target="_blank">
-            <svg class="inline transition-all duration-200 ease-nav-brand max-h-8 mr-2" width="32" height="32"
-                viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
-                style="position: relative; top: -2px;">
-                <!-- Latar belakang Lingkaran Biru -->
-                <circle cx="16" cy="16" r="15" fill="#2575FC" />
-                <!-- Simbol Palang Merah / Hati Putih -->
-                <path
-                    d="M16 8C11.5817 8 8 11.5817 8 16C8 20.4183 11.5817 24 16 24C20.4183 24 24 20.4183 24 16C24 11.5817 20.4183 8 16 8ZM16 22.4C12.464 22.4 9.6 19.536 9.6 16C9.6 12.464 12.464 9.6 16 9.6C19.536 9.6 22.4 12.464 22.4 16C22.4 19.536 19.536 22.4 16 22.4ZM16.8 12.8H15.2V15.2H12.8V16.8H15.2V19.2H16.8V16.8H19.2V15.2H16.8V12.8Z"
-                    fill="white" />
-            </svg>
+            <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg">
+                <svg class="inline transition-all duration-200 ease-nav-brand max-h-8" width="32" height="32"
+                    viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="15" fill="#2575FC" />
+                    <path
+                        d="M16 8C11.5817 8 8 11.5817 8 16C8 20.4183 11.5817 24 16 24C20.4183 24 24 20.4183 24 16C24 11.5817 20.4183 8 16 8ZM16 22.4C12.464 22.4 9.6 19.536 9.6 16C9.6 12.464 12.464 9.6 16 9.6C19.536 9.6 22.4 12.464 22.4 16C22.4 19.536 19.536 22.4 16 22.4ZM16.8 12.8H15.2V15.2H12.8V16.8H15.2V19.2H16.8V16.8H19.2V15.2H16.8V12.8Z"
+                        fill="white" />
+                </svg>
+            </div>
             <span class="ml-1 font-semibold transition-all duration-300 ease-nav-brand">Posyandu</span>
         </a>
     </div>
@@ -24,12 +41,11 @@
     <div class="items-center block w-auto max-h-screen overflow-auto h-sidenav grow basis-full">
         <ul class="flex flex-col pl-0 mb-0">
 
-            <li class="w-full mt-4">
-                <h6 class="pl-6 ml-2 text-xs font-bold uppercase text-slate-600">Fitur Utama</h6>
-            </li>
+            {{-- JUDUL KATEGORI: Fitur Utama --}}
+            <h6 class="pl-6 ml-2 mt-4 mb-2 text-xs font-bold uppercase text-slate-600">Fitur Utama</h6>
 
             <li class="mt-0.5 w-full">
-                <a class="py-2.7 text-sm my-0 mx-2 flex items-center whitespace-nowrap px-4 {{ request()->is('home*') ? 'rounded-lg bg-blue-500/13 font-semibold text-slate-700' : 'text-slate-500' }}"
+                <a class="py-2.7 text-sm my-0 mx-2 flex items-center whitespace-nowrap px-4 sidebar-link-hover {{ request()->is('home*') ? 'rounded-lg bg-blue-500/13 font-semibold text-slate-700' : 'text-slate-500' }}"
                     href="{{ url('/home') }}">
                     <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg">
                         <i
@@ -40,7 +56,7 @@
             </li>
 
             <li class="mt-0.5 w-full">
-                <a class="py-2.7 text-sm my-0 mx-2 flex items-center whitespace-nowrap px-4 {{ request()->is('posyandu*') ? 'rounded-lg bg-blue-500/13 font-semibold text-slate-700' : 'text-slate-500' }}"
+                <a class="py-2.7 text-sm my-0 mx-2 flex items-center whitespace-nowrap px-4 sidebar-link-hover {{ request()->is('posyandu*') ? 'rounded-lg bg-blue-500/13 font-semibold text-slate-700' : 'text-slate-500' }}"
                     href="{{ url('/posyandu') }}">
                     <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg">
                         <i class="relative top-0 text-sm leading-normal text-slate-700 ni ni-building"></i>
@@ -50,7 +66,7 @@
             </li>
 
             <li class="mt-0.5 w-full">
-                <a class="py-2.7 text-sm my-0 mx-2 flex items-center whitespace-nowrap px-4 {{ request()->is('jadwal-posyandu*') ? 'rounded-lg bg-blue-500/13 font-semibold text-slate-700' : 'text-slate-500' }}"
+                <a class="py-2.7 text-sm my-0 mx-2 flex items-center whitespace-nowrap px-4 sidebar-link-hover {{ request()->is('jadwal-posyandu*') ? 'rounded-lg bg-blue-500/13 font-semibold text-slate-700' : 'text-slate-500' }}"
                     href="{{ route('jadwal-posyandu.index') }}">
                     <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg">
                         <i
@@ -60,12 +76,11 @@
                 </a>
             </li>
 
-            <li class="w-full mt-4">
-                <h6 class="pl-6 ml-2 text-xs font-bold uppercase text-slate-600">Master Data</h6>
-            </li>
+            {{-- JUDUL KATEGORI: Master Data --}}
+            <h6 class="pl-6 ml-2 mt-4 mb-2 text-xs font-bold uppercase text-slate-600">Master Data</h6>
 
             <li class="mt-0.5 w-full">
-                <a class="py-2.7 text-sm my-0 mx-2 flex items-center whitespace-nowrap px-4 {{ request()->is('user*') ? 'rounded-lg bg-blue-500/13 font-semibold text-slate-700' : 'text-slate-500' }}"
+                <a class="py-2.7 text-sm my-0 mx-2 flex items-center whitespace-nowrap px-4 sidebar-link-hover {{ request()->is('user*') ? 'rounded-lg bg-blue-500/13 font-semibold text-slate-700' : 'text-slate-500' }}"
                     href="{{ route('user.index') }}">
                     <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg">
                         <i
@@ -76,7 +91,7 @@
             </li>
 
             <li class="mt-0.5 w-full">
-                <a class="py-2.7 text-sm my-0 mx-2 flex items-center whitespace-nowrap px-4 {{ request()->is('warga*') ? 'rounded-lg bg-blue-500/13 font-semibold text-slate-700' : 'text-slate-500' }}"
+                <a class="py-2.7 text-sm my-0 mx-2 flex items-center whitespace-nowrap px-4 sidebar-link-hover {{ request()->is('warga*') ? 'rounded-lg bg-blue-500/13 font-semibold text-slate-700' : 'text-slate-500' }}"
                     href="{{ route('warga.index') }}">
                     <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg">
                         <i

@@ -24,21 +24,21 @@
 
                         {{-- 2. BAGIAN KANAN: FORM SEARCH & FILTER --}}
                         <div class="w-full lg:w-auto">
-                            {{-- Form Container: Gunakan items-center agar tinggi elemen seragam --}}
+                            {{-- FORM CONTAINER: Menggunakan gap-2 untuk jarak horizontal yang konsisten --}}
                             <form action="{{ route('warga.index') }}" method="GET" 
-                                  class="flex flex-col lg:flex-row items-center gap-2 w-full">
+                                  class="flex flex-col lg:flex-row items-center gap-2 w-full"> 
                                 
-                                {{-- A. Filter Gender --}}
+                                {{-- A. Filter Gender (Ditambahkan mb-2 lg:mb-0 untuk jarak eksplisit) --}}
                                 <select name="jenis_kelamin" onchange="this.form.submit()"
-                                    class="w-full lg:w-32 px-3 py-2 text-sm rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white focus:shadow-primary-outline focus:border-blue-500 focus:outline-none transition-all cursor-pointer h-10">
+                                    class="w-full lg:w-32 px-3 py-2 text-sm rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white focus:shadow-primary-outline focus:border-blue-500 focus:outline-none transition-all cursor-pointer h-10 mb-2 lg:mb-0">
                                     <option value="">Semua Gender</option>
                                     <option value="Laki-laki" {{ request('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
                                     <option value="Perempuan" {{ request('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
                                 </select>
 
-                                {{-- B. Filter Agama --}}
+                                {{-- B. Filter Agama (Ditambahkan mb-2 lg:mb-0 untuk jarak eksplisit) --}}
                                 <select name="agama" onchange="this.form.submit()"
-                                    class="w-full lg:w-32 px-3 py-2 text-sm rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white focus:shadow-primary-outline focus:border-blue-500 focus:outline-none transition-all cursor-pointer h-10">
+                                    class="w-full lg:w-32 px-3 py-2 text-sm rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white focus:shadow-primary-outline focus:border-blue-500 focus:outline-none transition-all cursor-pointer h-10 mb-2 lg:mb-0">
                                     <option value="">Semua Agama</option>
                                     @foreach(['Islam', 'Kristen', 'Katolik', 'Hindu', 'Buddha', 'Khonghucu'] as $agama)
                                         <option value="{{ $agama }}" {{ request('agama') == $agama ? 'selected' : '' }}>
@@ -47,22 +47,21 @@
                                     @endforeach
                                 </select>
 
-                                {{-- C. Search Group --}}
-                                <div class="flex w-full lg:w-64 items-center">
-                                    <input type="text" name="search" value="{{ request('search') }}"
-                                        class="pl-4 pr-3 py-2 text-sm w-full rounded-l-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white focus:shadow-primary-outline focus:border-blue-500 focus:outline-none transition-all placeholder:text-gray-500 h-10"
-                                        placeholder="Cari Nama/NIK..." />
-                                    
-                                    <button type="submit"
-                                        class="inline-block px-4 py-2 font-bold text-center text-white uppercase align-middle transition-all rounded-r-lg cursor-pointer bg-gradient-to-tl from-slate-600 to-slate-300 leading-normal text-xs ease-in tracking-tight-rem shadow-xs hover:-translate-y-px active:opacity-85 border border-transparent h-10 flex items-center justify-center">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
+                                {{-- C. Search Input (Ditambahkan mb-2 lg:mb-0 untuk jarak eksplisit) --}}
+                                <input type="text" name="search" value="{{ request('search') }}"
+                                    class="w-full lg:w-64 px-4 py-2 text-sm rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white focus:shadow-primary-outline focus:border-blue-500 focus:outline-none transition-all placeholder:text-gray-500 h-10 mb-2 lg:mb-0"
+                                    placeholder="Cari Nama/NIK..." />
+                                
+                                {{-- D. Search Button (Ditambahkan mb-2 lg:mb-0 untuk jarak eksplisit) --}}
+                                <button type="submit"
+                                    class="inline-block px-4 py-2 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-slate-600 to-slate-300 leading-normal text-xs ease-in tracking-tight-rem shadow-xs hover:-translate-y-px active:opacity-85 border border-transparent h-10 flex items-center justify-center mb-2 lg:mb-0">
+                                    <i class="fas fa-search"></i>
+                                </button>
 
-                                {{-- D. Tombol Reset --}}
+                                {{-- E. Tombol Reset (Ukuran sama seperti Search Button. Tidak perlu mb-2 karena ini elemen terakhir) --}}
                                 @if (request('search') || request('jenis_kelamin') || request('agama'))
                                     <a href="{{ route('warga.index') }}"
-                                        class="inline-block w-full lg:w-auto px-4 py-2 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-red-600 to-orange-600 leading-normal text-xs ease-in tracking-tight-rem shadow-xs hover:-translate-y-px active:opacity-85 flex items-center justify-center h-10"
+                                        class="inline-block px-4 py-2 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-red-600 to-orange-600 leading-normal text-xs ease-in tracking-tight-rem shadow-xs hover:-translate-y-px active:opacity-85 flex items-center justify-center h-10"
                                         title="Reset Filter">
                                         <i class="fas fa-times"></i>
                                     </a>
