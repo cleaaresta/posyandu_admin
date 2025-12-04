@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('posyandu', function (Blueprint $table) {
-            $table->bigIncrements('posyandu_id');
+            $table->id('posyandu_id'); // Primary Key
             $table->string('nama', 100);
             $table->text('alamat');
             $table->string('rt', 10)->nullable();
             $table->string('rw', 10)->nullable();
             $table->string('kontak', 100)->nullable();
-            $table->string('foto')->nullable();
+            // Kolom 'foto' DIHAPUS karena pindah ke tabel media
             $table->timestamps();
         });
     }

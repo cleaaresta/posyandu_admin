@@ -12,21 +12,17 @@ class UserController extends Controller
     /**
      * Menampilkan daftar semua user.
      */
-    public function index(Request $request) // <--- Tambahkan Request $request
+    public function index(Request $request)
     {
-        // 1. Tentukan kolom yang bisa dicari (Nama dan Email)
         $searchableColumns = ['name', 'email'];
+        $filterableColumns = [];
 
-        // 2. Tentukan kolom filter (Kosongkan dulu jika belum ada kolom role/divisi)
-        $filterableColumns = []; 
-
-        // 3. Query Data
         $users = User::query()
-            ->filter($request, $filterableColumns) // Panggil scopeFilter
-            ->search($request, $searchableColumns) // Panggil scopeSearch
-            ->latest()                             // Urutkan dari yang terbaru
-            ->paginate(10)                         // Pagination
-            ->withQueryString();                   // Agar search tidak hilang saat pindah hal
+            ->filter($request, $filterableColumns)
+            ->search($request, $searchableColumns)
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
 
         return view('pages.user.index', compact('users'));
     }
@@ -36,7 +32,12 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('pages.user.create');
+        $roles = [
+            'admin' => 'Admin',
+            'guest' => 'Guest',
+        ];
+
+        return view('pages.user.create', compact('roles'));
     }
 
     /**
@@ -44,18 +45,18 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi data yang masuk
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:users,email',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role' => 'required|in:guest,admin',
         ]);
 
-        // Buat user baru
         User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role' => $validated['role'],
         ]);
 
         return redirect()->route('user.index')
@@ -63,8 +64,7 @@ class UserController extends Controller
     }
 
     /**
-     * (Opsional) Menampilkan detail satu user.
-     * Kita redirect ke index saja.
+     * Menampilkan detail satu user (redirect ke index).
      */
     public function show(User $user)
     {
@@ -76,7 +76,12 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('pages.user.edit', compact('user'));
+        $roles = [
+            'admin' => 'Admin',
+            'guest' => 'Guest',
+        ];
+
+        return view('pages.user.edit', compact('user', 'roles'));
     }
 
     /**
@@ -84,27 +89,23 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        // Validasi data
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            // Pastikan email unik, tapi abaikan user saat ini
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            // Password bersifat opsional (nullable) saat update
             'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
+            'role' => 'required|in:guest,admin',
         ]);
 
-        // Siapkan data untuk di-update
         $data = [
-            'name' => $request->name,
-            'email' => $request->email,
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'role' => $validated['role'],
         ];
 
-        // Jika password diisi, hash dan tambahkan ke data
-        if ($request->filled('password')) {
-            $data['password'] = Hash::make($request->password);
+        if (!empty($validated['password'])) {
+            $data['password'] = Hash::make($validated['password']);
         }
 
-        // Update user
         $user->update($data);
 
         return redirect()->route('user.index')
@@ -116,10 +117,10 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        // (Opsional) Tambahkan logika agar tidak bisa menghapus diri sendiri
-        // if ($user->id == auth()->id()) {
-        //     return back()->with('error', 'Anda tidak bisa menghapus akun Anda sendiri.');
-        // }
+        // Server-side protection: cegah self-delete
+        if (auth()->check() && auth()->id() === $user->id) {
+            return back()->with('error', 'Anda tidak dapat menghapus akun yang sedang aktif.');
+        }
 
         $user->delete();
 

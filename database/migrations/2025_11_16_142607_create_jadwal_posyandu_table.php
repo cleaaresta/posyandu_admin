@@ -13,25 +13,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('jadwal_posyandu', function (Blueprint $table) {
-            $table->bigIncrements('jadwal_id');
-            
-            // =================================================================
-            // KODE PERBAIKAN DI SINI:
-            // Kita akan mengganti 2 baris lama dengan 1 baris modern di bawah ini
-            //
-            // $table->unsignedBigInteger('posyandu_id'); // <-- GANTI BARIS INI
-            // $table->foreign('posyandu_id')->...       // <-- GANTI BARIS INI
-            
-            // MENJADI INI:
+            $table->id('jadwal_id'); // Primary Key
+
+            // Foreign Key
             $table->foreignId('posyandu_id')
-                  ->constrained('posyandu', 'posyandu_id') // (Tabel Induk, Kolom Induk)
-                  ->onDelete('cascade');
-            // =================================================================
-            
+                ->constrained('posyandu', 'posyandu_id')
+                ->onDelete('cascade');
+
             $table->date('tanggal');
             $table->string('tema', 255);
             $table->text('keterangan')->nullable();
-            $table->string('poster')->nullable(); 
+            // Kolom 'poster' DIHAPUS karena pindah ke tabel media
             $table->timestamps();
         });
     }

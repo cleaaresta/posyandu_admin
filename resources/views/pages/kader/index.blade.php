@@ -1,48 +1,43 @@
 @extends('layouts.admin.app')
 
-@section('title', 'Data Posyandu')
-@section('page_title', 'Data Posyandu')
+@section('title', 'Data Kader')
+@section('page_title', 'Data Kader Posyandu')
 
 @section('content')
     <div class="flex flex-wrap -mx-3">
         <div class="w-full max-w-full px-3">
-            {{-- CARD UTAMA: bg-white memastikan background putih solid --}}
+            {{-- CARD UTAMA --}}
             <div
                 class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
 
-                {{-- HEADER: TOOLBAR (TOMBOL TAMBAH & PENCARIAN) --}}
+                {{-- HEADER: TOOLBAR --}}
                 <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-
-                    {{-- Container Utama: Flexbox --}}
                     <div class="flex flex-col lg:flex-row justify-between items-center gap-4">
 
-                        {{-- 1. BAGIAN KIRI: TOMBOL TAMBAH --}}
+                        {{-- Tombol Tambah --}}
                         <div class="w-full max-w-full px-3 md:w-1/2 md:flex-none mb-4 md:mb-0">
-                            <a href="{{ route('posyandu.create') }}"
+                            <a href="{{ route('kader.create') }}"
                                 class="inline-block px-6 py-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-blue-500 to-violet-500 leading-normal text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85">
-                                <i class="fas fa-plus mr-1"></i> Tambah Posyandu
+                                <i class="fas fa-plus mr-1"></i> Tambah Kader
                             </a>
                         </div>
 
-                        {{-- 2. BAGIAN KANAN: FORM SEARCH --}}
+                        {{-- Form Pencarian --}}
                         <div class="w-full lg:w-auto">
-                            <form action="{{ route('posyandu.index') }}" method="GET"
+                            <form action="{{ route('kader.index') }}" method="GET"
                                 class="flex flex-col lg:flex-row items-center gap-2 w-full">
 
-                                {{-- A. Search Input (bg-white agar tidak transparan) --}}
                                 <input type="text" name="search" value="{{ request('search') }}"
                                     class="w-full lg:w-64 px-4 py-2 text-sm rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white focus:shadow-primary-outline focus:border-blue-500 focus:outline-none transition-all placeholder:text-gray-500 h-10 mb-2 lg:mb-0"
-                                    placeholder="Cari Nama Posyandu..." />
+                                    placeholder="Cari Nama / Jabatan..." />
 
-                                {{-- B. Search Button --}}
                                 <button type="submit"
                                     class="inline-block px-4 py-2 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-slate-600 to-slate-300 leading-normal text-xs ease-in tracking-tight-rem shadow-xs hover:-translate-y-px active:opacity-85 border border-transparent h-10 flex items-center justify-center mb-2 lg:mb-0">
                                     <i class="fas fa-search"></i>
                                 </button>
 
-                                {{-- C. Tombol Reset --}}
                                 @if (request('search'))
-                                    <a href="{{ route('posyandu.index') }}"
+                                    <a href="{{ route('kader.index') }}"
                                         class="inline-block px-4 py-2 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-red-600 to-orange-600 leading-normal text-xs ease-in tracking-tight-rem shadow-xs hover:-translate-y-px active:opacity-85 flex items-center justify-center h-10"
                                         title="Reset Filter">
                                         <i class="fas fa-times"></i>
@@ -72,128 +67,106 @@
                             class="items-center w-full mb-0 align-top border-collapse dark:border-white/40 text-slate-500">
                             <thead class="align-bottom">
                                 <tr>
-                                    <th
+                                      <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                        No</th>
-                                    <th
-                                        class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                        Nama Posyandu</th>
-                                    <th
-                                        class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                        Alamat</th>
-                                    <th
-                                        class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                        Kontak</th>
-                                    <th
-                                        class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                        Aksi</th>
+                                        No</th> 
+                                    <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                        Profil Kader
+                                    </th>
+                                    <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                        Posyandu
+                                    </th>
+                                    <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                        Masa Tugas
+                                    </th>
+                                    <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                        Aksi
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($posyandus as $index => $item)
+                                @forelse($kaders as $item)
                                     <tr>
-                                        {{-- Kolom No --}}
-                                        <td
+                                              <td
                                             class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                                             <p
                                                 class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60 px-4">
-                                                {{ $index + $posyandus->firstItem() }}
+                                                {{ $loop->index + $kaders->firstItem() }}
                                             </p>
                                         </td>
 
-                                        {{-- Kolom Nama & Foto (foto/inisial fallback) --}}
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-  
+                                        {{-- Profil --}}
+                                        <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                                             <div class="flex px-2 py-1">
                                                 <div>
                                                     @php
-                                                        $namaPos = $item->nama ?? 'Posyandu';
-                                                        // gunakan relasi foto kalau ada, agar bisa membedakan default-image di accessor
-                                                        $hasFoto = isset($item->foto) && $item->foto;
-                                                        $fotoUrl = $hasFoto ? $item->foto_url : null;
-                                                        // *** KODE DIUBAH KEMBALI: Gunakan &rounded=false agar petak ***
-                                                        $avatar = $fotoUrl
-                                                            ? $fotoUrl
-                                                            : 'https://ui-avatars.com/api/?name=' . urlencode($namaPos) . '&background=random&color=fff&rounded=false';
+                                                        $nama = $item->warga->nama ?? 'X';
+                                                        $foto = $item->warga->foto_url ?? null;
+                                                        $avatar = $foto ? $foto : 'https://ui-avatars.com/api/?name=' . urlencode($nama) . '&background=random&color=fff';
                                                     @endphp
-
                                                     <img src="{{ $avatar }}"
-                                                        {{-- *** KODE DIUBAH KEMBALI: Gunakan rounded-lg agar sudutnya sedikit membulat (petak) *** --}}
-                                                        class="inline-flex items-center justify-center mr-4 text-white transition-all duration-200 ease-in-out text-sm h-9 w-9 rounded-lg object-cover"
-                                                        alt="{{ $item->nama }}" />
+                                                        class="inline-flex items-center justify-center mr-4 text-white transition-all duration-200 ease-in-out text-sm h-9 w-9 rounded-xl object-cover border border-slate-200"
+                                                        alt="Foto {{ $item->warga->nama ?? 'Kader' }}" />
                                                 </div>
                                                 <div class="flex flex-col justify-center">
                                                     <h6 class="mb-0 text-sm leading-normal dark:text-white">
-                                                        {{ $item->nama }}</h6>
+                                                        {{ $item->warga->nama ?? 'Warga Terhapus' }}</h6>
+                                                    <p class="mb-0 text-xs leading-tight dark:text-white dark:opacity-80 text-slate-400">
+                                                        {{ $item->peran ?? '-' }}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </td>
 
-                                        {{-- Kolom Alamat --}}
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <p
-                                                class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60 px-2">
-                                                {{ Str::limit($item->alamat, 30) }}
-                                            </p>
-                                            <p
-                                                class="mb-0 text-xs leading-tight text-slate-400 dark:text-white dark:opacity-60 px-2">
-                                                RT {{ $item->rt }} / RW {{ $item->rw }}
+                                        {{-- Posyandu --}}
+                                        <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                            <p class="mb-0 text-xs font-bold leading-tight dark:text-white dark:opacity-80">
+                                                {{ $item->posyandu->nama ?? '-' }}
                                             </p>
                                         </td>
 
-                                        {{-- Kolom Kontak --}}
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <p
-                                                class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60 px-2">
-                                                {{ $item->kontak ?? '-' }}
+                                        {{-- Masa Tugas --}}
+                                        <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                            <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-80">
+                                                {{ $item->mulai_tugas ? \Carbon\Carbon::parse($item->mulai_tugas)->format('d M Y') : '-' }}
+                                                <span class="text-slate-400 mx-1">s/d</span>
+                                                {{ $item->akhir_tugas ? \Carbon\Carbon::parse($item->akhir_tugas)->format('d M Y') : 'Sekarang' }}
                                             </p>
                                         </td>
 
-                                        {{-- Kolom Aksi --}}
-                                        <td
-                                            class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                            {{-- Form Wrapper untuk Tombol Sejajar --}}
-                                            <form action="{{ route('posyandu.destroy', $item->posyandu_id) }}"
-                                                method="POST" class="inline-block">
-
-                                                {{-- Tombol DETAIL (SHOW) - Biru --}}
-                                                <a href="{{ route('posyandu.show', $item->posyandu_id) }}"
+                                        {{-- Aksi --}}
+                                        <td class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                            <form action="{{ route('kader.destroy', $item->kader_id) }}" method="POST" class="inline-block">
+                                                <a href="{{ route('kader.show', $item->kader_id) }}"
                                                     class="inline-block px-3 py-1.5 mr-1 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-blue-500 to-violet-500 leading-normal text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85">
                                                     <i class="fas fa-eye mr-1"></i> Detail
                                                 </a>
 
-                                                {{-- Tombol EDIT - Hijau/Teal --}}
-                                                <a href="{{ route('posyandu.edit', $item->posyandu_id) }}"
+                                                <a href="{{ route('kader.edit', $item->kader_id) }}"
                                                     class="inline-block px-3 py-1.5 mr-1 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-emerald-500 to-teal-400 leading-normal text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85">
                                                     <i class="fas fa-edit mr-1"></i> Edit
                                                 </a>
 
-                                                {{-- Tombol HAPUS - Merah --}}
-
                                                 @csrf @method('DELETE')
                                                 <button type="submit"
                                                     class="inline-block px-3 py-1.5 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-red-600 to-orange-600 leading-normal text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85"
-                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus data Posyandu ini?')">
+                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus data Kader ini?')">
                                                     <i class="fas fa-trash mr-1"></i> Hapus
                                                 </button>
                                             </form>
                                         </td>
+
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5"
-                                            class="p-4 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <div class="flex flex-col items-center justify-center">
-                                                <span class="text-slate-400 mb-2"><i
-                                                        class="fas fa-hospital-alt fa-3x"></i></span>
-                                                <p class="mb-0 font-semibold leading-tight dark:text-white dark:opacity-60">
-                                                    Tidak ada data Posyandu ditemukan.</p>
-                                                @if (request('search'))
-                                                    <p class="text-xs text-slate-400 mt-1">Coba reset pencarian.</p>
-                                                @endif
+                                        <td colspan="4" class="p-8 text-center align-middle bg-transparent border-b dark:border-white/40 shadow-transparent">
+                                            <div class="flex flex-col items-center justify-center py-6">
+                                                <div class="mb-4 text-slate-300 dark:text-slate-600">
+                                                    <i class="fas fa-users text-8xl" aria-hidden="true"></i>
+                                                </div>
+                                                <p class="mb-0 text-2xl font-semibold leading-tight dark:text-white dark:opacity-60">
+                                                    Belum ada data kader ditemukan.
+                                                </p>
                                             </div>
                                         </td>
                                     </tr>
@@ -205,12 +178,12 @@
                     {{-- PAGINATION --}}
                     <div class="flex flex-wrap justify-between items-center mt-4">
                         <div class="text-sm text-slate-500 mb-2 md:mb-0">
-                            Showing <span class="font-bold">{{ $posyandus->firstItem() ?? 0 }}</span> to <span
-                                class="font-bold">{{ $posyandus->lastItem() ?? 0 }}</span> of <span
-                                class="font-bold">{{ $posyandus->total() }}</span> results
+                            Showing <span class="font-bold">{{ $kaders->firstItem() ?? 0 }}</span> to <span
+                                class="font-bold">{{ $kaders->lastItem() ?? 0 }}</span> of <span
+                                class="font-bold">{{ $kaders->total() }}</span> results
                         </div>
                         <div>
-                            {{ $posyandus->links() }}
+                            {{ $kaders->links() }}
                         </div>
                     </div>
 
@@ -222,7 +195,6 @@
 
 @push('scripts')
     <script>
-        // Script untuk menghilangkan alert secara otomatis
         window.setTimeout(function() {
             const alert = document.getElementById('success-alert');
             if (alert) {

@@ -37,6 +37,24 @@
                             @error('email') <div class="text-red-500 text-xs italic">{{ $message }}</div> @enderror
                         </div>
 
+                        <div class="mb-3">
+                            <label for="role"
+                                class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Role</label>
+                            <select name="role" required
+                                class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white px-3 py-2 outline-none transition-all">
+                                <option value="">-- Pilih Role --</option>
+                                @if(isset($roles) && is_array($roles))
+                                    @foreach($roles as $value => $label)
+                                        <option value="{{ $value }}" {{ old('role', $user->role) == $value ? 'selected' : '' }}>{{ $label }}</option>
+                                    @endforeach
+                                @else
+                                    <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
+                                    <option value="guest" {{ old('role', $user->role) == 'guest' ? 'selected' : '' }}>Guest</option>
+                                @endif
+                            </select>
+                            @error('role') <div class="text-red-500 text-xs italic">{{ $message }}</div> @enderror
+                        </div>
+
                         <hr class="h-px my-4 bg-transparent bg-gradient-to-r from-transparent via-black/40 to-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-white dark:to-transparent">
                         <p class="text-sm text-slate-500">Kosongkan password jika tidak ingin mengubahnya.</p>
 

@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder; // <-- WAJIB ADA (Jangan sampai terlewat)
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class JadwalPosyandu extends Model
 {
@@ -13,21 +14,15 @@ class JadwalPosyandu extends Model
     protected $table = 'jadwal_posyandu';
     protected $primaryKey = 'jadwal_id';
 
+    // Poster tidak masuk fillable karena masuk tabel media
     protected $fillable = [
-        'posyandu_id',
-        'tanggal',
+        'posyandu_id', 
+        'tanggal', 
         'tema',
-        'keterangan',
-        'poster',
+        'keterangan'
     ];
 
-    protected $casts = [
-        'jadwal_id' => 'integer',
-        'posyandu_id' => 'integer',
-        'tanggal' => 'date',
-        'created_at'  => 'datetime',
-        'updated_at'  => 'datetime',
-    ];
+    protected $casts = ['tanggal' => 'date'];
 
     // Relasi ke Posyandu
     public function posyandu()
@@ -35,53 +30,42 @@ class JadwalPosyandu extends Model
         return $this->belongsTo(Posyandu::class, 'posyandu_id', 'posyandu_id');
     }
 
-    // =========================================================
-    //  SCOPE FILTER & SEARCH (INI YANG HILANG DI FILE ANDA)
-    // =========================================================
-
-    /**
-     * Scope: Filter (Exact Match)
-     */
-    public function scopeFilter(Builder $query, $request, array $filterableColumns = []): Builder
+    // RELASI KE MEDIA (POSTER)
+    public function poster()
     {
-        if (!$request) {
-            return $query;
-        }
-
-        foreach ($filterableColumns as $column) {
-            if ($request->filled($column)) {
-                $value = $request->input($column);
-                $query->where($column, $value);
-            }
-        }
-        return $query;
+        return $this->morphOne(Media::class, 'model', 'ref_table', 'ref_id')
+                    ->latest();
     }
-
-    /**
-     * Scope: Search (Pencarian Like)
-     */
-    public function scopeSearch(Builder $query, $request, array $searchableColumns = []): Builder
-    {
-        if (!$request || !$request->filled('search')) {
-            return $query;
+    
+    // Accessor: URL Poster Aman
+    public function getPosterUrlAttribute()
+{
+    if ($this->poster && $this->poster->file_url) {
+        
+        // --- PERBAIKAN KRITIS DI SINI ---
+        // Cek apakah file fisik poster masih ada di storage/app/public
+        if (Storage::disk('public')->exists($this->poster->file_url)) {
+            return asset('storage/' . $this->poster->file_url);
         }
+        // Jika file tidak ada, anggap tidak ada poster
+        return null; 
+    }
+    // Jika tidak ada record poster
+    return null; 
+}
 
+    // Scope Search
+    public function scopeSearch(Builder $query, $request): Builder
+    {
+        if (!$request || !$request->filled('search')) return $query;
         $searchTerm = $request->input('search');
-
-        return $query->where(function (Builder $q) use ($searchTerm, $searchableColumns) {
-            // 1. Cari di kolom tabel jadwal (tema, keterangan)
-            foreach ($searchableColumns as $index => $column) {
-                if ($index === 0) {
-                    $q->where($column, 'like', '%' . $searchTerm . '%');
-                } else {
-                    $q->orWhere($column, 'like', '%' . $searchTerm . '%');
-                }
-            }
-
-            // 2. Cari juga berdasarkan Nama Posyandu (Relasi)
-            $q->orWhereHas('posyandu', function ($relQuery) use ($searchTerm) {
-                $relQuery->where('nama', 'like', '%' . $searchTerm . '%');
-            });
+        
+        return $query->where(function ($q) use ($searchTerm) {
+            $q->where('tema', 'like', '%' . $searchTerm . '%')
+              ->orWhere('keterangan', 'like', '%' . $searchTerm . '%')
+              ->orWhereHas('posyandu', function ($rel) use ($searchTerm) {
+                  $rel->where('nama', 'like', '%' . $searchTerm . '%');
+              });
         });
     }
 }

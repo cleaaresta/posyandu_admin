@@ -14,11 +14,11 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
+        // Kalau user sudah login, langsung redirect ke home agar tidak bisa mengakses halaman login
+        if (Auth::check()) {
+            return redirect()->route('home');
+        }
 
-        // Jika user sudah login, lempar ke 'home' (sesuai sidebar)
-        // if (Auth::check()) {
-        //     return redirect()->route('home'); // UBAH INI
-        // }
         // Tampilkan view login
         return view('pages.auth.login');
     }
@@ -43,14 +43,14 @@ class LoginController extends Controller
             // Regenerate session untuk keamanan
             $request->session()->regenerate();
 
-            // 5. Redirect ke 'home' (sesuai sidebar)
-           return redirect()->intended('home')->with('success', 'Login berhasil! Selamat datang.');
+            // 5. Redirect ke 'home'
+            return redirect()->intended('home')->with('success', 'Login berhasil! Selamat datang.');
         }
 
         // 6. Jika gagal, kembali ke halaman login dengan pesan error
-       return back()->withErrors([
+        return back()->withErrors([
             'email' => 'Email atau Password yang Anda masukkan salah',
-        ])->onlyInput('email'); // Baris ini yang memicu @error('email')
+        ])->onlyInput('email');
     }
 
     /**
@@ -64,6 +64,6 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
 
         // Redirect ke halaman login
-        return redirect()->route('login'); // UBAH INI
+        return redirect()->route('login');
     }
 }

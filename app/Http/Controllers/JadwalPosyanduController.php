@@ -4,35 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\JadwalPosyandu;
 use App\Models\Posyandu;
-use Illuminate\Http\Request; // <-- Pastikan Request diimport
+use App\Models\Media; // Jangan lupa import ini
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class JadwalPosyanduController extends Controller
 {
-    private $storagePath = 'public/jadwal_posters';
-
-    public function index(Request $request) // <-- Inject Request
+    public function index(Request $request)
     {
-        // 1. Tentukan kolom lokal yang bisa dicari
-        $searchableColumns = ['tema', 'keterangan'];
-        
-        // 2. Filter Columns (jika nanti butuh filter dropdown)
-        $filterableColumns = [];
-
-        // 3. Query Data dengan Filter, Search, dan Pagination
-        $jadwals = JadwalPosyandu::with('posyandu')
-            ->filter($request, $filterableColumns) // Panggil scopeFilter
-            ->search($request, $searchableColumns) // Panggil scopeSearch
-            ->orderBy('tanggal', 'desc')           // Urutkan tanggal terbaru
-            ->paginate(10)                         // Pagination 10 per halaman
-            ->withQueryString();                   // Agar parameter tidak hilang saat pindah halaman
+        $jadwals = JadwalPosyandu::with(['posyandu', 'poster']) // Eager load poster
+            ->search($request)
+            ->orderBy('tanggal', 'desc')
+            ->paginate(10)
+            ->withQueryString();
 
         return view('pages.jadwal-posyandu.index', compact('jadwals'));
     }
 
-    // ... (Method create, store, edit, update, destroy biarkan tetap sama) ...
-    // Pastikan Anda tidak menghapus method lainnya.
-    
     public function create()
     {
         $posyandus = Posyandu::orderBy('nama')->get();
@@ -41,66 +29,101 @@ class JadwalPosyanduController extends Controller
 
     public function store(Request $request)
     {
+        // 1. Validasi
         $data = $request->validate([
             'posyandu_id' => 'required|exists:posyandu,posyandu_id',
-            'tanggal' => 'required|date',
-            'tema' => 'required|string|max:255',
-            'keterangan' => 'nullable|string',
-            'poster' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'tanggal'     => 'required|date',
+            'tema'        => 'required|string|max:255',
+            'keterangan'  => 'nullable|string',
+            'poster'      => 'nullable|image|mimes:jpeg,png,jpg|max:5120', // Validasi file
         ]);
 
+        // 2. Buat Jadwal
+        $jadwal = JadwalPosyandu::create($data);
+
+        // 3. Upload Poster (Jika ada)
         if ($request->hasFile('poster')) {
-            $path = $request->file('poster')->store($this->storagePath);
-            $data['poster'] = basename($path);
+            $file = $request->file('poster');
+            $path = $file->store('uploads/jadwal', 'public');
+
+            // Simpan ke tabel Media
+            $jadwal->poster()->create([
+                'ref_table' => 'jadwal_posyandu', // Redundant tapi aman
+                'file_url'  => $path,
+                'caption'   => 'Poster ' . $jadwal->tema,
+                'mime_type' => $file->getClientMimeType(),
+            ]);
         }
 
-        JadwalPosyandu::create($data);
-
-        return redirect()->route('jadwal-posyandu.index')
-                         ->with('success', 'Jadwal berhasil ditambahkan.');
+        return redirect()->route('jadwal-posyandu.index')->with('success', 'Jadwal berhasil dibuat.');
     }
 
-    public function edit(string $id)
+    public function show($id)
+    {
+        $jadwal = JadwalPosyandu::with(['posyandu', 'poster'])->findOrFail($id);
+        return view('pages.jadwal-posyandu.show', compact('jadwal'));
+    }
+
+    public function edit($id)
     {
         $jadwal = JadwalPosyandu::findOrFail($id);
         $posyandus = Posyandu::orderBy('nama')->get();
         return view('pages.jadwal-posyandu.edit', compact('jadwal', 'posyandus'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
+        $jadwal = JadwalPosyandu::findOrFail($id);
+
         $data = $request->validate([
             'posyandu_id' => 'required|exists:posyandu,posyandu_id',
-            'tanggal' => 'required|date',
-            'tema' => 'required|string|max:255',
-            'keterangan' => 'nullable|string',
-            'poster' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'tanggal'     => 'required|date',
+            'tema'        => 'required|string|max:255',
+            'keterangan'  => 'nullable|string',
+            'poster'      => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
         ]);
 
-        $jadwal = JadwalPosyandu::findOrFail($id);
-
-        if ($request->hasFile('poster')) {
-            if ($jadwal->poster) {
-                Storage::delete($this->storagePath . '/' . $jadwal->poster);
-            }
-            $path = $request->file('poster')->store($this->storagePath);
-            $data['poster'] = basename($path);
-        }
-
+        // Update Text
         $jadwal->update($data);
 
-        return redirect()->route('jadwal-posyandu.index')
-                         ->with('success', 'Data Jadwal Posyandu berhasil diperbarui.');
+        // Update Poster (Jika upload baru)
+        if ($request->hasFile('poster')) {
+            // Hapus lama
+            if ($jadwal->poster) {
+                if(Storage::disk('public')->exists($jadwal->poster->file_url)) {
+                    Storage::disk('public')->delete($jadwal->poster->file_url);
+                }
+                $jadwal->poster()->delete();
+            }
+
+            // Upload baru
+            $file = $request->file('poster');
+            $path = $file->store('uploads/jadwal', 'public');
+
+            $jadwal->poster()->create([
+                'ref_table' => 'jadwal_posyandu',
+                'file_url'  => $path,
+                'caption'   => 'Poster ' . $jadwal->tema,
+                'mime_type' => $file->getClientMimeType(),
+            ]);
+        }
+
+        return redirect()->route('jadwal-posyandu.index')->with('success', 'Jadwal berhasil diperbarui.');
     }
 
-    public function destroy(string $id)
+    public function destroy($id)
     {
         $jadwal = JadwalPosyandu::findOrFail($id);
+
+        // Hapus fisik poster
         if ($jadwal->poster) {
-            Storage::delete($this->storagePath . '/' . $jadwal->poster);
+            Storage::disk('public')->delete($jadwal->poster->file_url);
+            // Record media terhapus otomatis via cascade (jika di-set) atau bisa manual:
+            $jadwal->poster()->delete();
         }
+
         $jadwal->delete();
-        return redirect()->route('jadwal-posyandu.index')
-                         ->with('success', 'Data Jadwal Posyandu berhasil dihapus.');
+
+        return redirect()->route('jadwal-posyandu.index')->with('success', 'Jadwal berhasil dihapus.');
     }
 }

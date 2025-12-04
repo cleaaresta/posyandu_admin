@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder; // <--- WAJIB TAMBAHKAN INI
+use Illuminate\Database\Eloquent\Builder;
 
 class Warga extends Model
 {
@@ -14,56 +14,52 @@ class Warga extends Model
     protected $primaryKey = 'warga_id';
 
     protected $fillable = [
-        'no_ktp',
-        'nama',
-        'jenis_kelamin',
-        'agama',
-        'pekerjaan',
-        'telp',
-        'email',
+        'no_ktp', 'nama', 'jenis_kelamin', 'agama', 
+        'pekerjaan', 'telp', 'email',
     ];
 
-    // =========================================================
-    //  SCOPE FILTER & SEARCH
-    // =========================================================
+    // Relasi Foto Profil Warga
+    public function foto()
+    {
+        return $this->morphOne(Media::class, 'model', 'ref_table', 'ref_id')
+                    ->latest();
+    }
 
-    /**
-     * Scope: Filter (Exact Match)
-     * Berguna untuk filter dropdown (misal: Jenis Kelamin)
-     */
+    // Accessor
+    public function getFotoUrlAttribute()
+    {
+        if ($this->foto && $this->foto->file_url) {
+             // Tambahkan asset('storage/...')
+            return asset('storage/' . $this->foto->file_url);
+        }
+        
+        return 'https://ui-avatars.com/api/?name=' . urlencode($this->nama) . '&background=random';
+    }
+
+    // Relasi Data Lain
+    public function imunisasi() { return $this->hasMany(CatatanImunisasi::class, 'warga_id'); }
+    public function layanan() { return $this->hasMany(LayananPosyandu::class, 'warga_id'); }
+
+    // === SCOPE FILTER & SEARCH ===
     public function scopeFilter(Builder $query, $request, array $filterableColumns = []): Builder
     {
-        if (!$request) {
-            return $query;
-        }
-
+        if (!$request) return $query;
         foreach ($filterableColumns as $column) {
             if ($request->filled($column)) {
-                $value = $request->input($column);
-                $query->where($column, $value);
+                $query->where($column, $request->input($column));
             }
         }
         return $query;
     }
 
-    /**
-     * Scope: Search (Pencarian Like)
-     */
     public function scopeSearch(Builder $query, $request, array $searchableColumns = []): Builder
     {
-        if (!$request || !$request->filled('search')) {
-            return $query;
-        }
-
+        if (!$request || !$request->filled('search')) return $query;
         $searchTerm = $request->input('search');
-
         return $query->where(function (Builder $q) use ($searchTerm, $searchableColumns) {
             foreach ($searchableColumns as $index => $column) {
-                if ($index === 0) {
-                    $q->where($column, 'like', '%' . $searchTerm . '%');
-                } else {
-                    $q->orWhere($column, 'like', '%' . $searchTerm . '%');
-                }
+                if ($index === 0) $q->where($column, 'like', '%' . $searchTerm . '%');
+                else $q->orWhere($column, 'like', '%' . $searchTerm . '%');
             }
         });
     }

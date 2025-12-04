@@ -10,13 +10,9 @@
     <style>
         /* [TEMA POSYANDU - GRADASI UNGU-BIRU] */
         :root {
-            /* Warna Gradasi Utama (Mirip Gambar Referensi) */
             --gradient-primary: linear-gradient(to right, #6a11cb 0%, #2575fc 100%); 
-            
-            /* Warna Solid Pendukung (Ambil dari salah satu warna gradasi) */
             --primary-color: #2575fc;       
             --primary-color-dark: #1a5bca;  
-            
             --background-dark: #f3f4f6;     
             --card-background: #ffffff;
             --border-color: #e5e7eb;
@@ -31,7 +27,6 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--background-dark);
-            /* Background pattern halus */
             background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
             background-size: 20px 20px;
             min-height: 100vh;
@@ -43,7 +38,6 @@
             box-sizing: border-box;
         }
 
-        /* Wrapper utama */
         .login-container {
             display: flex;
             width: 100%;
@@ -55,7 +49,6 @@
             border: 1px solid var(--border-color);
         }
 
-        /* Panel Kiri (Form) */
         .login-form-panel {
             flex: 1;
             padding: 4rem 3rem;
@@ -65,15 +58,10 @@
             text-align: left;
         }
 
-        /* Panel Kanan (Overlay Gradasi) */
         .login-overlay-panel {
             flex: 1;
-            /* Terapkan Gradasi di sini */
             background: var(--gradient-primary);
-            
-            /* Lengkungan unik di kiri panel */
             clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%); 
-            
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -84,10 +72,7 @@
             position: relative;
         }
 
-        /* Header di Form */
-        .login-header {
-            margin-bottom: 2.5rem;
-        }
+        .login-header { margin-bottom: 2.5rem; }
 
         .login-logo-container {
             display: inline-flex;
@@ -95,22 +80,15 @@
             justify-content: center;
             width: 60px;
             height: 60px;
-            background-color: #f0f4ff; /* Biru sangat muda agar pas dengan ungu */
+            background-color: #f0f4ff;
             border-radius: 12px;
             margin-bottom: 1.5rem;
         }
 
-        /* Perbaikan: Warna ikon di panel kiri kini mengikuti primary-color (biru) */
         .login-logo {
             color: var(--primary-color); 
             width: 32px;
             height: 32px;
-        }
-        
-        /* Jika menggunakan gambar PNG/JPG untuk logo */
-        .login-logo-img {
-            width: 40px; /* Sesuaikan ukuran gambar logo */
-            height: auto;
         }
 
         h2 {
@@ -141,10 +119,7 @@
             opacity: 0.9;
         }
 
-        /* Form styling */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
+        .form-group { margin-bottom: 1.5rem; }
 
         label {
             display: block;
@@ -170,11 +145,9 @@
         input.form-control:focus {
             border-color: var(--primary-color);
             outline: none;
-            /* Shadow focus mengikuti warna utama */
             box-shadow: 0 0 0 4px rgba(37, 117, 252, 0.15); 
         }
 
-        /* Tombol Submit dengan Gradasi */
         button[type="submit"] {
             display: flex;
             align-items: center;
@@ -186,28 +159,18 @@
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            
-            /* Background Gradasi pada Tombol */
             background: var(--gradient-primary); 
-            
             color: #fff;
             border: none;
-            /* Shadow ungu/biru */
             box-shadow: 0 4px 12px rgba(37, 117, 252, 0.3); 
             transition: all 0.2s;
             margin-top: 1rem;
         }
 
         button[type="submit"]:hover {
-            /* Efek hover sedikit mengangkat dan menambah shadow */
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(37, 117, 252, 0.4);
-            /* Opsional: filter brightness untuk efek hover pada gradasi */
             filter: brightness(1.1);
-        }
-
-        button[type="submit"]:active {
-            transform: translateY(0);
         }
 
         .login-footer {
@@ -217,9 +180,8 @@
             font-size: 0.875em;
         }
 
-        /* Hiasan di Overlay (Ikon Kesehatan Putih) */
         .overlay-illustration {
-            background: rgba(255,255,255,0.15); /* Transparansi sedikit lebih terang */
+            background: rgba(255,255,255,0.15);
             width: 120px;
             height: 120px;
             border-radius: 50%;
@@ -235,32 +197,90 @@
             width: 60px;
             height: 60px;
             color: white;
-            /* Menyesuaikan stroke-width agar lebih tebal dan terlihat */
             stroke-width: 2.5; 
         }
 
-        /* Responsif */
         @media (max-width: 850px) {
             .login-container {
                 flex-direction: column;
                 max-width: 450px;
             }
-
             .login-form-panel {
                 padding: 3rem 2rem;
                 order: 2;
             }
-
             .login-overlay-panel {
                 order: 1;
                 clip-path: none;
                 padding: 3rem 2rem;
                 border-radius: 0 0 0 0;
             }
-            
             .login-overlay-panel h2 {
                 font-size: 1.75rem;
             }
+        }
+
+        /* Styling sederhana untuk pesan error inline */
+        .text-error {
+            color: #b91c1c;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        /* ========== TOAST / POPUP ========== */
+        .toast-wrap {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            pointer-events: none;
+        }
+
+        .toast {
+            pointer-events: auto;
+            min-width: 260px;
+            max-width: 360px;
+            padding: 0.85rem 1rem;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.12);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            transform: translateY(-10px);
+            opacity: 0;
+            transition: transform 220ms ease, opacity 220ms ease;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast .msg {
+            flex: 1;
+            font-size: 0.95rem;
+            line-height: 1.2;
+        }
+
+        .toast .close {
+            background: transparent;
+            border: 0;
+            color: rgba(255,255,255,0.9);
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1.05rem;
+            padding: 0 0.25rem;
+        }
+
+        .toast.error { background: #dc2626; } /* red-600 */
+        .toast.success { background: #16a34a; } /* green-600 */
+        @media (max-width: 420px) {
+            .toast-wrap { left: 1rem; right: 1rem; top: 0.75rem; }
         }
     </style>
 </head>
@@ -272,7 +292,6 @@
         <div class="login-form-panel">
             <div class="login-header">
                 <div class="login-logo-container">
-                    <!-- Ikon Petugas (User) - Sesuai konteks login petugas -->
                     <svg class="login-logo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                     </svg>
@@ -281,16 +300,23 @@
                 <p class="subtitle">Selamat datang kembali! Silakan masukkan akun Admin Posyandu Anda.</p>
             </div>
 
-            <form action="#" method="POST" autocomplete="off">
+            <form action="{{ route('login') }}" method="POST" autocomplete="off">
+                @csrf
                 
                 <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" class="form-control" placeholder="Contoh: clea@gmail.com">
+                    <label for="email">Username / Email</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Contoh: clea@gmail.com" value="{{ old('email') }}" required>
+                    @error('email')
+                        <div class="text-error">{{ $message }}</div>
+                    @enderror
                 </div>
                 
                 <div class="form-group">
                     <label for="password">Kata Sandi</label>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Masukkan kata sandi">
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Masukkan kata sandi" required>
+                    @error('password')
+                        <div class="text-error">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <button type="submit">
@@ -309,7 +335,6 @@
         <!-- PANEL KANAN (OVERLAY BIRU) -->
         <div class="login-overlay-panel">
             <div class="overlay-illustration">
-                <!-- [DIUBAH] Ikon Posyandu (Palang Kesehatan di dalam Lingkaran) -->
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-3-3v6M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" />
                 </svg>
@@ -324,6 +349,51 @@
         </div>
 
     </div>
+
+    <!-- TOAST CONTAINER -->
+    <div class="toast-wrap" id="toastWrap" aria-live="polite" aria-atomic="true"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toastWrap = document.getElementById('toastWrap');
+
+            function createToast(type, message, timeout = 4000) {
+                const t = document.createElement('div');
+                t.className = 'toast ' + (type === 'error' ? 'error' : 'success');
+                t.innerHTML = '<div class="msg"></div><button class="close" aria-label="close">&times;</button>';
+                t.querySelector('.msg').textContent = message;
+
+                const btnClose = t.querySelector('.close');
+                btnClose.addEventListener('click', () => hideToast(t));
+
+                toastWrap.appendChild(t);
+
+                // allow CSS transition
+                requestAnimationFrame(() => t.classList.add('show'));
+
+                const hideAfter = setTimeout(() => hideToast(t), timeout);
+
+                function hideToast(node) {
+                    node.classList.remove('show');
+                    node.addEventListener('transitionend', () => {
+                        if (node.parentNode) node.parentNode.removeChild(node);
+                    });
+                    clearTimeout(hideAfter);
+                }
+            }
+
+            // Jika server mengirim error validasi, tampilkan pesan pertama
+            @if ($errors->any())
+                // Ambil pesan pertama (safe JSON encode)
+                createToast('error', {!! json_encode($errors->first()) !!});
+            @endif
+
+            // Jika ada session success (mis. logout berhasil atau login redirect), tampilkan
+            @if (session('success'))
+                createToast('success', {!! json_encode(session('success')) !!});
+            @endif
+        });
+    </script>
 
 </body>
 </html>

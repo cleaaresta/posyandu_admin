@@ -1,33 +1,39 @@
 <?php
-// NAMA FILE: database/seeders/PosyanduSeeder.php
 
 namespace Database\Seeders;
 
-use Faker\Factory;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB; // <-- Pastikan ini ada
+use App\Models\Posyandu;
+use Faker\Factory as Faker;
 
 class PosyanduSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     *
+     * @return void
      */
-    public function run(): void
+    public function run()
     {
-        // Gunakan \Faker\Factory::create() seperti contoh Anda
-        // 'id_ID' digunakan agar data (seperti alamat) sesuai format Indonesia
-        $faker = Factory::create('id_ID'); 
+        $faker = Faker::create('id_ID'); // Pakai locale Indonesia untuk alamat/no hp
 
-        foreach (range(1, 100) as $index) { // Kita akan buat 10 data Posyandu
-            DB::table('posyandu')->insert([
-                'nama' => 'Posyandu ' . $faker->lastName, // Cth: Posyandu Lestari
-                'alamat' => $faker->address,
-                'rt' => '00' . $faker->numberBetween(1, 9),
-                'rw' => '00' . $faker->numberBetween(1, 5),
+        // Daftar nama Posyandu umum (Nama Bunga)
+        $namaBunga = [
+            'Mawar', 'Melati', 'Anggrek', 'Kenanga', 
+            'Dahlia', 'Cempaka', 'Nusa Indah', 'Teratai',
+            'Flamboyan', 'Bougenville'
+        ];
+
+        // Loop array nama bunga untuk membuat data
+        foreach ($namaBunga as $nama) {
+            Posyandu::create([
+                'nama'   => 'Posyandu ' . $nama, // Contoh: Posyandu Mawar
+                'alamat' => $faker->address,     // Alamat lengkap (Jln, Kota)
+                'rt'     => sprintf('%03d', $faker->numberBetween(1, 15)), // Format 001 - 015
+                'rw'     => sprintf('%03d', $faker->numberBetween(1, 10)), // Format 001 - 010
                 'kontak' => $faker->phoneNumber,
-                'foto' => null, // Kita biarkan null
-                'created_at' => now(), // Kolom timestamps harus diisi manual
-                'updated_at' => now(),  // jika menggunakan DB::insert()
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
     }

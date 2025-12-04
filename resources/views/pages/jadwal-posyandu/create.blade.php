@@ -1,78 +1,57 @@
 @extends('layouts.admin.app')
 
-@section('title', 'Tambah Data Jadwal')
+@section('title', 'Tambah Jadwal Posyandu')
 @section('page_title', 'Tambah Jadwal Posyandu')
 
 @section('content')
-    <div class="flex flex-wrap -mx-3">
-        <div class="w-full max-w-full px-3 shrink-0 md:w-8/12 md:flex-0">
-            <div
-                class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
-                <div class="border-black/12.5 rounded-t-2xl border-b-0 border-solid p-6 pb-0">
-                    <h5 class="mb-0 dark:text-white">Formulir Tambah Jadwal</h5>
-                </div>
-                <div class="flex-auto p-6">
+<div class="flex flex-wrap -mx-3">
+    <div class="w-full max-w-full px-3 shrink-0 md:w-8/12 md:flex-0">
+        <div class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+            <div class="border-black/12.5 rounded-t-2xl border-b-0 border-solid p-6 pb-0">
+                <h5 class="mb-0 dark:text-white">Formulir Jadwal Kegiatan</h5>
+            </div>
+            <div class="flex-auto p-6">
+                
+                {{-- Gunakan enctype multipart untuk upload poster --}}
+                <form action="{{ route('jadwal-posyandu.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    
+                    {{-- Posyandu --}}
+                    <div class="mb-4">
+                        <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Lokasi Posyandu</label>
+                        <select name="posyandu_id" required class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none">
+                            @foreach($posyandus as $posyandu)
+                                <option value="{{ $posyandu->posyandu_id }}" {{ old('posyandu_id') == $posyandu->posyandu_id ? 'selected' : '' }}>
+                                    {{ $posyandu->nama }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                    <form action="{{ route('jadwal-posyandu.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        
-                        {{-- Dropdown Pilih Posyandu --}}
-                        <div class="mb-3">
-                            <label for="posyandu_id"
-                                class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Pilih
-                                Posyandu</label>
-                            <select name="posyandu_id"
-                                class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none"
-                                required>
-                                <option value="">-- Pilih Posyandu --</option>
-                                @foreach ($posyandus as $posyandu)
-                                    <option value="{{ $posyandu->posyandu_id }}"
-                                        {{ old('posyandu_id') == $posyandu->posyandu_id ? 'selected' : '' }}>
-                                        {{ $posyandu->nama }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('posyandu_id') <div class="text-red-500 text-xs italic">{{ $message }}</div> @enderror
-                        </div>
+                    {{-- Tanggal --}}
+                    <div class="mb-4">
+                        <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Tanggal Kegiatan</label>
+                        <input type="date" name="tanggal" value="{{ old('tanggal') }}" required class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none" />
+                    </div>
 
-                        <div class="mb-3">
-                            <label for="tema"
-                                class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Tema
-                                Kegiatan</label>
-                            <input type="text" name="tema" value="{{ old('tema') }}"
-                                placeholder="cth: Imunisasi Polio dan Penimbangan"
-                                class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none"
-                                required>
-                            @error('tema') <div class="text-red-500 text-xs italic">{{ $message }}</div> @enderror
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="tanggal"
-                                class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Tanggal
-                                Pelaksanaan</label>
-                            <input type="date" name="tanggal" value="{{ old('tanggal') }}"
-                                class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none"
-                                required>
-                            @error('tanggal') <div class="text-red-500 text-xs italic">{{ $message }}</div> @enderror
-                        </div>
+                    {{-- Tema --}}
+                    <div class="mb-4">
+                        <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Tema Kegiatan</label>
+                        <input type="text" name="tema" value="{{ old('tema') }}" placeholder="Contoh: Imunisasi Campak & Vitamin A" required class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none" />
+                    </div>
 
-                        <div class="mb-3">
-                            <label for="keterangan"
-                                class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Keterangan
-                                (Opsional)</label>
-                            <textarea name="keterangan" rows="3" placeholder="cth: Harap membawa buku KIA..."
-                                class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none">{{ old('keterangan') }}</textarea>
-                            @error('keterangan') <div class="text-red-500 text-xs italic">{{ $message }}</div> @enderror
-                        </div>
+                    {{-- Keterangan --}}
+                    <div class="mb-4">
+                        <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Keterangan Tambahan</label>
+                        <textarea name="keterangan" rows="3" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none">{{ old('keterangan') }}</textarea>
+                    </div>
 
-                        <div class="mb-3">
-                            <label for="poster"
-                                class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Poster
-                                (Opsional)</label>
-                            <input type="file" name="poster"
-                                class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none">
-                            @error('poster') <div class="text-red-500 text-xs italic">{{ $message }}</div> @enderror
-                        </div>
+                    {{-- Poster --}}
+                    <div class="mb-4">
+                        <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Poster / Banner (Opsional)</label>
+                        <input type="file" name="poster" class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
+                        <small class="text-slate-400">Format: JPG, PNG. Maks: 5MB.</small>
+                    </div>
 
                         <div class="text-right mt-6">
                             <a href="{{ route('jadwal-posyandu.index') }}"
@@ -86,9 +65,9 @@
                                 <span>Simpan</span>
                             </button>
                         </div>
-                    </form>
-                </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 @endsection

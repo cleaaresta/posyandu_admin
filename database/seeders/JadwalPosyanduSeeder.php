@@ -1,40 +1,41 @@
 <?php
-// NAMA FILE: database/seeders/JadwalPosyanduSeeder.php
 
 namespace Database\Seeders;
 
-use Faker\Factory;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB; // <-- Pastikan ini ada
+use App\Models\JadwalPosyandu;
+use App\Models\Posyandu;
+use Faker\Factory as Faker;
 
 class JadwalPosyanduSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        $faker = Factory::create('id_ID');
+        $faker = Faker::create('id_ID');
 
-        // PENTING: Ambil semua ID posyandu yang sudah ada di database
-        $posyanduIds = DB::table('posyandu')->pluck('posyandu_id');
+        // Ambil ID Posyandu yang ada
+        $posyanduIds = Posyandu::pluck('posyandu_id')->toArray();
 
-        // Jika tidak ada posyandu, hentikan seeder
-        if ($posyanduIds->isEmpty()) {
-            $this->command->warn('Tabel "posyandu" kosong. Jalankan PosyanduSeeder terlebih dahulu.');
+        if (empty($posyanduIds)) {
+            $this->command->error('Error: Tabel Posyandu kosong. Jalankan PosyanduSeeder dulu.');
             return;
         }
 
-        foreach (range(1, 50) as $index) { // Buat 50 data jadwal acak
-            DB::table('jadwal_posyandu')->insert([
-                // Pilih ID posyandu secara acak dari data yang ada
-                'posyandu_id' => $faker->randomElement($posyanduIds), 
-                'tanggal' => $faker->dateTimeBetween('+1 week', '+3 months')->format('Y-m-d'),
-                'tema' => $faker->sentence(4), // Tema jadwal (4 kata)
-                'keterangan' => $faker->optional()->paragraph(1), // Kadang null, kadang tidak
-                'poster' => null, // Kita biarkan null
-                'created_at' => now(),
-                'updated_at' => now(),
+        $temaList = [
+            'Pemberian Vitamin A', 'Imunisasi Rutin', 
+            'Penyuluhan Gizi Balita', 'Bulan Timbang', 
+            'Pemeriksaan Ibu Hamil', 'Imunisasi BIAN'
+        ];
+
+        // LOOP 100 DATA
+        foreach (range(1, 100) as $index) {
+            JadwalPosyandu::create([
+                'posyandu_id' => $faker->randomElement($posyanduIds),
+                'tanggal'     => $faker->dateTimeBetween('-6 months', '+6 months'),
+                'tema'        => $faker->randomElement($temaList),
+                'keterangan'  => $faker->sentence(10), // Kalimat acak 10 kata
+                'created_at'  => now(),
+                'updated_at'  => now(),
             ]);
         }
     }
