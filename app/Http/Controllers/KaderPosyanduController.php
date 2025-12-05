@@ -6,6 +6,7 @@ use App\Models\KaderPosyandu;
 use App\Models\Posyandu;
 use App\Models\Warga;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule; // PENTING: Untuk validasi unique yang aman
 
 class KaderPosyanduController extends Controller
 {
@@ -31,7 +32,6 @@ class KaderPosyanduController extends Controller
     public function create()
     {
         $posyandus = Posyandu::orderBy('nama', 'asc')->get();
-        // Ambil warga untuk dropdown
         $wargas = Warga::orderBy('nama', 'asc')->get();
         
         return view('pages.kader.create', compact('posyandus', 'wargas'));
@@ -39,7 +39,6 @@ class KaderPosyanduController extends Controller
 
     public function store(Request $request)
     {
-        // 1. Validasi
         $data = $request->validate([
             'posyandu_id' => 'required|exists:posyandu,posyandu_id',
             'warga_id'    => 'required|exists:warga,warga_id|unique:kader_posyandu,warga_id',
@@ -51,7 +50,6 @@ class KaderPosyanduController extends Controller
             'warga_id.required' => 'Wajib memilih nama warga.',
         ]);
 
-        // 2. Simpan
         KaderPosyandu::create($data);
 
         return redirect()->route('kader.index')->with('success', 'Data Kader berhasil ditambahkan.');
@@ -68,7 +66,11 @@ class KaderPosyanduController extends Controller
         $kader = KaderPosyandu::findOrFail($id);
         $posyandus = Posyandu::orderBy('nama', 'asc')->get();
         
-        return view('pages.kader.edit', compact('kader', 'posyandus'));
+        // PERBAIKAN DI SINI:
+        // Kita harus mengambil data semua warga agar bisa ditampilkan di dropdown edit
+        $wargas = Warga::orderBy('nama', 'asc')->get(); 
+        
+        return view('pages.kader.edit', compact('kader', 'posyandus', 'wargas'));
     }
 
     public function update(Request $request, $id)
@@ -77,11 +79,18 @@ class KaderPosyanduController extends Controller
 
         $data = $request->validate([
             'posyandu_id' => 'required|exists:posyandu,posyandu_id',
-            // Validasi unique dikecualikan untuk ID ini sendiri
-            'warga_id'    => 'required|exists:warga,warga_id|unique:kader_posyandu,warga_id,' . $id . ',kader_id',
+            'warga_id'    => [
+                'required',
+                'exists:warga,warga_id',
+                // Rule unique: Cek apakah warga ini sudah jadi kader, TAPI abaikan (ignore) data kader yang sedang diedit ini
+                Rule::unique('kader_posyandu', 'warga_id')->ignore($kader->kader_id, 'kader_id')
+            ],
             'peran'       => 'required|string|max:50',
             'mulai_tugas' => 'required|date',
             'akhir_tugas' => 'nullable|date|after_or_equal:mulai_tugas',
+        ], [
+            'warga_id.unique' => 'Warga ini sudah menjadi kader di posyandu lain.',
+            'akhir_tugas.after_or_equal' => 'Tanggal akhir tugas tidak boleh sebelum tanggal mulai tugas.',
         ]);
 
         $kader->update($data);

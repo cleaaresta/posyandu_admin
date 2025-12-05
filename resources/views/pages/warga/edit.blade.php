@@ -9,7 +9,7 @@
             <div
                 class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
                 <div class="border-black/12.5 rounded-t-2xl border-b-0 border-solid p-6 pb-0">
-                    <h5 class="mb-0 dark:text-white">Formulir Edit Warga: {{ $warga->nama }}</h5>
+                    <h5 class="mb-0 dark:text-white">Formulir Edit Warga</h5>
                 </div>
                 <div class="flex-auto p-6">
 

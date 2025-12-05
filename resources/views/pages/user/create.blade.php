@@ -15,59 +15,79 @@
 
                     <form action="{{ route('user.store') }}" method="POST">
                         @csrf
+                        
+                        {{-- Nama Lengkap --}}
                         <div class="mb-3">
                             <label for="name"
                                 class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Nama
                                 Lengkap</label>
                             <input type="text" name="name" value="{{ old('name') }}"
-                                class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none"
+                                placeholder="Contoh: Admin Posyandu"
+                                class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none"
                                 required>
-                            @error('name') <div class="text-red-500 text-xs italic">{{ $message }}</div> @enderror
+                            @error('name') <div class="text-red-500 text-xs italic mt-1">{{ $message }}</div> @enderror
                         </div>
 
+                        {{-- Email --}}
                         <div class="mb-3">
                             <label for="email"
                                 class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Alamat
                                 Email</label>
                             <input type="email" name="email" value="{{ old('email') }}"
-                                class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none"
+                                placeholder="Contoh: admin@posyandu.id"
+                                class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none"
                                 required>
-                            @error('email') <div class="text-red-500 text-xs italic">{{ $message }}</div> @enderror
+                            @error('email') <div class="text-red-500 text-xs italic mt-1">{{ $message }}</div> @enderror
                         </div>
 
+                        {{-- Role (Dropdown dengan Ikon) --}}
                         <div class="mb-3">
                             <label for="role"
                                 class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Role</label>
-                            <select name="role" required
-                                class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white px-3 py-2 outline-none transition-all">
-                                <option value="">-- Pilih Role --</option>
-                                @if(isset($roles) && is_array($roles))
-                                    @foreach($roles as $value => $label)
-                                        <option value="{{ $value }}" {{ old('role') == $value ? 'selected' : '' }}>{{ $label }}</option>
-                                    @endforeach
-                                @else
-                                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                                    <option value="guest" {{ old('role') == 'guest' ? 'selected' : '' }}>Guest</option>
-                                @endif
-                            </select>
-                            @error('role') <div class="text-red-500 text-xs italic">{{ $message }}</div> @enderror
+                            <div class="relative">
+                                <select name="role" required
+                                    class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 pr-8 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none">
+                                    <option value="">-- Pilih Role --</option>
+                                    {{-- Cek apakah variabel $roles dikirim dari controller atau manual --}}
+                                    @if(isset($roles) && is_array($roles))
+                                        @foreach($roles as $value => $label)
+                                            <option value="{{ $value }}" {{ old('role') == $value ? 'selected' : '' }}>{{ $label }}</option>
+                                        @endforeach
+                                    @else
+                                        <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                        <option value="kader" {{ old('role') == 'kader' ? 'selected' : '' }}>Kader</option>
+                                        <option value="warga" {{ old('role') == 'warga' ? 'selected' : '' }}>Warga</option>
+                                    @endif
+                                </select>
+                                {{-- Ikon Dropdown SVG --}}
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-white">
+                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            @error('role') <div class="text-red-500 text-xs italic mt-1">{{ $message }}</div> @enderror
                         </div>
 
+                        {{-- Password --}}
                         <div class="mb-3">
                             <label for="password"
                                 class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Password</label>
                             <input type="password" name="password"
-                                class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none"
+                                placeholder="********"
+                                class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none"
                                 required>
-                            @error('password') <div class="text-red-500 text-xs italic">{{ $message }}</div> @enderror
+                            @error('password') <div class="text-red-500 text-xs italic mt-1">{{ $message }}</div> @enderror
                         </div>
 
+                        {{-- Konfirmasi Password --}}
                         <div class="mb-3">
                             <label for="password_confirmation"
                                 class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Konfirmasi
                                 Password</label>
                             <input type="password" name="password_confirmation"
-                                class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none"
+                                placeholder="********"
+                                class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none"
                                 required>
                         </div>
 

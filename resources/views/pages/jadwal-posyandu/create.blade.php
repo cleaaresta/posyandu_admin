@@ -17,17 +17,24 @@
                     @csrf
                     
                     {{-- Posyandu --}}
-                    <div class="mb-4">
-                        <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Lokasi Posyandu</label>
-                        <select name="posyandu_id" required class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none">
-                            @foreach($posyandus as $posyandu)
-                                <option value="{{ $posyandu->posyandu_id }}" {{ old('posyandu_id') == $posyandu->posyandu_id ? 'selected' : '' }}>
-                                    {{ $posyandu->nama }}
-                                </option>
-                            @endforeach
-                        </select>
+               <div class="mb-4">
+                        <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Bertugas di Posyandu</label>
+                        <div class="relative">
+                            <select name="posyandu_id" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 pr-8 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none">
+                                @foreach($posyandus as $posyandu)
+                                    <option value="{{ $posyandu->posyandu_id }}" {{ old('posyandu_id') == $posyandu->posyandu_id ? 'selected' : '' }}>
+                                        {{ $posyandu->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            {{-- Ikon SVG --}}
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-white">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                                </svg>
+                            </div>
+                        </div>
                     </div>
-
                     {{-- Tanggal --}}
                     <div class="mb-4">
                         <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Tanggal Kegiatan</label>

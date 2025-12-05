@@ -14,26 +14,44 @@
                 <form action="{{ route('layanan.update', $layanan->layanan_id) }}" method="POST" enctype="multipart/form-data">
                     @csrf @method('PUT')
                     
+                    {{-- Jadwal (Dengan Ikon) --}}
                     <div class="mb-4">
                         <label class="text-xs font-bold text-slate-700">Jadwal</label>
-                        <select name="jadwal_id" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 px-3 py-2">
-                            @foreach($jadwals as $jadwal)
-                                <option value="{{ $jadwal->jadwal_id }}" {{ $layanan->jadwal_id == $jadwal->jadwal_id ? 'selected' : '' }}>
-                                    {{ $jadwal->tanggal->format('d/m/Y') }} - {{ $jadwal->posyandu->nama }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <div class="relative">
+                            <select name="jadwal_id" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 px-3 py-2 pr-8 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none">
+                                @foreach($jadwals as $jadwal)
+                                    <option value="{{ $jadwal->jadwal_id }}" {{ $layanan->jadwal_id == $jadwal->jadwal_id ? 'selected' : '' }}>
+                                        {{ $jadwal->tanggal->format('d/m/Y') }} - {{ $jadwal->posyandu->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            {{-- Ikon SVG --}}
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-white">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                                </svg>
+                            </div>
+                        </div>
                     </div>
 
+                    {{-- Nama Warga (Dengan Ikon) --}}
                     <div class="mb-4">
                         <label class="text-xs font-bold text-slate-700">Nama Warga</label>
-                        <select name="warga_id" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 px-3 py-2">
-                            @foreach($wargas as $warga)
-                                <option value="{{ $warga->warga_id }}" {{ $layanan->warga_id == $warga->warga_id ? 'selected' : '' }}>
-                                    {{ $warga->nama }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <div class="relative">
+                            <select name="warga_id" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 px-3 py-2 pr-8 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none">
+                                @foreach($wargas as $warga)
+                                    <option value="{{ $warga->warga_id }}" {{ $layanan->warga_id == $warga->warga_id ? 'selected' : '' }}>
+                                        {{ $warga->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            {{-- Ikon SVG --}}
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-white">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                                </svg>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="flex gap-4 mb-4">
