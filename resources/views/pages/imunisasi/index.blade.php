@@ -70,9 +70,9 @@
                             class="items-center w-full mb-0 align-top border-collapse dark:border-white/40 text-slate-500">
                             <thead class="align-bottom">
                                 <tr>
-                                     <th
+                                    <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                        No</th> 
+                                        No</th>
                                     <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                         Warga & Dokumentasi</>
@@ -96,7 +96,7 @@
                             <tbody>
                                 @forelse($imunisasi as $item)
                                     <tr>
-                                             <td
+                                        <td
                                             class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                                             <p
                                                 class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60 px-4">
@@ -109,14 +109,25 @@
                                             class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                                             <div class="flex px-2 py-1">
                                                 <div>
-                                                    {{-- Gunakan accessor gambar_utama jika tersedia pada model --}}
-                                                    <img src="{{ $item->gambar_utama ?? asset('images/default-user.png') }}"
-                                                        class="inline-flex items-center justify-center mr-4 text-white transition-all duration-200 ease-in-out text-sm h-9 w-9 rounded-xl object-cover border border-slate-200"
-                                                        alt="Dokumentasi" />
+                                                    {{-- LOGIKA GAMBAR --}}
+                                                    @if (!empty($item->gambar_utama))
+                                                        {{-- Jika User Upload Foto (Ambil dari Storage) --}}
+                                                        <img src="{{ asset('storage/' . $item->gambar_utama) }}"
+                                                            class="inline-flex items-center justify-center mr-4 text-white transition-all duration-200 ease-in-out text-sm h-9 w-9 rounded-xl object-cover border border-slate-200"
+                                                            alt="Dokumentasi {{ $item->warga->nama }}" />
+                                                    @else
+                                                        {{-- Jika Tidak Ada Foto (Pakai Gambar Vaksin dari folder theme) --}}
+                                                        {{-- Pastikan file sudah ada di folder: public/ass-admin/img/theme/placeholder-vaksin.jpg --}}
+                                                        <img src="{{ asset('img/theme/placeholder-vaksin.jpg') }}"
+                                                            class="inline-flex items-center justify-center mr-4 text-white transition-all duration-200 ease-in-out text-sm h-9 w-9 rounded-xl object-cover border border-slate-200 opacity-80"
+                                                            alt="Placeholder Vaksin" />
+                                                    @endif
                                                 </div>
+
                                                 <div class="flex flex-col justify-center">
                                                     <h6 class="mb-0 text-sm leading-normal dark:text-white">
-                                                        {{ $item->warga->nama ?? 'Warga Terhapus' }}</h6>
+                                                        {{ $item->warga->nama ?? 'Warga Terhapus' }}
+                                                    </h6>
                                                     <p
                                                         class="mb-0 text-xs leading-tight dark:text-white dark:opacity-80 text-slate-400">
                                                         <i class="far fa-id-badge mr-1"></i>
