@@ -37,19 +37,6 @@
             <div class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border h-full">
                 {{-- ... (Isi Kolom Kiri) ... --}}
                 <div class="p-6">
-                    {{-- Foto Profil --}}
-                    {{-- ... (Logika Foto Profil) ... --}}
-                    @php
-                        $wargaNama = $kader->warga?->nama ?? 'Kader';
-                        $avatarUrl = $kader->warga?->foto_url 
-                                     ? $kader->warga?->foto_url 
-                                     : 'https://ui-avatars.com/api/?name=' . urlencode($wargaNama) . '&background=random&color=fff';
-                    @endphp
-                    <div class="relative w-full overflow-hidden rounded-2xl shadow-lg mb-6 group aspect-square mx-auto max-w-[300px]">
-                        <img src="{{ $avatarUrl }}" 
-                             alt="Foto Kader" 
-                             class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105">
-                    </div>
                     {{-- Nama & Peran --}}
                     <div class="text-center">
                         <h5 class="mb-1 text-xl font-bold text-slate-700 dark:text-white">{{ $kader->warga?->nama ?? '-' }}</h5>

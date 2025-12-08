@@ -34,13 +34,6 @@ class LayananPosyandu extends Model
         return $this->belongsTo(JadwalPosyandu::class, 'jadwal_id', 'jadwal_id');
     }
 
-    // Relasi ke Media (Dokumentasi Layanan)
-    public function dokumentasi()
-    {
-        return $this->morphMany(Media::class, 'model', 'ref_table', 'ref_id')
-                    ->orderBy('sort_order', 'asc');
-    }
-
     // Scope Search (Pencarian Nama Warga / Tema Jadwal)
     public function scopeSearch(Builder $query, $request): Builder
     {

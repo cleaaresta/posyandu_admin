@@ -119,22 +119,7 @@
                         </div>
                     </div>
 
-                    {{-- Dokumentasi --}}
-                    @if($layanan->dokumentasi && $layanan->dokumentasi->count() > 0)
-                        <div class="mt-6">
-                            <h6 class="font-bold text-slate-700 mb-4"><i class="fas fa-images text-blue-500 mr-2"></i> Dokumentasi Pemeriksaan</h6>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                @foreach($layanan->dokumentasi as $foto)
-                                    <div class="relative group overflow-hidden rounded-xl shadow-md aspect-square bg-slate-100">
-                                        <img src="{{ asset('storage/' . $foto->file_url) }}" alt="Dokumentasi" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-                                        <a href="{{ asset('storage/' . $foto->file_url) }}" target="_blank" class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-all">
-                                            <div class="bg-white/20 p-3 rounded-full"><i class="fas fa-search-plus text-white text-xl"></i></div>
-                                        </a>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endif
+                    {{-- Bagian Dokumentasi telah dihapus --}}
                 </div>
             </div>
         </div>

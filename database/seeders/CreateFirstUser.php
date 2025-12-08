@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -15,9 +15,10 @@ class CreateFirstUser extends Seeder
     public function run(): void
     {
         User::create([
-            'name' =>  'Posyandu Admin',
-            'email' => 'clearesrarahimah@gmail.com',
-            'password' => Hash::make('posyanduadmin')
-        ]);
+            'name' => 'Admin',
+            'email' => 'robby@gmail.com',
+            'password' => Hash::make('12345678'),
+            'role' => 'admin',
+        ]); // Ganti dengan password yang diinginkan
     }
 }

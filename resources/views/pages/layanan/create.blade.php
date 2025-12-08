@@ -12,10 +12,11 @@
             </div>
             <div class="flex-auto p-6">
                 
-                <form action="{{ route('layanan.store') }}" method="POST" enctype="multipart/form-data">
+                {{-- Hapus enctype="multipart/form-data" karena tidak ada upload file --}}
+                <form action="{{ route('layanan.store') }}" method="POST">
                     @csrf
                     
-                    {{-- Pilih Jadwal (Dengan Ikon) --}}
+                    {{-- Pilih Jadwal --}}
                     <div class="mb-4">
                         <label class="text-xs font-bold text-slate-700 dark:text-white/80">Jadwal Kegiatan</label>
                         <div class="relative">
@@ -27,7 +28,6 @@
                                     </option>
                                 @endforeach
                             </select>
-                            {{-- Ikon SVG --}}
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-white">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
@@ -36,7 +36,7 @@
                         </div>
                     </div>
 
-                    {{-- Pilih Warga (Dengan Ikon) --}}
+                    {{-- Pilih Warga --}}
                     <div class="mb-4">
                         <label class="text-xs font-bold text-slate-700 dark:text-white/80">Nama Peserta (Warga)</label>
                         <div class="relative">
@@ -48,7 +48,6 @@
                                     </option>
                                 @endforeach
                             </select>
-                            {{-- Ikon SVG --}}
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-white">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
@@ -80,11 +79,7 @@
                         <textarea name="konseling" rows="3" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 px-3 py-2">{{ old('konseling') }}</textarea>
                     </div>
 
-                    {{-- Dokumentasi --}}
-                    <div class="mb-4">
-                        <label class="text-xs font-bold text-slate-700 dark:text-white/80">Foto Dokumentasi (Opsional)</label>
-                        <input type="file" name="dokumentasi[]" multiple class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-blue-50 file:text-blue-700" />
-                    </div>
+                    {{-- Input File Dokumentasi Dihapus --}}
 
                      <div class="text-right mt-6">
                             <a href="{{ route('layanan.index') }}"

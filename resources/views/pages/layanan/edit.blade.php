@@ -11,10 +11,11 @@
                 <h5 class="mb-0 dark:text-white">Edit Pemeriksaan</h5>
             </div>
             <div class="flex-auto p-6">
-                <form action="{{ route('layanan.update', $layanan->layanan_id) }}" method="POST" enctype="multipart/form-data">
+                {{-- Hapus enctype="multipart/form-data" --}}
+                <form action="{{ route('layanan.update', $layanan->layanan_id) }}" method="POST">
                     @csrf @method('PUT')
                     
-                    {{-- Jadwal (Dengan Ikon) --}}
+                    {{-- Jadwal --}}
                     <div class="mb-4">
                         <label class="text-xs font-bold text-slate-700">Jadwal</label>
                         <div class="relative">
@@ -25,7 +26,6 @@
                                     </option>
                                 @endforeach
                             </select>
-                            {{-- Ikon SVG --}}
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-white">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
@@ -34,7 +34,7 @@
                         </div>
                     </div>
 
-                    {{-- Nama Warga (Dengan Ikon) --}}
+                    {{-- Nama Warga --}}
                     <div class="mb-4">
                         <label class="text-xs font-bold text-slate-700">Nama Warga</label>
                         <div class="relative">
@@ -45,7 +45,6 @@
                                     </option>
                                 @endforeach
                             </select>
-                            {{-- Ikon SVG --}}
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-white">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
@@ -75,23 +74,7 @@
                         <textarea name="konseling" rows="3" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 px-3 py-2">{{ $layanan->konseling }}</textarea>
                     </div>
 
-                    {{-- Galeri --}}
-                    <div class="mb-6">
-                        <label class="text-xs font-bold text-slate-700 block mb-2">Dokumentasi</label>
-                        <div class="flex flex-wrap gap-2 mb-3">
-                            @foreach($layanan->dokumentasi as $media)
-                                <div class="relative group">
-                                    <img src="{{ asset('storage/' . $media->file_url) }}" class="w-12 h-12 rounded-lg object-cover border border-slate-200 shadow-sm">
-                                    <a href="{{ route('media.delete.layanan', $media->media_id) }}" 
-                                       onclick="return confirm('Hapus foto ini?')"
-                                       class="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity">
-                                       <i class="fas fa-times"></i>
-                                    </a>
-                                </div>
-                            @endforeach
-                        </div>
-                        <input type="file" name="dokumentasi[]" multiple class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-violet-50 file:text-violet-700"/>
-                    </div>
+                    {{-- Bagian Galeri dan Input File dihapus total --}}
 
                     <div class="text-right mt-6">
                             <a href="{{ route('layanan.index') }}"

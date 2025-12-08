@@ -7,16 +7,6 @@
                 </div>
             </div>
             <div class="w-full max-w-full px-3 mt-0 shrink-0 lg:w-1/2 lg:flex-none">
-                <ul class="flex flex-wrap justify-center pl-0 mb-0 list-none lg:justify-end">
-                    <li class="nav-item">
-                        <a class="block px-4 pt-0 pb-1 text-sm font-normal transition-colors ease-in-out text-slate-500"
-                            target="_blank">Creative Tim</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="block px-4 pt-0 pb-1 text-sm font-normal transition-colors ease-in-out text-slate-500"
-                            target="_blank">About Us</a>
-                    </li>
-
             </div>
         </div>
     </div>
