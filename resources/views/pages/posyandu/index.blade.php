@@ -104,24 +104,24 @@
                                         {{-- Kolom Nama & Foto (foto/inisial fallback) --}}
                                         <td
                                             class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-  
+
                                             <div class="flex px-2 py-1">
                                                 <div>
                                                     @php
-                                                        $namaPos = $item->nama ?? 'Posyandu';
-                                                        // gunakan relasi foto kalau ada, agar bisa membedakan default-image di accessor
-                                                        $hasFoto = isset($item->foto) && $item->foto;
-                                                        $fotoUrl = $hasFoto ? $item->foto_url : null;
-                                                        // *** KODE DIUBAH KEMBALI: Gunakan &rounded=false agar petak ***
-                                                        $avatar = $fotoUrl
-                                                            ? $fotoUrl
-                                                            : 'https://ui-avatars.com/api/?name=' . urlencode($namaPos) . '&background=random&color=fff&rounded=false';
+                                                        // 1. Tentukan path gambar placeholder lokal (Pastikan file ini ada di folder public)
+                                                        // Contoh lokasi: public/assets/img/default-placeholder.jpg
+                                                        $defaultImage = asset( 'assets-admin/img/team/posyandu1.png',);
+
+                                                        // 2. Cek apakah data memiliki foto
+                                                        $hasFoto = !empty($item->foto);
+
+                                                        // 3. Tentukan Avatar: Jika ada foto pakai foto_url, jika tidak pakai defaultImage
+                                                        $avatar = $hasFoto ? $item->foto_url : $defaultImage;
                                                     @endphp
 
                                                     <img src="{{ $avatar }}"
-                                                        {{-- *** KODE DIUBAH KEMBALI: Gunakan rounded-lg agar sudutnya sedikit membulat (petak) *** --}}
-                                                        class="inline-flex items-center justify-center mr-4 text-white transition-all duration-200 ease-in-out text-sm h-9 w-9 rounded-lg object-cover"
-                                                        alt="{{ $item->nama }}" />
+                                                        class="inline-flex items-center justify-center mr-4 text-white transition-all duration-200 ease-in-out text-sm h-9 w-9 rounded-lg object-cover border border-slate-100"
+                                                        alt="{{ $item->nama }}" loading="lazy" /> {{-- loading="lazy" membantu performa muat gambar --}}
                                                 </div>
                                                 <div class="flex flex-col justify-center">
                                                     <h6 class="mb-0 text-sm leading-normal dark:text-white">

@@ -100,71 +100,21 @@
                                                 {{ $loop->index + $jadwals->firstItem() }}
                                             </p>
                                         </td>
-{{-- Kolom Poster & Tema --}}
-<td
-    class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+{{-- Poster & Tema --}}
+<td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
     <div class="flex px-2 py-1">
         <div>
-            {{-- LOGIKA BARU: Tampilkan inisial jika poster_url kosong/null, jika ada tampilkan poster --}}
-            @php
-                // 1. Persiapan Warna Gradasi dan Indeks
-                $colorClasses = [
-                    'from-blue-600 to-cyan-400', 
-                    'from-purple-600 to-pink-400', 
-                    'from-green-600 to-teal-400', 
-                    'from-red-600 to-orange-400', 
-                    'from-yellow-600 to-amber-400',
-                ];
-                
-                // Menggunakan $loop->index untuk rotasi warna
-                $indexToUse = $loop->index ?? (isset($item->jadwal_id) ? $item->jadwal_id : 0);
-                $colorIndex = $indexToUse % count($colorClasses);
-                $selectedColor = $colorClasses[$colorIndex];
-
-                // 2. Persiapan Inisial (Logika Inisial Aman)
-                $initials = '?'; 
-                $tema = trim($item->tema ?? ''); 
-                
-                if (!empty($tema)) {
-                    $words = preg_split('/\s+/', $tema);
-                    $tempInitials = '';
-                    $maxInitials = 3;
-                    $count = 0;
-                    
-                    foreach ($words as $word) {
-                        if (!empty($word)) { 
-                            $tempInitials .= strtoupper(substr($word, 0, 1));
-                            $count++;
-                            if ($count >= $maxInitials) {
-                                break;
-                            }
-                        }
-                    }
-                    if (!empty($tempInitials)) {
-                        $initials = $tempInitials;
-                    }
-                }
-            @endphp
-            
-            {{-- KONDISI UTAMA: Cek Poster URL. Jika null (dari Model) atau kosong, tampilkan inisial berwarna. --}}
-            @if (empty($item->poster_url))
-                {{-- Tampilkan inisial berwarna --}}
-                <div
-                    class="inline-flex items-center justify-center mr-4 text-white transition-all duration-200 ease-in-out text-sm h-9 w-9 rounded-lg object-cover font-bold bg-gradient-to-tl {{ $selectedColor }}">
-                    {{ $initials }}
-                </div>
-            @else
-                {{-- Tampilkan Poster jika poster_url tersedia --}}
-                <img src="{{ $item->poster_url }}"
-                    class="inline-flex items-center justify-center mr-4 text-white transition-all duration-200 ease-in-out text-sm h-9 w-9 rounded-lg object-cover"
-                    alt="poster" />
-            @endif
+            {{-- Cukup panggil accessor poster_url, logika default sudah diatur di Model --}}
+            <img src="{{ $item->poster_url }}"
+                class="inline-flex items-center justify-center mr-4 text-white transition-all duration-200 ease-in-out text-sm h-9 w-9 rounded-lg object-cover border border-slate-200"
+                alt="Poster {{ $item->tema }}" 
+                loading="lazy" />
         </div>
         <div class="flex flex-col justify-center">
             <h6 class="mb-0 text-sm leading-normal dark:text-white">
-                {{ Str::limit($item->tema, 40) }}</h6>
-            <p
-                class="mb-0 text-xs leading-tight dark:text-white dark:opacity-80 text-slate-400">
+                {{ Str::limit($item->tema, 40) }}
+            </h6>
+            <p class="mb-0 text-xs leading-tight dark:text-white dark:opacity-80 text-slate-400">
                 Topik Kesehatan
             </p>
         </div>

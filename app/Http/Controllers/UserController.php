@@ -6,18 +6,18 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Storage; // Tambahkan
+use App\Models\Media; // Tambahkan
 
 class UserController extends Controller
 {
-    /**
-     * Menampilkan daftar semua user.
-     */
     public function index(Request $request)
     {
         $searchableColumns = ['name', 'email'];
         $filterableColumns = [];
 
-        $users = User::query()
+        // Eager load 'foto' agar tidak N+1 Query
+        $users = User::with('foto')
             ->filter($request, $filterableColumns)
             ->search($request, $searchableColumns)
             ->latest()
@@ -27,53 +27,51 @@ class UserController extends Controller
         return view('pages.user.index', compact('users'));
     }
 
-    /**
-     * Menampilkan form untuk membuat user baru.
-     */
     public function create()
     {
         $roles = [
             'admin' => 'Admin',
             'guest' => 'Guest',
+            // Tambahkan role lain jika ada
         ];
 
         return view('pages.user.create', compact('roles'));
     }
 
-    /**
-     * Menyimpan user baru ke database.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => 'required|in:guest,admin',
+            'role' => 'required|in:guest,admin', // Sesuaikan dengan enum database
+            'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Validasi Foto
         ]);
 
-        User::create([
+        // 1. Buat User
+        $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'role' => $validated['role'],
         ]);
 
-        return redirect()->route('user.index')
-                         ->with('success', 'User berhasil ditambahkan.');
+        // 2. Upload Foto (Jika ada)
+        if ($request->hasFile('foto_profil')) {
+            $file = $request->file('foto_profil');
+            $path = $file->store('uploads/users', 'public');
+
+            $user->foto()->create([
+                'ref_table' => 'users',
+                'file_url'  => $path,
+                'caption'   => 'Foto Profil ' . $user->name,
+                'mime_type' => $file->getClientMimeType(),
+            ]);
+        }
+
+        return redirect()->route('user.index')->with('success', 'User berhasil ditambahkan.');
     }
 
-    /**
-     * Menampilkan detail satu user (redirect ke index).
-     */
-    public function show(User $user)
-    {
-        return redirect()->route('user.index');
-    }
-
-    /**
-     * Menampilkan form untuk mengedit user.
-     */
     public function edit(User $user)
     {
         $roles = [
@@ -84,9 +82,6 @@ class UserController extends Controller
         return view('pages.user.edit', compact('user', 'roles'));
     }
 
-    /**
-     * Mengupdate data user di database.
-     */
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
@@ -94,6 +89,7 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
             'role' => 'required|in:guest,admin',
+            'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Validasi Foto
         ]);
 
         $data = [
@@ -108,23 +104,48 @@ class UserController extends Controller
 
         $user->update($data);
 
-        return redirect()->route('user.index')
-                         ->with('success', 'User berhasil diperbarui.');
+        // 3. Handle Update Foto
+        if ($request->hasFile('foto_profil')) {
+            // Hapus foto lama fisik & database
+            if ($user->foto) {
+                if (Storage::disk('public')->exists($user->foto->file_url)) {
+                    Storage::disk('public')->delete($user->foto->file_url);
+                }
+                $user->foto()->delete();
+            }
+
+            // Upload baru
+            $file = $request->file('foto_profil');
+            $path = $file->store('uploads/users', 'public');
+
+            $user->foto()->create([
+                'ref_table' => 'users',
+                'file_url'  => $path,
+                'caption'   => 'Foto Profil ' . $user->name,
+                'mime_type' => $file->getClientMimeType(),
+            ]);
+        }
+
+        return redirect()->route('user.index')->with('success', 'User berhasil diperbarui.');
     }
 
-    /**
-     * Menghapus user dari database.
-     */
     public function destroy(User $user)
     {
-        // Server-side protection: cegah self-delete
         if (auth()->check() && auth()->id() === $user->id) {
             return back()->with('error', 'Anda tidak dapat menghapus akun yang sedang aktif.');
         }
 
+        // Hapus Foto Profil sebelum hapus user
+        if ($user->foto) {
+            if (Storage::disk('public')->exists($user->foto->file_url)) {
+                Storage::disk('public')->delete($user->foto->file_url);
+            }
+            // Record DB akan terhapus via Cascade Delete atau bisa manual:
+            // $user->foto()->delete(); 
+        }
+
         $user->delete();
 
-        return redirect()->route('user.index')
-                         ->with('success', 'User berhasil dihapus.');
+        return redirect()->route('user.index')->with('success', 'User berhasil dihapus.');
     }
 }

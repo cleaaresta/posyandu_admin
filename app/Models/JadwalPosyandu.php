@@ -38,21 +38,22 @@ class JadwalPosyandu extends Model
     }
     
     // Accessor: URL Poster Aman
+// Accessor: URL Poster Aman
     public function getPosterUrlAttribute()
-{
-    if ($this->poster && $this->poster->file_url) {
-        
-        // --- PERBAIKAN KRITIS DI SINI ---
-        // Cek apakah file fisik poster masih ada di storage/app/public
-        if (Storage::disk('public')->exists($this->poster->file_url)) {
-            return asset('storage/' . $this->poster->file_url);
+    {
+        // 1. Cek apakah ada relasi poster dan path-nya
+        if ($this->poster && $this->poster->file_url) {
+            
+            // 2. Cek fisik file di storage (Agar tidak error jika file terhapus manual)
+            if (Storage::disk('public')->exists($this->poster->file_url)) {
+                return asset('storage/' . $this->poster->file_url);
+            }
         }
-        // Jika file tidak ada, anggap tidak ada poster
-        return null; 
+
+        // 3. Jika tidak ada poster atau file hilang, return Default Placeholder
+        // Pastikan path ini sesuai dengan struktur folder public Anda
+        return asset('assets-admin/img/team/jadwal1.png'); 
     }
-    // Jika tidak ada record poster
-    return null; 
-}
 
     // Scope Search
     public function scopeSearch(Builder $query, $request): Builder

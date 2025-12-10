@@ -105,38 +105,26 @@
                                         </td>
 
                                         {{-- Kolom Warga & Foto Dokumentasi --}}
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <div class="flex px-2 py-1">
-                                                <div>
-                                                    {{-- LOGIKA GAMBAR --}}
-                                                    @if (!empty($item->gambar_utama))
-                                                        {{-- Jika User Upload Foto (Ambil dari Storage) --}}
-                                                        <img src="{{ asset('storage/' . $item->gambar_utama) }}"
-                                                            class="inline-flex items-center justify-center mr-4 text-white transition-all duration-200 ease-in-out text-sm h-9 w-9 rounded-xl object-cover border border-slate-200"
-                                                            alt="Dokumentasi {{ $item->warga->nama }}" />
-                                                    @else
-                                                        {{-- Jika Tidak Ada Foto (Pakai Gambar Vaksin dari folder theme) --}}
-                                                        {{-- Pastikan file sudah ada di folder: public/ass-admin/img/theme/placeholder-vaksin.jpg --}}
-                                                        <img src="{{ asset('img/theme/placeholder-vaksin.jpg') }}"
-                                                            class="inline-flex items-center justify-center mr-4 text-white transition-all duration-200 ease-in-out text-sm h-9 w-9 rounded-xl object-cover border border-slate-200 opacity-80"
-                                                            alt="Placeholder Vaksin" />
-                                                    @endif
-                                                </div>
-
-                                                <div class="flex flex-col justify-center">
-                                                    <h6 class="mb-0 text-sm leading-normal dark:text-white">
-                                                        {{ $item->warga->nama ?? 'Warga Terhapus' }}
-                                                    </h6>
-                                                    <p
-                                                        class="mb-0 text-xs leading-tight dark:text-white dark:opacity-80 text-slate-400">
-                                                        <i class="far fa-id-badge mr-1"></i>
-                                                        {{ $item->warga->nik ?? '-' }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </td>
-
+    <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+    <div class="flex px-2 py-1">
+        <div>
+            {{-- IMAGE: Langsung panggil accessor --}}
+            <img src="{{ $item->gambar_utama }}"
+                 class="inline-flex items-center justify-center mr-4 text-white transition-all duration-200 ease-in-out text-sm h-9 w-9 rounded-xl object-cover border border-slate-200"
+                 alt="Dokumentasi" 
+                 loading="lazy" />
+        </div>
+        <div class="flex flex-col justify-center">
+            <h6 class="mb-0 text-sm leading-normal dark:text-white">
+                {{ $item->warga->nama ?? 'Warga Terhapus' }}
+            </h6>
+            <p class="mb-0 text-xs leading-tight dark:text-white dark:opacity-80 text-slate-400">
+                <i class="far fa-id-badge mr-1"></i>
+                {{ $item->warga->nik ?? '-' }}
+            </p>
+        </div>
+    </div>
+</td>
                                         {{-- Kolom Jenis Vaksin --}}
                                         <td
                                             class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">

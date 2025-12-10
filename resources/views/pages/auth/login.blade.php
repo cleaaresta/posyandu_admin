@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,25 +10,20 @@
     <style>
         /* [TEMA POSYANDU - GRADASI UNGU-BIRU] */
         :root {
-            --gradient-primary: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
-            --primary-color: #2575fc;
-            --primary-color-dark: #1a5bca;
-            --background-dark: #f3f4f6;
+            --gradient-primary: linear-gradient(to right, #6a11cb 0%, #2575fc 100%); 
+            --primary-color: #2575fc;       
+            --primary-color-dark: #1a5bca;  
             --card-background: #ffffff;
             --border-color: #e5e7eb;
-            --text-color: #111827;
+            --text-color: #111827;          
             --text-light: #ffffff;
             --text-muted: #6b7280;
             --danger-bg: #fef2f2;
             --danger-text: #991b1b;
-            --danger-border: #fecaca;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--background-dark);
-            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
-            background-size: 20px 20px;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -37,6 +31,19 @@
             margin: 0;
             padding: 1rem;
             box-sizing: border-box;
+
+            /* --- PENGATURAN BACKGROUND --- */
+            /* 1. Layer pertama: Linear Gradient transparan (Ungu ke Biru) untuk memberi nuansa warna
+               2. Layer kedua: URL Gambar (Ganti URL ini dengan foto kegiatan Posyandu asli Anda jika ada)
+            */
+            background-image: 
+                linear-gradient(rgba(106, 17, 203, 0.85), rgba(37, 117, 252, 0.8)),
+                url('https://apik.pontianak.go.id/assets/img/videoplay.jpg');
+            
+            background-size: cover;       /* Agar gambar memenuhi layar */
+            background-position: center;  /* Agar fokus gambar di tengah */
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* Agar background diam saat scroll */
         }
 
         .login-container {
@@ -45,9 +52,12 @@
             max-width: 900px;
             background: var(--card-background);
             border-radius: 20px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            /* Memberikan shadow lebih tebal agar card "pop up" dari background foto */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); 
             overflow: hidden;
-            border: 1px solid var(--border-color);
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Border halus */
+            position: relative;
+            z-index: 10;
         }
 
         .login-form-panel {
@@ -62,7 +72,7 @@
         .login-overlay-panel {
             flex: 1;
             background: var(--gradient-primary);
-            clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
+            clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%); 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -73,9 +83,7 @@
             position: relative;
         }
 
-        .login-header {
-            margin-bottom: 2.5rem;
-        }
+        .login-header { margin-bottom: 2.5rem; }
 
         .login-logo-container {
             display: inline-flex;
@@ -89,7 +97,7 @@
         }
 
         .login-logo {
-            color: var(--primary-color);
+            color: var(--primary-color); 
             width: 32px;
             height: 32px;
         }
@@ -122,9 +130,7 @@
             opacity: 0.9;
         }
 
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
+        .form-group { margin-bottom: 1.5rem; }
 
         label {
             display: block;
@@ -150,7 +156,7 @@
         input.form-control:focus {
             border-color: var(--primary-color);
             outline: none;
-            box-shadow: 0 0 0 4px rgba(37, 117, 252, 0.15);
+            box-shadow: 0 0 0 4px rgba(37, 117, 252, 0.15); 
         }
 
         button[type="submit"] {
@@ -164,10 +170,10 @@
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            background: var(--gradient-primary);
+            background: var(--gradient-primary); 
             color: #fff;
             border: none;
-            box-shadow: 0 4px 12px rgba(37, 117, 252, 0.3);
+            box-shadow: 0 4px 12px rgba(37, 117, 252, 0.3); 
             transition: all 0.2s;
             margin-top: 1rem;
         }
@@ -186,7 +192,7 @@
         }
 
         .overlay-illustration {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255,255,255,0.15);
             width: 120px;
             height: 120px;
             border-radius: 50%;
@@ -195,14 +201,14 @@
             justify-content: center;
             margin-bottom: 2rem;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255,255,255,0.2);
         }
-
+        
         .overlay-illustration svg {
             width: 60px;
             height: 60px;
             color: white;
-            stroke-width: 2.5;
+            stroke-width: 2.5; 
         }
 
         @media (max-width: 850px) {
@@ -210,19 +216,16 @@
                 flex-direction: column;
                 max-width: 450px;
             }
-
             .login-form-panel {
                 padding: 3rem 2rem;
                 order: 2;
             }
-
             .login-overlay-panel {
                 order: 1;
                 clip-path: none;
                 padding: 3rem 2rem;
                 border-radius: 0 0 0 0;
             }
-
             .login-overlay-panel h2 {
                 font-size: 1.75rem;
             }
@@ -278,45 +281,56 @@
         .toast .close {
             background: transparent;
             border: 0;
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255,255,255,0.9);
             font-weight: 700;
             cursor: pointer;
             font-size: 1.05rem;
             padding: 0 0.25rem;
         }
+        .overlay-illustration {
+    width: 120px;           /* Ukuran Lingkaran */
+    height: 120px;
+    border-radius: 50%;     /* Membuat jadi bulat */
+    margin-bottom: 2rem;
+    
+    /* PENTING AGAR GAMBAR SIMETRIS */
+    padding: 0;             /* Hapus padding agar gambar full */
+    overflow: hidden;       /* Memotong sudut gambar keluar */
+    display: flex;          /* Menjaga posisi di tengah */
+    align-items: center;
+    justify-content: center;
 
-        .toast.error {
-            background: #dc2626;
-        }
+    /* Style Visual (Glassmorphism) tetap dipertahankan */
+    background: rgba(255, 255, 255, 0.9); /* Background putih transparan agar logo jelas */
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.5); /* Border dipertegas sedikit */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Shadow halus */
+}
 
-        /* red-600 */
-        .toast.success {
-            background: #16a34a;
-        }
+.overlay-illustration img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;      /* KUNCI: Agar gambar mengisi lingkaran proporsional */
+    object-position: center;/* Memastikan fokus gambar tepat di tengah */
+    display: block;
+}
 
-        /* green-600 */
+        .toast.error { background: #dc2626; } /* red-600 */
+        .toast.success { background: #16a34a; } /* green-600 */
         @media (max-width: 420px) {
-            .toast-wrap {
-                left: 1rem;
-                right: 1rem;
-                top: 0.75rem;
-            }
+            .toast-wrap { left: 1rem; right: 1rem; top: 0.75rem; }
         }
     </style>
 </head>
-
 <body>
 
     <div class="login-container">
 
-        <!-- PANEL KIRI (FORM) -->
         <div class="login-form-panel">
             <div class="login-header">
                 <div class="login-logo-container">
-                    <svg class="login-logo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                    <svg class="login-logo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                     </svg>
                 </div>
                 <h2>Login Admin</h2>
@@ -325,31 +339,27 @@
 
             <form action="{{ route('login') }}" method="POST" autocomplete="off">
                 @csrf
-
+                
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" class="form-control"
-                        placeholder="Masukkan email anda" value="{{ old('email') }}" required>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Contoh: clea@gmail.com" value="{{ old('email') }}" required>
                     @error('email')
                         <div class="text-error">{{ $message }}</div>
                     @enderror
                 </div>
-
+                
                 <div class="form-group">
                     <label for="password">Kata Sandi</label>
-                    <input type="password" id="password" name="password" class="form-control"
-                        placeholder="Masukkan kata sandi" required>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Masukkan kata sandi" required>
                     @error('password')
                         <div class="text-error">{{ $message }}</div>
                     @enderror
                 </div>
 
                 <button type="submit">
-                    <span>Login</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    <span>Masuk Aplikasi</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
                     </svg>
                 </button>
             </form>
@@ -359,30 +369,25 @@
             </div>
         </div>
 
-        <!-- PANEL KANAN (OVERLAY BIRU) -->
         <div class="login-overlay-panel">
             <div class="overlay-illustration">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z" />
-                </svg>
-            </div>
+    <img src="{{ asset('assets-admin/img/team/logo.jpg') }}" alt="Logo Posyandu" >
+</div>
 
             <h2>Posyandu</h2>
             <p>
-                <strong>Tumbuh Kembang Optimal</strong>
+                <strong>Aplikasi Layanan Kesehatan Masyarakat</strong>
                 <br><br>
-                Merawat tunas bangsa dengan pelayanan gizi dan imunisasi yang terdata dengan baik.
+                Memudahkan pemantauan tumbuh kembang anak, imunisasi, dan kesehatan ibu hamil secara digital dan terintegrasi.
             </p>
         </div>
+
     </div>
 
-    <!-- TOAST CONTAINER -->
     <div class="toast-wrap" id="toastWrap" aria-live="polite" aria-atomic="true"></div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const toastWrap = document.getElementById('toastWrap');
 
             function createToast(type, message, timeout = 4000) {
@@ -424,5 +429,4 @@
     </script>
 
 </body>
-
 </html>

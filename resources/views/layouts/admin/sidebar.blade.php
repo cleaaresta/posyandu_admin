@@ -22,15 +22,9 @@
     <div class="pt-4 pb-2">
         <a class="py-2.7 text-sm my-0 mx-2 flex items-center whitespace-nowrap px-4 text-slate-700"
             href="https://demos.creative-tim.com/argon-dashboard-tailwind/pages/dashboard.html" target="_blank">
-            <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg">
-                <svg class="inline transition-all duration-200 ease-nav-brand max-h-8" width="32" height="32"
-                    viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="16" cy="16" r="15" fill="#2575FC" />
-                    <path
-                        d="M16 8C11.5817 8 8 11.5817 8 16C8 20.4183 11.5817 24 16 24C20.4183 24 24 20.4183 24 16C24 11.5817 20.4183 8 16 8ZM16 22.4C12.464 22.4 9.6 19.536 9.6 16C9.6 12.464 12.464 9.6 16 9.6C19.536 9.6 22.4 12.464 22.4 16C22.4 19.536 19.536 22.4 16 22.4ZM16.8 12.8H15.2V15.2H12.8V16.8H15.2V19.2H16.8V16.8H19.2V15.2H16.8V12.8Z"
-                        fill="white" />
-                </svg>
-            </div>
+          <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-full overflow-hidden">
+    <img src="{{ asset('assets-admin/img/team/logo.jpg') }}" alt="Logo Posyandu" class="w-full h-full object-cover">
+</div>
             <span class="ml-1 font-semibold transition-all duration-300 ease-nav-brand">Posyandu</span>
         </a>
     </div>

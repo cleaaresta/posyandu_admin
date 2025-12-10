@@ -293,5 +293,78 @@
                 </div>
             </div>
         </div>
+
+        
+
+    </div>
+    <div class="flex flex-wrap mt-6 -mx-3">
+        
+        <div class="w-full max-w-full px-3 mt-0 lg:w-7/12 lg:flex-none">
+            <div class="relative w-full h-full overflow-hidden rounded-2xl shadow-xl">
+                <div slider class="relative w-full h-full overflow-hidden rounded-2xl">
+                    
+                    <div slide class="absolute w-full h-full transition-all duration-500">
+                        <img class="object-cover h-full w-full" src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=60" alt="Bali Indonesia" />
+                        <div class="block text-start ml-12 left-0 bottom-0 absolute right-[15%] pt-5 pb-5 text-white">
+                            <h5 class="mb-1 text-white">Pesona Bali</h5>
+                            <p class="dark:opacity-80">Menikmati keindahan Pura Ulun Danu Beratan.</p>
+                        </div>
+                    </div>
+
+                    <div slide class="absolute w-full h-full transition-all duration-500">
+                        <img class="object-cover h-full w-full" src="https://images.unsplash.com/photo-1555899434-94d1368d7vdc?auto=format&fit=crop&w=800&q=60" alt="Jakarta City" />
+                        <div class="block text-start ml-12 left-0 bottom-0 absolute right-[15%] pt-5 pb-5 text-white">
+                            <h5 class="mb-1 text-white">Metropolitan Jakarta</h5>
+                            <p class="dark:opacity-80">Pusat bisnis dan pemerintahan Indonesia.</p>
+                        </div>
+                    </div>
+
+                    <div slide class="absolute w-full h-full transition-all duration-500">
+                        <img class="object-cover h-full w-full" src="https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?auto=format&fit=crop&w=800&q=60" alt="Bromo Mountain" />
+                        <div class="block text-start ml-12 left-0 bottom-0 absolute right-[15%] pt-5 pb-5 text-white">
+                            <h5 class="mb-1 text-white">Gunung Bromo</h5>
+                            <p class="dark:opacity-80">Keajaiban alam Jawa Timur yang memukau dunia.</p>
+                        </div>
+                    </div>
+
+                    <button btn-next class="absolute z-10 w-10 h-10 p-2 text-lg text-white border-none opacity-50 cursor-pointer hover:opacity-100 far fa-chevron-right active:scale-110 top-6 right-4"></button>
+                    <button btn-prev class="absolute z-10 w-10 h-10 p-2 text-lg text-white border-none opacity-50 cursor-pointer hover:opacity-100 far fa-chevron-left active:scale-110 top-6 right-16"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full max-w-full px-3 mt-0 lg:w-5/12 lg:flex-none">
+            <div class="relative flex flex-col min-w-0 break-words bg-white shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border h-full">
+                <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                    <h6 class="dark:text-white font-bold">Identitas Pengembang</h6>
+                </div>
+                <div class="flex-auto p-6">
+                    <div class="flex flex-col items-center justify-center">
+                        
+                        <div class="relative mb-4">
+                            <img src="https://i.pravatar.cc/150?img=11" alt="Foto Pengembang" class="w-32 h-32 rounded-full shadow-lg border-4 border-emerald-500 object-cover">
+                        </div>
+
+                        <h5 class="mb-1 text-xl font-bold text-slate-700 dark:text-white">Clearesta Rahimah Thee</h5>
+                        <p class="mb-0 text-sm font-semibold text-slate-500 dark:text-white/60">NIM: 2457301029</p>
+                        <p class="mb-4 text-sm text-slate-500 dark:text-white/60">S1 Sistem Informasi - Politeknik Caltex Riau</p>
+
+                        <div class="flex w-full justify-center gap-4 mt-4">
+                            <a href="https://github.com/" target="_blank" class="inline-block w-10 h-10 text-center rounded-full bg-slate-800 text-white shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-200 flex items-center justify-center">
+                                <i class="fab fa-github text-lg"></i>
+                            </a>
+                            <a href="https://linkedin.com/" target="_blank" class="inline-block w-10 h-10 text-center rounded-full bg-blue-600 text-white shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-200 flex items-center justify-center">
+                                <i class="fab fa-linkedin-in text-lg"></i>
+                            </a>
+                            <a href="https://instagram.com/" target="_blank" class="inline-block w-10 h-10 text-center rounded-full bg-pink-500 text-white shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-200 flex items-center justify-center">
+                                <i class="fab fa-instagram text-lg"></i>
+                            </a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 @endsection

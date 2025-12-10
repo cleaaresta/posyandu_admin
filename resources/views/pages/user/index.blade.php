@@ -105,7 +105,22 @@
                                         </td>
 
                                         <td class="p-2 align-middle border-b whitespace-nowrap">
-                                            <h6 class="mb-0 text-sm">{{ $user->name }}</h6>
+                                            <div class="flex px-2 py-1">
+                                                <div>
+                                                    {{-- FOTO PROFIL --}}
+                                                    <img src="{{ $user->foto_url }}"
+                                                        class="inline-flex items-center justify-center mr-4 text-white transition-all duration-200 ease-in-out text-sm h-9 w-9 rounded-xl object-cover border border-slate-200"
+                                                        alt="user1" />
+                                                </div>
+                                                <div class="flex flex-col justify-center">
+                                                    <h6 class="mb-0 text-sm leading-normal dark:text-white">
+                                                        {{ $user->name }}</h6>
+                                                    <p
+                                                        class="mb-0 text-xs leading-tight dark:text-white dark:opacity-80 text-slate-400">
+                                                        Terdaftar: {{ $user->created_at->format('d M Y') }}
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </td>
 
                                         <td class="p-2 align-middle border-b whitespace-nowrap">
@@ -115,7 +130,9 @@
                                         <td class="p-2 align-middle border-b whitespace-nowrap">
                                             @php
                                                 $role = trim((string) ($user->role ?? ''));
-                                                if ($role === '') { $role = 'guest'; }
+                                                if ($role === '') {
+                                                    $role = 'guest';
+                                                }
                                                 $roleLabel = ucfirst($role);
 
                                                 // muted badge colors (non-neon)
@@ -132,8 +149,10 @@
                                                 }
                                             @endphp
 
-                                            <span class="inline-flex items-center px-3 py-1.5 text-xs font-bold rounded-lg" style="background: {{ $badgeBg }}; color: {{ $textColor }}; border: 1px solid {{ $badgeBorder }};">
-                                                <i class="{{ $icon }} mr-1" style="width:14px;text-align:center"></i>
+                                            <span class="inline-flex items-center px-3 py-1.5 text-xs font-bold rounded-lg"
+                                                style="background: {{ $badgeBg }}; color: {{ $textColor }}; border: 1px solid {{ $badgeBorder }};">
+                                                <i class="{{ $icon }} mr-1"
+                                                    style="width:14px;text-align:center"></i>
                                                 {{ $roleLabel }}
                                             </span>
                                         </td>

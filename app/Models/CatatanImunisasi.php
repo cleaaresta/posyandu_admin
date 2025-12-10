@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Storage; // Pastikan ini ada
 use App\Models\Media; 
 
 class CatatanImunisasi extends Model
@@ -39,23 +40,20 @@ class CatatanImunisasi extends Model
                     ->orderBy('sort_order', 'asc');
     }
 
-    // === ACCESSOR GAMBAR UTAMA (BARU) ===
+    // === ACCESSOR GAMBAR UTAMA (Hanya Satu Fungsi Ini) ===
     public function getGambarUtamaAttribute()
     {
-        // 1. Cek apakah ada foto dokumentasi imunisasi?
+        // 1. Cek Dokumentasi Imunisasi (Prioritas Utama)
         $fotoDokumentasi = $this->dokumentasi->first();
 
+        // Cek data di DB DAN cek fisik file di storage
         if ($fotoDokumentasi && $fotoDokumentasi->file_url) {
-            return asset('storage/' . $fotoDokumentasi->file_url);
-        }
+            if (Storage::disk('public')->exists($fotoDokumentasi->file_url)) {
+                return asset('storage/' . $fotoDokumentasi->file_url);
+            }
+        }   
 
-        // 2. Jika tidak ada, gunakan Foto Profil Warga
-        if ($this->warga && $this->warga->foto_url) {
-            return $this->warga->foto_url;
-        }
-
-        // 3. Jika dua-duanya tidak ada, gambar default
-        return asset('images/default-user.png');
+        return asset('assets-admin/img/team/catatan.jpg');
     }
 
     // Scope Search
@@ -68,7 +66,8 @@ class CatatanImunisasi extends Model
             $q->where('jenis_vaksin', 'like', '%' . $searchTerm . '%')
               ->orWhere('nakes', 'like', '%' . $searchTerm . '%')
               ->orWhereHas('warga', function ($rel) use ($searchTerm) {
-                  $rel->where('nama', 'like', '%' . $searchTerm . '%');
+                  $rel->where('nama', 'like', '%' . $searchTerm . '%')
+                      ->orWhere('nik', 'like', '%' . $searchTerm . '%');
               });
         });
     }
