@@ -157,20 +157,23 @@
                                             </span>
                                         </td>
 
+                                        {{-- BAGIAN AKSI (EDIT & HAPUS) YANG DIUPDATE --}}
                                         <td class="p-2 text-center align-middle border-b whitespace-nowrap">
                                             <form action="{{ route('user.destroy', $user->id) }}" method="POST"
                                                 class="inline-block">
+                                                
+                                                {{-- Tombol Edit Baru --}}
                                                 <a href="{{ route('user.edit', $user->id) }}"
-                                                    class="inline-block px-3 py-1.5 mr-1 font-bold text-white rounded-lg bg-gradient-to-tl from-emerald-500 to-teal-400 text-xs">
+                                                    class="inline-block px-3 py-1.5 mr-1 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-emerald-500 to-teal-400 leading-normal text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85">
                                                     <i class="fas fa-edit mr-1"></i> Edit
                                                 </a>
 
                                                 @csrf
                                                 @method('DELETE')
 
-                                                {{-- Tombol Hapus selalu tampil; controller menolak self-delete --}}
+                                                {{-- Tombol Hapus Baru --}}
                                                 <button type="submit"
-                                                    class="inline-block px-3 py-1.5 font-bold text-white rounded-lg bg-gradient-to-tl from-red-600 to-orange-600 text-xs"
+                                                    class="inline-block px-3 py-1.5 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-red-600 to-orange-600 leading-normal text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85"
                                                     onclick="return confirm('Apakah Anda yakin ingin menghapus user ini?')">
                                                     <i class="fas fa-trash mr-1"></i> Hapus
                                                 </button>

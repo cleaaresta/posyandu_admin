@@ -24,11 +24,12 @@
 
                         {{-- 2. BAGIAN KANAN: FORM SEARCH & FILTER --}}
                         <div class="w-full lg:w-auto">
-                            {{-- FORM CONTAINER: Menggunakan gap-2 untuk jarak horizontal yang konsisten --}}
+                            {{-- PERUBAHAN: gap-2 diubah jadi gap-6 agar jarak jauh lebih lega --}}
                             <form action="{{ route('warga.index') }}" method="GET" 
-                                  class="flex flex-col lg:flex-row items-center gap-2 w-full"> 
+                                  class="flex flex-col lg:flex-row items-center gap-6 w-full"> 
                                 
-                                {{-- A. Filter Gender (Ditambahkan mb-2 lg:mb-0 untuk jarak eksplisit) --}}
+                                {{-- Filter Gender --}}
+                                {{-- Ditambahkan lg:mr-2 sebagai double protection untuk jarak --}}
                                 <select name="jenis_kelamin" onchange="this.form.submit()"
                                     class="w-full lg:w-32 px-3 py-2 text-sm rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white focus:shadow-primary-outline focus:border-blue-500 focus:outline-none transition-all cursor-pointer h-10 mb-2 lg:mb-0">
                                     <option value="">Semua Gender</option>
@@ -36,7 +37,7 @@
                                     <option value="Perempuan" {{ request('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
                                 </select>
 
-                                {{-- B. Filter Agama (Ditambahkan mb-2 lg:mb-0 untuk jarak eksplisit) --}}
+                                {{-- Filter Agama --}}
                                 <select name="agama" onchange="this.form.submit()"
                                     class="w-full lg:w-32 px-3 py-2 text-sm rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white focus:shadow-primary-outline focus:border-blue-500 focus:outline-none transition-all cursor-pointer h-10 mb-2 lg:mb-0">
                                     <option value="">Semua Agama</option>
@@ -47,18 +48,20 @@
                                     @endforeach
                                 </select>
 
-                                {{-- C. Search Input (Ditambahkan mb-2 lg:mb-0 untuk jarak eksplisit) --}}
-                                <input type="text" name="search" value="{{ request('search') }}"
-                                    class="w-full lg:w-64 px-4 py-2 text-sm rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white focus:shadow-primary-outline focus:border-blue-500 focus:outline-none transition-all placeholder:text-gray-500 h-10 mb-2 lg:mb-0"
-                                    placeholder="Cari Nama/NIK..." />
+                                {{-- Search Input --}}
+                                <div class="relative w-full lg:w-64 mb-2 lg:mb-0">
+                                    <input type="text" name="search" value="{{ request('search') }}"
+                                        class="block w-full px-4 py-2 text-sm rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white focus:shadow-primary-outline focus:border-blue-500 focus:outline-none transition-all placeholder:text-gray-500 h-10"
+                                        placeholder="Cari Nama/NIK..." />
+                                </div>
                                 
-                                {{-- D. Search Button (Ditambahkan mb-2 lg:mb-0 untuk jarak eksplisit) --}}
+                                {{-- Search Button --}}
                                 <button type="submit"
                                     class="inline-block px-4 py-2 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-slate-600 to-slate-300 leading-normal text-xs ease-in tracking-tight-rem shadow-xs hover:-translate-y-px active:opacity-85 border border-transparent h-10 flex items-center justify-center mb-2 lg:mb-0">
                                     <i class="fas fa-search"></i>
                                 </button>
 
-                                {{-- E. Tombol Reset (Ukuran sama seperti Search Button. Tidak perlu mb-2 karena ini elemen terakhir) --}}
+                                {{-- Reset Button --}}
                                 @if (request('search') || request('jenis_kelamin') || request('agama'))
                                     <a href="{{ route('warga.index') }}"
                                         class="inline-block px-4 py-2 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-red-600 to-orange-600 leading-normal text-xs ease-in tracking-tight-rem shadow-xs hover:-translate-y-px active:opacity-85 flex items-center justify-center h-10"
@@ -74,7 +77,6 @@
 
                 {{-- KONTEN TABEL --}}
                 <div class="p-6">
-                    {{-- Alert Success --}}
                     @if (session('success'))
                         <div id="success-alert" class="relative w-full p-4 pr-12 mb-4 text-white rounded-lg"
                             style="background-color: #2dce89;" role="alert">
@@ -93,7 +95,7 @@
                                     <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">No</th>
                                     <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">No. KTP</th>
                                     <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Nama</th>
-                                    <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">J. Kelamin</th>
+                                    <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Jenis Kelamin</th>
                                     <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Telepon</th>
                                     <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
                                 </tr>
@@ -111,19 +113,40 @@
                                             <h6 class="mb-0 text-sm leading-normal dark:text-white px-2">{{ $w->nama }}</h6>
                                             <p class="mb-0 text-xs leading-tight text-slate-400 dark:text-white dark:opacity-60 px-2">{{ $w->email }}</p>
                                         </td>
+                                        
                                         <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60 px-2">{{ $w->jenis_kelamin }}</p>
+                                            @if ($w->jenis_kelamin == 'Laki-laki')
+                                                <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold"
+                                                      style="background-color: #dbeafe; color: #1e40af;">
+                                                    <i class="fas fa-mars mr-2"></i> Laki-laki
+                                                </span>
+                                            @elseif ($w->jenis_kelamin == 'Perempuan')
+                                                <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold"
+                                                      style="background-color: #fce7f3; color: #9d174d;">
+                                                    <i class="fas fa-venus mr-2"></i> Perempuan
+                                                </span>
+                                            @else
+                                                <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-500">
+                                                    {{ $w->jenis_kelamin ?? '-' }}
+                                                </span>
+                                            @endif
                                         </td>
+
                                         <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                                             <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60 px-2">{{ $w->telp }}</p>
                                         </td>
+
                                         <td class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                                             <form action="{{ route('warga.destroy', $w->warga_id) }}" method="POST" class="inline-block">
-                                                <a href="{{ route('warga.edit', $w->warga_id) }}" class="inline-block px-3 py-1.5 mr-1 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-emerald-500 to-teal-400 leading-normal text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85">
+                                                <a href="{{ route('warga.edit', $w->warga_id) }}" 
+                                                   class="inline-block px-3 py-1.5 mr-1 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-emerald-500 to-teal-400 leading-normal text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85">
                                                     <i class="fas fa-edit mr-1"></i> Edit
                                                 </a>
-                                                @csrf @method('DELETE')
-                                                <button type="submit" class="inline-block px-3 py-1.5 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-red-600 to-orange-600 leading-normal text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                                @csrf 
+                                                @method('DELETE')
+                                                <button type="submit" 
+                                                        class="inline-block px-3 py-1.5 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-red-600 to-orange-600 leading-normal text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85" 
+                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus data warga ini?')">
                                                     <i class="fas fa-trash mr-1"></i> Hapus
                                                 </button>
                                             </form>
@@ -135,9 +158,6 @@
                                             <div class="flex flex-col items-center justify-center">
                                                 <span class="text-slate-400 mb-2"><i class="fas fa-user-slash fa-3x"></i></span>
                                                 <p class="mb-0 font-semibold leading-tight dark:text-white dark:opacity-60">Tidak ada data Warga ditemukan.</p>
-                                                @if (request('search') || request('jenis_kelamin') || request('agama'))
-                                                    <p class="text-xs text-slate-400 mt-1">Coba reset filter atau cari kata kunci lain.</p>
-                                                @endif
                                             </div>
                                         </td>
                                     </tr>
@@ -146,7 +166,6 @@
                         </table>
                     </div>
 
-                    {{-- PAGINATION --}}
                     <div class="flex flex-wrap justify-between items-center mt-4">
                         <div class="text-sm text-slate-500 mb-2 md:mb-0">
                             Showing <span class="font-bold">{{ $warga->firstItem() ?? 0 }}</span> to <span class="font-bold">{{ $warga->lastItem() ?? 0 }}</span> of <span class="font-bold">{{ $warga->total() }}</span> results

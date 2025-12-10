@@ -47,7 +47,7 @@
                 <form method="POST" action="{{ route('logout') }}" class="block m-0">
                     @csrf
                     <button type="submit"
-                        class="flex items-center justify-center px-4 py-2 text-sm font-bold text-gray-700 transition bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer transform active:scale-90 duration-150">
+                        class="flex items-center justify-center px-4 py-2 text-sm font-bold text-gray-700 transition-all ease-in bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer hover:-translate-y-px active:opacity-85">
                         <i class="fa fa-sign-out-alt mr-2 text-gray-500"></i>
                         <span>Sign Out</span>
                     </button>
