@@ -54,15 +54,54 @@
                 </form>
             </li>
             <li class="flex items-center pl-4 xl:hidden">
+                {{-- Tambahkan onclick="toggleNavbar(this)" --}}
                 <a href="javascript:;" class="block p-0 text-sm text-white transition-all ease-nav-brand"
-                    sidenav-trigger>
+                    sidenav-trigger onclick="toggleNavbar(this)">
                     <div class="w-4.5 overflow-hidden">
-                        <i class="ease mb-0.75 relative block h-0.5 rounded-sm bg-white transition-all"></i>
-                        <i class="ease mb-0.75 relative block h-0.5 rounded-sm bg-white transition-all"></i>
-                        <i class="ease relative block h-0.5 rounded-sm bg-white transition-all"></i>
+                        {{-- Tambahkan ID unik untuk animasi ikon --}}
+                        <i class="ease mb-0.75 relative block h-0.5 rounded-sm bg-white transition-all origin-[10%_10%]"
+                            id="icon-top"></i>
+                        <i class="ease mb-0.75 relative block h-0.5 rounded-sm bg-white transition-all"
+                            id="icon-mid"></i>
+                        <i class="ease relative block h-0.5 rounded-sm bg-white transition-all origin-[10%_90%]"
+                            id="icon-bot"></i>
                     </div>
                 </a>
             </li>
+            <script>
+                function toggleNavbar(element) {
+                    // 1. Definisikan Target
+                    // Mencari elemen <aside> (Sidebar)
+                    const sidebar = document.querySelector('aside');
+
+                    // Mencari garis-garis pada ikon hamburger
+                    const top = document.getElementById('icon-top');
+                    const mid = document.getElementById('icon-mid');
+                    const bot = document.getElementById('icon-bot');
+
+                    if (sidebar.classList.contains('-translate-x-full')) {
+                        // === MEMBUKA SIDEBAR ===
+                        sidebar.classList.remove('-translate-x-full'); // Hapus penggeser keluar
+                        sidebar.classList.add('translate-x-0'); // Tambah posisi normal
+                        sidebar.classList.add('shadow-xl'); // Tambah bayangan
+
+                        // Animasi Ikon (Menjadi X)
+                        top.classList.add('rotate-45', 'translate-x-1');
+                        mid.classList.add('opacity-0');
+                        bot.classList.add('-rotate-45', 'translate-x-1');
+                    } else {
+                        // === MENUTUP SIDEBAR ===
+                        sidebar.classList.add('-translate-x-full'); // Sembunyikan lagi
+                        sidebar.classList.remove('translate-x-0'); // Hapus posisi normal
+                        sidebar.classList.remove('shadow-xl');
+
+                        // Reset Animasi Ikon (Kembali jadi 3 garis)
+                        top.classList.remove('rotate-45', 'translate-x-1');
+                        mid.classList.remove('opacity-0');
+                        bot.classList.remove('-rotate-45', 'translate-x-1');
+                    }
+                }
+            </script>
 
             <li class="relative flex items-center pr-2">
                 <p class="hidden transform-dropdown-show"></p>
