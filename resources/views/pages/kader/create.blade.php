@@ -5,14 +5,15 @@
 
 @section('content')
 <div class="flex flex-wrap -mx-3">
-    <div class="w-full max-w-full px-3 shrink-0 md:w-8/12 md:flex-0">
+    {{-- Layout: w-full agar mengisi penuh --}}
+    <div class="w-full max-w-full px-3 shrink-0 md:flex-0">
         <div class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
             <div class="border-black/12.5 rounded-t-2xl border-b-0 border-solid p-6 pb-0">
                 <h5 class="mb-0 dark:text-white">Formulir Tambah Kader</h5>
             </div>
             <div class="flex-auto p-6">
                 
-                {{-- Tampilkan Error Validasi (Penting untuk Debugging) --}}
+                {{-- Tampilkan Error Validasi --}}
                 @if ($errors->any())
                     <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
                         <strong class="font-bold">Ada kesalahan!</strong>
@@ -27,7 +28,7 @@
                 <form action="{{ route('kader.store') }}" method="POST">
                     @csrf
                     
-                    {{-- Pilih Warga (Dengan Ikon Dropdown) --}}
+                    {{-- Pilih Warga --}}
                     <div class="mb-4">
                         <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Pilih Warga (Calon Kader)</label>
                         <div class="relative">
@@ -39,7 +40,6 @@
                                     </option>
                                 @endforeach
                             </select>
-                            {{-- Ikon SVG --}}
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-white">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
@@ -48,7 +48,7 @@
                         </div>
                     </div>
 
-                    {{-- Pilih Posyandu (Dengan Ikon Dropdown) --}}
+                    {{-- Pilih Posyandu --}}
                     <div class="mb-4">
                         <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Bertugas di Posyandu</label>
                         <div class="relative">
@@ -59,7 +59,6 @@
                                     </option>
                                 @endforeach
                             </select>
-                            {{-- Ikon SVG --}}
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-white">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
@@ -71,33 +70,38 @@
                     {{-- Peran --}}
                     <div class="mb-4">
                         <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Peran / Jabatan</label>
-                        <input type="text" name="peran" value="{{ old('peran') }}" placeholder="Contoh: Ketua, Anggota" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none" />
+                        <input type="text" name="peran" value="{{ old('peran') }}" 
+                               placeholder="Contoh: Ketua, Anggota" 
+                               class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none placeholder:italic placeholder:text-slate-400" />
                     </div>
 
                     {{-- Tanggal Tugas --}}
-                    <div class="flex gap-4 mb-4">
-                        <div class="w-1/2">
+                    <div class="flex flex-wrap gap-4 mb-4 md:flex-nowrap">
+                        <div class="w-full md:w-1/2">
                             <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Mulai Tugas</label>
-                            <input type="date" name="mulai_tugas" value="{{ old('mulai_tugas', date('Y-m-d')) }}" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none" />
+                            <input type="date" name="mulai_tugas" value="{{ old('mulai_tugas', date('Y-m-d')) }}" 
+                                   class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none placeholder:italic placeholder:text-slate-400" />
                         </div>
-                        <div class="w-1/2">
+                        <div class="w-full md:w-1/2">
                             <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Akhir Tugas (Opsional)</label>
-                            <input type="date" name="akhir_tugas" value="{{ old('akhir_tugas') }}" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none" />
+                            <input type="date" name="akhir_tugas" value="{{ old('akhir_tugas') }}" 
+                                   class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none placeholder:italic placeholder:text-slate-400" />
                         </div>
                     </div>
 
-                       <div class="text-right mt-6">
-                            <a href="{{ route('kader.index') }}"
-                                class="inline-flex items-center justify-center px-6 py-3 mr-2 font-bold text-center uppercase align-middle transition-all bg-gray-200 border-0 rounded-lg cursor-pointer text-slate-700 text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85">
-                                <i class="fas fa-ban mr-2"></i>
-                                <span>Batal</span>
-                            </a>
-                            <button type="submit"
-                                class="inline-flex items-center justify-center px-6 py-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-blue-500 to-violet-500 leading-normal text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85">
-                                <i class="fas fa-save mr-2"></i>
-                                <span>Simpan</span>
-                            </button>
-                        </div>
+                    {{-- Tombol: Tidak diubah (sesuai file kader asli) --}}
+                    <div class="text-right mt-6">
+                        <a href="{{ route('kader.index') }}"
+                            class="inline-flex items-center justify-center px-6 py-3 mr-2 font-bold text-center uppercase align-middle transition-all bg-gray-200 border-0 rounded-lg cursor-pointer text-slate-700 text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85">
+                            <i class="fas fa-ban mr-2"></i>
+                            <span>Batal</span>
+                        </a>
+                        <button type="submit"
+                            class="inline-flex items-center justify-center px-6 py-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-blue-500 to-violet-500 leading-normal text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85">
+                            <i class="fas fa-save mr-2"></i>
+                            <span>Simpan</span>
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

@@ -5,7 +5,8 @@
 
 @section('content')
 <div class="flex flex-wrap -mx-3">
-    <div class="w-full max-w-full px-3 shrink-0 md:w-8/12 md:flex-0">
+    {{-- Layout: w-full agar mengisi penuh card --}}
+    <div class="w-full max-w-full px-3 shrink-0 md:flex-0">
         <div class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
             <div class="border-black/12.5 rounded-t-2xl border-b-0 border-solid p-6 pb-0">
                 <h5 class="mb-0 dark:text-white">Formulir Tambah Posyandu</h5>
@@ -15,20 +16,20 @@
                 <form action="{{ route('posyandu.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     
-                   {{-- Nama Posyandu (Dengan Contoh Pengisian) --}}
+                   {{-- Nama Posyandu --}}
                     <div class="mb-4">
                         <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Nama Posyandu</label>
                         <input type="text" name="nama" value="{{ old('nama') }}" required 
                                placeholder="Contoh: Posyandu Melati Indah" 
-                               class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none" />
+                               class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none placeholder:italic placeholder:text-slate-400" />
                     </div>
 
-                    {{-- Alamat (Dengan Contoh Pengisian) --}}
+                    {{-- Alamat --}}
                     <div class="mb-4">
                         <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Alamat Lengkap</label>
                         <textarea name="alamat" rows="3" required 
                                   placeholder="Contoh: Jl. Jendral Sudirman No. 15, Kelurahan Maju Jaya"
-                                  class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none">{{ old('alamat') }}</textarea>
+                                  class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none placeholder:italic placeholder:text-slate-400">{{ old('alamat') }}</textarea>
                     </div>
 
                     <div class="flex flex-wrap -mx-3">
@@ -37,23 +38,24 @@
                             <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">RT</label>
                             <input type="text" name="rt" value="{{ old('rt') }}" 
                                    placeholder="001"
-                                   class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none" />
+                                   class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none placeholder:italic placeholder:text-slate-400" />
                         </div>
                         {{-- RW --}}
                         <div class="w-full max-w-full px-3 shrink-0 md:w-4/12 md:flex-0 mb-4">
                             <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">RW</label>
                             <input type="text" name="rw" value="{{ old('rw') }}" 
                                    placeholder="005"
-                                   class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none" />
+                                   class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none placeholder:italic placeholder:text-slate-400" />
                         </div>
                         {{-- Kontak --}}
                         <div class="w-full max-w-full px-3 shrink-0 md:w-4/12 md:flex-0 mb-4">
                             <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">No HP / Kontak</label>
                             <input type="text" name="kontak" value="{{ old('kontak') }}" 
                                    placeholder="0812-3456-7890"
-                                   class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none" />
+                                   class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none placeholder:italic placeholder:text-slate-400" />
                         </div>
                     </div>
+                    
                     {{-- Foto Profil --}}
                     <div class="mb-4">
                         <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Foto Profil Posyandu (Opsional)</label>
@@ -68,18 +70,19 @@
                         <small class="text-slate-400">Bisa pilih banyak foto sekaligus.</small>
                     </div>
 
-                      <div class="text-right mt-6">
-                            <a href="{{ route('posyandu.index') }}"
-                                class="inline-flex items-center justify-center px-6 py-3 mr-2 font-bold text-center uppercase align-middle transition-all bg-gray-200 border-0 rounded-lg cursor-pointer text-slate-700 text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85">
-                                <i class="fas fa-ban mr-2"></i>
-                                <span>Batal</span>
-                            </a>
-                            <button type="submit"
-                                class="inline-flex items-center justify-center px-6 py-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-blue-500 to-violet-500 leading-normal text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85">
-                                <i class="fas fa-save mr-2"></i>
-                                <span>Simpan</span>
-                            </button>
-                        </div>
+                    {{-- Tombol: Tidak diubah (sesuai file asli) --}}
+                    <div class="text-right mt-6">
+                        <a href="{{ route('posyandu.index') }}"
+                            class="inline-flex items-center justify-center px-6 py-3 mr-2 font-bold text-center uppercase align-middle transition-all bg-gray-200 border-0 rounded-lg cursor-pointer text-slate-700 text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85">
+                            <i class="fas fa-ban mr-2"></i>
+                            <span>Batal</span>
+                        </a>
+                        <button type="submit"
+                            class="inline-flex items-center justify-center px-6 py-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-blue-500 to-violet-500 leading-normal text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85">
+                            <i class="fas fa-save mr-2"></i>
+                            <span>Simpan</span>
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

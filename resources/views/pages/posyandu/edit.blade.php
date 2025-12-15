@@ -5,7 +5,8 @@
 
 @section('content')
 <div class="flex flex-wrap -mx-3">
-    <div class="w-full max-w-full px-3 shrink-0 md:w-8/12 md:flex-0">
+    {{-- Layout: w-full --}}
+    <div class="w-full max-w-full px-3 shrink-0 md:flex-0">
         <div class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
             
             {{-- Header --}}
@@ -26,7 +27,7 @@
                     <div class="mb-4">
                         <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Nama Posyandu</label>
                         <input type="text" name="nama" value="{{ old('nama', $posyandu->nama) }}" required 
-                               class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none" />
+                               class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none placeholder:italic placeholder:text-slate-400" />
                         @error('nama') <div class="text-red-500 text-xs mt-1">{{ $message }}</div> @enderror
                     </div>
 
@@ -34,7 +35,7 @@
                     <div class="mb-4">
                         <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Alamat Lengkap</label>
                         <textarea name="alamat" rows="3" required 
-                                  class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none">{{ old('alamat', $posyandu->alamat) }}</textarea>
+                                  class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none placeholder:italic placeholder:text-slate-400">{{ old('alamat', $posyandu->alamat) }}</textarea>
                     </div>
 
                     {{-- Grid RT/RW/Kontak --}}
@@ -42,17 +43,17 @@
                         <div class="w-full max-w-full px-3 shrink-0 md:w-4/12 md:flex-0 mb-4">
                             <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">RT</label>
                             <input type="text" name="rt" value="{{ old('rt', $posyandu->rt) }}" 
-                                   class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none" />
+                                   class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none placeholder:italic placeholder:text-slate-400" />
                         </div>
                         <div class="w-full max-w-full px-3 shrink-0 md:w-4/12 md:flex-0 mb-4">
                             <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">RW</label>
                             <input type="text" name="rw" value="{{ old('rw', $posyandu->rw) }}" 
-                                   class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none" />
+                                   class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none placeholder:italic placeholder:text-slate-400" />
                         </div>
                         <div class="w-full max-w-full px-3 shrink-0 md:w-4/12 md:flex-0 mb-4">
                             <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">No HP / Kontak</label>
                             <input type="text" name="kontak" value="{{ old('kontak', $posyandu->kontak) }}" 
-                                   class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none" />
+                                   class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all focus:border-blue-500 focus:outline-none placeholder:italic placeholder:text-slate-400" />
                         </div>
                     </div>
 
@@ -63,7 +64,6 @@
                         <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Foto Profil Posyandu</label>
                         <div class="flex items-center gap-4">
                             @if($posyandu->foto_url)
-                                {{-- PERUBAHAN: Ukuran gambar jadi kecil (w-12 h-12 = 48px) --}}
                                 <img src="{{ $posyandu->foto_url }}" class="w-12 h-12 rounded-lg object-cover shadow-sm border border-slate-200" alt="Profil">
                             @endif
                             {{-- Input File --}}
@@ -76,15 +76,14 @@
                     <div class="mb-4">
                         <label class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Dokumentasi / Galeri Kegiatan</label>
                         
-                        {{-- Preview Galeri Lama (KECIL) --}}
+                        {{-- Preview Galeri Lama --}}
                         @if($posyandu->galeri && $posyandu->galeri->count() > 0)
                             <div class="flex flex-wrap gap-2 mb-3">
                                 @foreach($posyandu->galeri as $media)
                                     <div class="relative group">
-                                        {{-- PERUBAHAN: Ukuran thumbnail galeri jadi kecil (w-12 h-12) --}}
                                         <img src="{{ asset('storage/' . $media->file_url) }}" class="w-12 h-12 rounded-lg object-cover border border-slate-200 shadow-sm">
                                         
-                                        {{-- Tombol Hapus Kecil --}}
+                                        {{-- Tombol Hapus --}}
                                         <a href="{{ route('media.delete', $media->media_id) }}" 
                                            onclick="return confirm('Hapus foto ini?')"
                                            class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer shadow-md"
@@ -100,19 +99,19 @@
                         <small class="text-slate-400 mt-1">Bisa pilih banyak foto sekaligus.</small>
                     </div>
 
-                    {{-- Tombol Aksi --}}
+                    {{-- Tombol: Tidak diubah (sesuai file asli) --}}
                     <div class="text-right mt-6">
-                            <a href="{{ route('posyandu.index') }}"
-                                class="inline-flex items-center justify-center px-6 py-3 mr-2 font-bold text-center uppercase align-middle transition-all bg-gray-200 border-0 rounded-lg cursor-pointer text-slate-700 text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85">
-                                <i class="fas fa-ban mr-2"></i>
-                                <span>Batal</span>
-                            </a>
-                            <button type="submit"
-                                class="inline-flex items-center justify-center px-6 py-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-blue-500 to-violet-500 leading-normal text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85">
-                                <i class="fas fa-save mr-2"></i>
-                                <span>Update</span>
-                            </button>
-                        </div>
+                        <a href="{{ route('posyandu.index') }}"
+                            class="inline-flex items-center justify-center px-6 py-3 mr-2 font-bold text-center uppercase align-middle transition-all bg-gray-200 border-0 rounded-lg cursor-pointer text-slate-700 text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85">
+                            <i class="fas fa-ban mr-2"></i>
+                            <span>Batal</span>
+                        </a>
+                        <button type="submit"
+                            class="inline-flex items-center justify-center px-6 py-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-blue-500 to-violet-500 leading-normal text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85">
+                            <i class="fas fa-save mr-2"></i>
+                            <span>Update</span>
+                        </button>
+                    </div>
 
                 </form>
             </div>

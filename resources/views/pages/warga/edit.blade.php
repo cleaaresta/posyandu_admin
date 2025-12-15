@@ -5,7 +5,8 @@
 
 @section('content')
     <div class="flex flex-wrap -mx-3">
-        <div class="w-full max-w-full px-3 shrink-0 md:w-8/12 md:flex-0">
+        {{-- UBAH: md:w-8/12 menjadi w-full agar layout konsisten dan penuh --}}
+        <div class="w-full max-w-full px-3 shrink-0 md:flex-0">
             <div
                 class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
                 <div class="border-black/12.5 rounded-t-2xl border-b-0 border-solid p-6 pb-0">
@@ -15,9 +16,10 @@
 
                     <form action="{{ route('warga.update', $warga->warga_id) }}" method="POST">
                         @csrf
-                        @method('PUT') {{-- Penting untuk update --}}
+                        @method('PUT')
 
-                        <div class="mb-3">
+                        {{-- 1. No KTP --}}
+                        <div class="mb-4"> {{-- Jarak disamakan mb-4 --}}
                             <label for="no_ktp"
                                 class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">No.
                                 KTP</label>
@@ -25,11 +27,12 @@
                                 class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none"
                                 required>
                             @error('no_ktp')
-                                <div class="text-red-500 text-xs italic">{{ $message }}</div>
+                                <div class="text-red-500 text-xs italic mt-1">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <div class="mb-3">
+                        {{-- 2. Nama Lengkap --}}
+                        <div class="mb-4">
                             <label for="nama"
                                 class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Nama
                                 Lengkap</label>
@@ -37,14 +40,16 @@
                                 class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none"
                                 required>
                             @error('nama')
-                                <div class="text-red-500 text-xs italic">{{ $message }}</div>
+                                <div class="text-red-500 text-xs italic mt-1">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <div class="mb-3">
+                        {{-- 3. Jenis Kelamin --}}
+                        <div class="mb-4">
                             <label for="jenis_kelamin"
                                 class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Jenis
                                 Kelamin</label>
+                            {{-- Menggunakan struktur select yang sama (tanpa SVG custom di edit, tapi class sama) --}}
                             <select name="jenis_kelamin"
                                 class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none"
                                 required>
@@ -57,25 +62,29 @@
                                     Perempuan</option>
                             </select>
                             @error('jenis_kelamin')
-                                <div class="text-red-500 text-xs italic">{{ $message }}</div>
+                                <div class="text-red-500 text-xs italic mt-1">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <div class="mb-3">
+                        {{-- 4. Agama --}}
+                        <div class="mb-4">
                             <label for="agama"
                                 class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Agama</label>
                             <input type="text" name="agama" value="{{ old('agama', $warga->agama) }}"
                                 class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none">
                         </div>
 
-                        <div class="mb-3">
+                        {{-- 5. Pekerjaan --}}
+                        <div class="mb-4">
+                            {{-- TYPO FIX: </Labe> menjadi </label> --}}
                             <label for="pekerjaan"
-                                class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Pekerjaan</Labe>
+                                class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Pekerjaan</label>
                             <input type="text" name="pekerjaan" value="{{ old('pekerjaan', $warga->pekerjaan) }}"
                                 class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none">
                         </div>
 
-                        <div class="mb-3">
+                        {{-- 6. No. Telepon --}}
+                        <div class="mb-4">
                             <label for="telp"
                                 class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">No.
                                 Telepon</label>
@@ -83,7 +92,8 @@
                                 class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none">
                         </div>
 
-                        <div class="mb-3">
+                        {{-- 7. Email --}}
+                        <div class="mb-4">
                             <label for="email"
                                 class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Email</label>
                             <input type="email" name="email" value="{{ old('email', $warga->email) }}"

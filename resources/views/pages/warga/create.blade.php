@@ -5,8 +5,8 @@
 
 @section('content')
     <div class="flex flex-wrap -mx-3">
-        {{-- Mengikuti struktur User Create: Lebar 8/12 --}}
-        <div class="w-full max-w-full px-3 shrink-0 md:w-8/12 md:flex-0">
+        {{-- UBAH: md:w-8/12 menjadi w-full agar mengisi ruang kosong --}}
+        <div class="w-full max-w-full px-3 shrink-0 md:flex-0">
             <div
                 class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
                 <div class="border-black/12.5 rounded-t-2xl border-b-0 border-solid p-6 pb-0">
@@ -18,29 +18,29 @@
                         @csrf
                         
                         {{-- 1. No. KTP --}}
-                        <div class="mb-3">
+                        <div class="mb-4"> {{-- Jarak diperbesar jadi mb-4 --}}
                             <label for="no_ktp"
                                 class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">No.
                                 KTP</label>
-                            <input type="text" name="no_ktp" value="{{ old('no_ktp') }}"
+                            <input type="text" name="no_ktp" value="{{ old('no_ktp') }}" placeholder="Masukkan 16 digit No. KTP"
                                 class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none"
                                 required>
                             @error('no_ktp') <div class="text-red-500 text-xs italic mt-1">{{ $message }}</div> @enderror
                         </div>
 
                         {{-- 2. Nama Lengkap --}}
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="nama"
                                 class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Nama
                                 Lengkap</label>
-                            <input type="text" name="nama" value="{{ old('nama') }}"
+                            <input type="text" name="nama" value="{{ old('nama') }}" placeholder="Masukkan Nama Lengkap Sesuai KTP"
                                 class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none"
                                 required>
                             @error('nama') <div class="text-red-500 text-xs italic mt-1">{{ $message }}</div> @enderror
                         </div>
 
                         {{-- 3. Jenis Kelamin --}}
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="jenis_kelamin"
                                 class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Jenis
                                 Kelamin</label>
@@ -61,35 +61,35 @@
                         </div>
 
                         {{-- 4. Agama --}}
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="agama"
                                 class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Agama</label>
-                            <input type="text" name="agama" value="{{ old('agama') }}"
+                            <input type="text" name="agama" value="{{ old('agama') }}" placeholder="Contoh: Islam, Kristen, Hindu, dll"
                                 class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none">
                         </div>
 
                         {{-- 5. Pekerjaan --}}
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="pekerjaan"
                                 class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Pekerjaan</label>
-                            <input type="text" name="pekerjaan" value="{{ old('pekerjaan') }}"
+                            <input type="text" name="pekerjaan" value="{{ old('pekerjaan') }}" placeholder="Masukkan Pekerjaan"
                                 class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none">
                         </div>
 
                         {{-- 6. No. Telepon --}}
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="telp"
                                 class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">No.
                                 Telepon</label>
-                            <input type="text" name="telp" value="{{ old('telp') }}"
+                            <input type="text" name="telp" value="{{ old('telp') }}" placeholder="Contoh: 08123456789"
                                 class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none">
                         </div>
 
                         {{-- 7. Email --}}
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="email"
                                 class="inline-block mb-2 ml-1 text-xs font-bold text-slate-700 dark:text-white/80">Email</label>
-                            <input type="email" name="email" value="{{ old('email') }}"
+                            <input type="email" name="email" value="{{ old('email') }}" placeholder="nama@email.com"
                                 class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none">
                         </div>
 
