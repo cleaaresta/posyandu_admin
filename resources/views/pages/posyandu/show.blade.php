@@ -33,7 +33,6 @@
             display: flex;
             align-items: flex-start;
             margin-bottom: 24px;
-            /* Jarak antar item sedikit diperlonggar agar rapi */
         }
 
         .info-list-item:last-child {
@@ -55,23 +54,12 @@
         }
 
         /* Gradients */
-        .gradient-pink {
-            background: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%);
-        }
-
-        .gradient-orange {
-            background: linear-gradient(135deg, #f97316 0%, #fbbf24 100%);
-        }
-
-        .gradient-blue {
-            background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
-        }
+        .gradient-pink { background: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%); }
+        .gradient-orange { background: linear-gradient(135deg, #f97316 0%, #fbbf24 100%); }
+        .gradient-blue { background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%); }
 
         /* Typography */
-        .info-content {
-            flex: 1;
-        }
-
+        .info-content { flex: 1; }
         .info-label {
             font-size: 11px;
             font-weight: 700;
@@ -80,7 +68,6 @@
             margin-bottom: 4px;
             letter-spacing: 0.5px;
         }
-
         .info-value {
             font-size: 15px;
             font-weight: 600;
@@ -94,26 +81,39 @@
             width: 100%;
             max-width: 240px;
             margin: 0 auto;
-            aspect-ratio: 1/1;
+            aspect-ratio: 1/1; /* Rasio Kotak */
             border-radius: 12px;
             overflow: hidden;
             border: 1px solid #e2e8f0;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            background: #f1f5f9;
+            background: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .poster-wrapper img {
+        .poster-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s;
+            display: block;
         }
 
-        .poster-wrapper:hover img {
+        .poster-wrapper:hover .poster-img {
             transform: scale(1.05);
+        }
+
+        /* Placeholder */
+        .poster-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background-color: #f8fafc;
+            color: #94a3b8;
         }
 
         .poster-overlay {
@@ -143,13 +143,11 @@
         </a>
 
         <div class="flex gap-2">
-            {{-- Edit: Biru Gradient --}}
             <a href="{{ route('posyandu.edit', $posyandu->posyandu_id) }}"
                 class="inline-flex items-center px-4 py-2 text-xs font-bold text-white uppercase transition-all bg-gradient-to-tl from-blue-600 to-cyan-400 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-px active:opacity-85">
                 <i class="fas fa-edit mr-2"></i> Edit Data
             </a>
 
-            {{-- Hapus: Merah Gradient --}}
             <form action="{{ route('posyandu.destroy', $posyandu->posyandu_id) }}" method="POST"
                 onsubmit="return confirm('Hapus posyandu ini?');">
                 @csrf @method('DELETE')
@@ -172,31 +170,52 @@
 
                     {{-- Wrapper Foto --}}
                     <div class="poster-wrapper group">
-                        @if (!empty($posyandu->foto) || !empty($posyandu->foto_url))
-                            <img src="{{ $posyandu->foto_url }}" alt="Foto Posyandu">
-                        @else
-                            {{-- Fallback Icon --}}
-                            <div class="flex flex-col items-center text-slate-400">
-                                <i class="fas fa-hospital-alt text-4xl mb-2"></i>
-                                <span class="text-xs font-bold">Tidak ada foto</span>
+                        
+                        @if (!empty($posyandu->foto))
+                            
+                            {{-- Tampilkan Gambar --}}
+                            <img src="{{ $posyandu->foto_url }}" 
+                                 alt="Foto Posyandu" 
+                                 class="poster-img"
+                                 onerror="this.style.display='none'; document.getElementById('fallback-icon').style.display='flex';">
+                            
+                            {{-- Fallback Icon (Hidden by default) --}}
+                            <div id="fallback-icon" class="poster-placeholder" style="display: none;">
+                                <div class="mb-3 text-slate-300">
+                                    <i class="far fa-image text-5xl"></i>
+                                </div>
+                                <span class="text-sm font-medium text-slate-500">Tidak ada foto</span>
                             </div>
-                        @endif
 
-                        {{-- Overlay saat hover --}}
-                        @if (!empty($posyandu->foto) || !empty($posyandu->foto_url))
+                            {{-- Overlay Zoom --}}
                             <div class="poster-overlay">
                                 <a href="{{ $posyandu->foto_url }}" target="_blank"
                                     class="px-4 py-2 bg-white rounded-full text-slate-800 font-bold text-xs shadow hover:bg-slate-100 transition-colors mb-2">
                                     <i class="fas fa-expand mr-1"></i> Lihat Full
                                 </a>
                             </div>
+
+                        @else
+                            {{-- Placeholder Default (Jika Database Kosong) --}}
+                            <div class="poster-placeholder">
+                                <div class="mb-3 text-slate-300">
+                                    <i class="far fa-image text-5xl"></i>
+                                </div>
+                                <span class="text-sm font-medium text-slate-500">Tidak ada foto</span>
+                            </div>
                         @endif
                     </div>
 
-                    {{-- Badge Status di bawah foto --}}
+                    {{-- TEXT HINT (Hanya muncul jika ada foto) --}}
+                    @if(!empty($posyandu->foto))
+                        <p class="text-xs text-slate-400 mt-4 text-center">
+                            Klik foto untuk memperbesar
+                        </p>
+                    @endif
+
+                    {{-- Badge Status --}}
                     <div class="mt-4 text-center">
-                        <span
-                            class="inline-flex items-center px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-xs font-bold border border-emerald-100">
+                        <span class="inline-flex items-center px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-xs font-bold border border-emerald-100">
                             <i class="fas fa-check-circle mr-1"></i> Terverifikasi
                         </span>
                     </div>
@@ -208,14 +227,12 @@
         {{-- CARD 2: DETAIL INFORMASI (KANAN) --}}
         <div class="w-full lg:w-8/12 px-4 mb-6">
             <div class="custom-card">
-                {{-- Judul Nama Posyandu --}}
                 <div class="card-header border-l-4 border-l-blue-500">
                     {{ $posyandu->nama ?? 'Nama Posyandu' }}
                 </div>
 
                 <div class="card-body">
-
-                    {{-- Item 1: Alamat (Pink Gradient) --}}
+                    {{-- Item 1: Alamat --}}
                     <div class="info-list-item">
                         <div class="icon-box gradient-pink">
                             <i class="fas fa-map-marked-alt"></i>
@@ -228,7 +245,7 @@
                         </div>
                     </div>
 
-                    {{-- Item 2: RT/RW (Orange Gradient) --}}
+                    {{-- Item 2: RT/RW --}}
                     <div class="info-list-item">
                         <div class="icon-box gradient-orange">
                             <i class="fas fa-house-user"></i>
@@ -241,7 +258,7 @@
                         </div>
                     </div>
 
-                    {{-- Item 3: Kontak (Blue Gradient) --}}
+                    {{-- Item 3: Kontak --}}
                     <div class="info-list-item">
                         <div class="icon-box gradient-blue">
                             <i class="fas fa-phone-alt"></i>
@@ -257,6 +274,5 @@
                 </div>
             </div>
         </div>
-
     </div>
 @endsection

@@ -13,7 +13,6 @@
             border: 1px solid #f1f5f9;
             overflow: hidden;
             height: 100%;
-            /* Agar tinggi card kiri & kanan sama */
         }
 
         .card-header {
@@ -29,7 +28,7 @@
             padding: 24px;
         }
 
-        /* --- ITEM LIST DETAIL (Sama dengan halaman sebelumnya) --- */
+        /* --- ITEM LIST DETAIL --- */
         .info-list-item {
             display: flex;
             align-items: flex-start;
@@ -55,27 +54,13 @@
         }
 
         /* Gradients */
-        .gradient-pink {
-            background: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%);
-        }
-
-        .gradient-orange {
-            background: linear-gradient(135deg, #f97316 0%, #fbbf24 100%);
-        }
-
-        .gradient-blue {
-            background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
-        }
-
-        .gradient-slate {
-            background: linear-gradient(135deg, #64748b 0%, #94a3b8 100%);
-        }
+        .gradient-pink { background: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%); }
+        .gradient-orange { background: linear-gradient(135deg, #f97316 0%, #fbbf24 100%); }
+        .gradient-blue { background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%); }
+        .gradient-slate { background: linear-gradient(135deg, #64748b 0%, #94a3b8 100%); }
 
         /* Typography */
-        .info-content {
-            flex: 1;
-        }
-
+        .info-content { flex: 1; }
         .info-label {
             font-size: 11px;
             font-weight: 700;
@@ -84,14 +69,12 @@
             margin-bottom: 4px;
             letter-spacing: 0.5px;
         }
-
         .info-value {
             font-size: 15px;
             font-weight: 600;
             color: #1e293b;
             line-height: 1.4;
         }
-
         .info-desc {
             font-size: 14px;
             color: #64748b;
@@ -108,28 +91,42 @@
             position: relative;
             width: 100%;
             max-width: 240px;
-            /* Batasi lebar maksimal agar tidak raksasa */
             margin: 0 auto;
-            /* Center */
-            aspect-ratio: 3/4;
+            aspect-ratio: 3/4; /* Rasio Portrait untuk Poster */
             border-radius: 12px;
             overflow: hidden;
             border: 1px solid #e2e8f0;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .poster-wrapper img {
+        .poster-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s;
+            display: block;
         }
 
-        .poster-wrapper:hover img {
+        .poster-wrapper:hover .poster-img {
             transform: scale(1.05);
         }
 
-        /* Tombol Overlay di Poster */
+        /* Style untuk Placeholder (Tampilan Kosong) */
+        .poster-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background-color: #f8fafc;
+            color: #94a3b8;
+        }
+
         .poster-overlay {
             position: absolute;
             inset: 0;
@@ -157,13 +154,11 @@
         </a>
 
         <div class="flex gap-2">
-            {{-- Edit: Biru Gradient --}}
             <a href="{{ route('jadwal-posyandu.edit', $jadwal->jadwal_id) }}"
                 class="inline-flex items-center px-4 py-2 text-xs font-bold text-white uppercase transition-all bg-gradient-to-tl from-blue-600 to-cyan-400 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-px active:opacity-85">
                 <i class="fas fa-edit mr-2"></i> Edit Data
             </a>
 
-            {{-- Hapus: Merah Gradient --}}
             <form action="{{ route('jadwal-posyandu.destroy', $jadwal->jadwal_id) }}" method="POST"
                 onsubmit="return confirm('Hapus jadwal ini?');">
                 @csrf @method('DELETE')
@@ -178,51 +173,68 @@
     {{-- LAYOUT 2 KOLOM --}}
     <div class="flex flex-wrap -mx-4">
 
-        {{-- CARD 1: POSTER KEGIATAN (Ukuran dikecilkan: w-4/12 atau w-3/12 tergantung preferensi) --}}
+        {{-- CARD 1: POSTER KEGIATAN --}}
         <div class="w-full lg:w-4/12 px-4 mb-6">
             <div class="custom-card">
                 <div class="card-header">Poster Kegiatan</div>
                 <div class="card-body flex flex-col items-center justify-center">
 
-                    {{-- Wrapper Poster (Dibatasi max-width nya di CSS) --}}
-                    @if (!empty($jadwal->poster_url))
-                        <div class="poster-wrapper group">
-                            <img src="{{ $jadwal->poster_url }}" alt="Poster Jadwal">
+                    {{-- Wrapper Poster --}}
+                    <div class="poster-wrapper group">
+                        @if (!empty($jadwal->poster))
+                            {{-- Tampilkan Gambar (Jika ada data di DB) --}}
+                            <img src="{{ $jadwal->poster_url }}" 
+                                 alt="Poster Jadwal"
+                                 class="poster-img"
+                                 onerror="this.style.display='none'; document.getElementById('poster-fallback').style.display='flex';">
 
-                            {{-- Overlay saat hover --}}
+                            {{-- Placeholder Cadangan (Hidden by default, muncul via JS jika gambar error) --}}
+                            <div id="poster-fallback" class="poster-placeholder" style="display: none;">
+                                <div class="mb-3 text-slate-300">
+                                    <i class="far fa-calendar-alt text-5xl"></i>
+                                </div>
+                                <span class="text-sm font-medium text-slate-500">Tidak ada poster</span>
+                            </div>
+
+                            {{-- Overlay Zoom --}}
                             <div class="poster-overlay">
                                 <a href="{{ $jadwal->poster_url }}" target="_blank"
                                     class="px-4 py-2 bg-white rounded-full text-slate-800 font-bold text-xs shadow hover:bg-slate-100 transition-colors mb-2">
                                     <i class="fas fa-expand mr-1"></i> Lihat Full
                                 </a>
                             </div>
-                        </div>
-                        <p class="text-xs text-slate-400 mt-4 text-center">
-                            Klik poster untuk memperbesar
-                        </p>
-                    @else
-                        {{-- Fallback jika tidak ada poster --}}
-                        <div class="poster-wrapper bg-slate-50 flex flex-col items-center justify-center text-slate-400">
-                            <i class="far fa-image text-4xl mb-2"></i>
-                            <span class="text-xs font-bold">Tidak ada poster</span>
-                        </div>
+
+                        @else
+                            {{-- Jika Data Kosong: Langsung Tampilkan Placeholder --}}
+                            <div class="poster-placeholder">
+                                <div class="mb-3 text-slate-300">
+                                    <i class="far fa-calendar-alt text-5xl"></i>
+                                </div>
+                                <span class="text-sm font-medium text-slate-500">Tidak ada poster</span>
+                            </div>
+                        @endif
+                    </div>
+                    
+                    {{-- Hint Text di bawah --}}
+                    @if(!empty($jadwal->poster))
+                    <p class="text-xs text-slate-400 mt-4 text-center">
+                        Klik poster untuk memperbesar
+                    </p>
                     @endif
 
                 </div>
             </div>
         </div>
 
-        {{-- CARD 2: DETAIL INFORMASI (Lebar sisa) --}}
+        {{-- CARD 2: DETAIL INFORMASI --}}
         <div class="w-full lg:w-8/12 px-4 mb-6">
             <div class="custom-card">
-                {{-- Judul Tema Sebagai Header Card --}}
                 <div class="card-header border-l-4 border-l-blue-500">
                     {{ $jadwal->tema ?? 'Informasi Kegiatan' }}
                 </div>
 
                 <div class="card-body">
-
-                    {{-- Item 1: Tanggal (Pink Gradient) --}}
+                    {{-- Item 1: Tanggal --}}
                     <div class="info-list-item">
                         <div class="icon-box gradient-pink">
                             <i class="far fa-calendar-alt"></i>
@@ -235,7 +247,7 @@
                         </div>
                     </div>
 
-                    {{-- Item 2: Lokasi (Orange Gradient) --}}
+                    {{-- Item 2: Lokasi --}}
                     <div class="info-list-item">
                         <div class="icon-box gradient-orange">
                             <i class="fas fa-map-marker-alt"></i>
@@ -251,7 +263,7 @@
                         </div>
                     </div>
 
-                    {{-- Item 3: Deskripsi (Blue/Slate Gradient) --}}
+                    {{-- Item 3: Deskripsi --}}
                     <div class="info-list-item">
                         <div class="icon-box gradient-slate">
                             <i class="fas fa-align-left"></i>
@@ -264,24 +276,21 @@
                         </div>
                     </div>
 
-                    {{-- Status / Footer Kecil (Opsional) --}}
+                    {{-- Footer --}}
                     <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
                         <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">
                             Dibuat: {{ $jadwal->created_at ? $jadwal->created_at->diffForHumans() : '-' }}
                         </span>
 
-                        {{-- Badge Aktif (Contoh Logic) --}}
                         @php
                             $isUpcoming = $jadwal->tanggal && \Carbon\Carbon::parse($jadwal->tanggal)->isFuture();
                         @endphp
                         @if ($isUpcoming)
-                            <span
-                                class="px-3 py-1 bg-green-50 text-green-600 rounded-full text-xs font-bold border border-green-100">
+                            <span class="px-3 py-1 bg-green-50 text-green-600 rounded-full text-xs font-bold border border-green-100">
                                 <i class="fas fa-clock mr-1"></i> Akan Datang
                             </span>
                         @else
-                            <span
-                                class="px-3 py-1 bg-slate-50 text-slate-500 rounded-full text-xs font-bold border border-slate-100">
+                            <span class="px-3 py-1 bg-slate-50 text-slate-500 rounded-full text-xs font-bold border border-slate-100">
                                 <i class="fas fa-check-circle mr-1"></i> Selesai
                             </span>
                         @endif

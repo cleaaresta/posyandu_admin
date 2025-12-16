@@ -16,7 +16,7 @@ class CreateFirstUser extends Seeder
     {
         User::create([
             'name' => 'Admin',
-            'email' => 'robby@gmail.com',
+            'email' => 'clea@gmail.com',
             'password' => Hash::make('12345678'),
             'role' => 'admin',
         ]); // Ganti dengan password yang diinginkan
