@@ -17,7 +17,7 @@ use App\Http\Controllers\CatatanImunisasiController;
 |--------------------------------------------------------------------------
 */
 
-// --- 1. Rute Publik (Login/Logout) ---
+// --- 1. Rute Publik (Guest) ---
 
 // Root diarahkan ke login
 Route::get('/', function () {
@@ -33,40 +33,36 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
 // --- 2. Rute Terproteksi (Harus Login) ---
-// Menggabungkan semua rute yang butuh login ke dalam satu grup middleware 'checkislogin'
-
+// Semua rute di sini mengharuskan user sudah login (Middleware: checkislogin)
 Route::middleware(['checkislogin'])->group(function () {
-    
+
     // Dashboard / Home
-    // PENTING: Kita gunakan get() eksplisit agar nama rute 'home' terbaca jelas oleh LoginController
+    // Menggunakan Route::get() agar nama rutenya 'home' (memperbaiki error redirect loop)
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-    
-    // Resource Controller
-    // Note: 'home' resource dihapus karena sudah ada Route::get('/home') di atas untuk menghindari konflik nama.
-    
+
+    // --- Menu yang bisa diakses oleh SEMUA user yang login (Kader & Admin) ---
     Route::resource('posyandu', PosyanduController::class);
     Route::resource('warga', WargaController::class);
-    Route::resource('user', UserController::class);
     Route::resource('kader', KaderPosyanduController::class);
     
     // Jadwal Posyandu
     Route::resource('jadwal-posyandu', JadwalPosyanduController::class)->except(['show']);
     Route::get('jadwal-posyandu/{jadwal}', [JadwalPosyanduController::class, 'show'])->name('jadwal-posyandu.show');
     
-    // Imunisasi
+    // Imunisasi & Layanan
     Route::resource('imunisasi', CatatanImunisasiController::class);
-    Route::get('media/delete/imunisasi/{id}', [CatatanImunisasiController::class, 'deleteMedia'])->name('media.delete.imunisasi');
-    
-    // Layanan & Media
-    Route::get('/media/delete/{id}', [PosyanduController::class, 'deleteMedia'])->name('media.delete');
     Route::resource('layanan', LayananPosyanduController::class);
+    
+    // Delete Media Routes
+    Route::get('media/delete/imunisasi/{id}', [CatatanImunisasiController::class, 'deleteMedia'])->name('media.delete.imunisasi');
+    Route::get('/media/delete/{id}', [PosyanduController::class, 'deleteMedia'])->name('media.delete');
     Route::get('media/delete/layanan/{id}', [LayananPosyanduController::class, 'deleteMedia'])->name('media.delete.layanan');
 
-    // --- 3. Rute Khusus Admin (Nested Group) ---
-    // Rute ini hanya bisa diakses jika user login DAN memiliki role Admin
+
+    // --- 3. Rute Khusus ADMIN ---
+    // Menu 'User' hanya bisa diakses jika role-nya Admin
     Route::middleware(['checkrole:Admin'])->group(function () {
-        // Hati-hati: route 'user.index' ini mungkin menimpa resource 'user' di atas.
-        // Pastikan UserController@index di sini memang khusus untuk admin.
-        Route::get('user-admin', [UserController::class, 'index'])->name('user.admin.index'); 
+        Route::resource('user', UserController::class);
     });
+
 });
