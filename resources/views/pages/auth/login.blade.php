@@ -32,18 +32,14 @@
             padding: 1rem;
             box-sizing: border-box;
 
-            /* --- PENGATURAN BACKGROUND --- */
-            /* 1. Layer pertama: Linear Gradient transparan (Ungu ke Biru) untuk memberi nuansa warna
-               2. Layer kedua: URL Gambar (Ganti URL ini dengan foto kegiatan Posyandu asli Anda jika ada)
-            */
             background-image: 
                 linear-gradient(rgba(106, 17, 203, 0.85), rgba(37, 117, 252, 0.8)),
                 url('https://apik.pontianak.go.id/assets/img/videoplay.jpg');
             
-            background-size: cover;       /* Agar gambar memenuhi layar */
-            background-position: center;  /* Agar fokus gambar di tengah */
+            background-size: cover;      
+            background-position: center;  
             background-repeat: no-repeat;
-            background-attachment: fixed; /* Agar background diam saat scroll */
+            background-attachment: fixed; 
         }
 
         .login-container {

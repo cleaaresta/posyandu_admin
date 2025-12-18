@@ -235,44 +235,40 @@
         </div>
     </div>
 
-   {{-- SLIDER DAN IDENTITAS PENGEMBANG --}}
+    {{-- SLIDER DAN IDENTITAS PENGEMBANG --}}
     <div class="flex flex-wrap mt-6 -mx-3">
 
         <div class="w-full max-w-full px-3 mt-0 lg:w-7/12 lg:flex-none">
-            {{-- UBAH 1: min-h dibuat responsif (250px di HP, 400px di Laptop) --}}
-            <div class="relative w-full h-full overflow-hidden rounded-2xl shadow-xl min-h-[250px] md:min-h-[400px]">
+            <div class="relative w-full h-full overflow-hidden rounded-2xl shadow-xl min-h-[400px]">
                 <div id="slider-carousel" class="relative w-full h-full overflow-hidden rounded-2xl">
 
-                    {{-- SLIDE 1 --}}
                     <div class="slide absolute w-full h-full transition-all duration-500 ease-in-out opacity-100 z-10">
                         <img class="object-cover h-full w-full"
                             src="https://res.cloudinary.com/dk0z4ums3/image/upload/v1602495292/attached_image/ini-kegiatan-posyandu-dan-manfaatnya-bagi-ibu-dan-anak.jpg"
-                            alt="Kegiatan Posyandu" />
-                        {{-- UBAH 2: Margin teks disesuaikan untuk HP (ml-6 & right-4) --}}
-                        <div class="block text-start ml-6 md:ml-12 left-0 bottom-0 absolute right-4 md:right-[15%] pt-5 pb-5 text-white bg-gradient-to-t from-black/60 to-transparent rounded-b-2xl">
-                            <h5 class="mb-1 text-white text-lg md:text-xl">Ayo ke Posyandu!</h5>
-                            <p class="dark:opacity-80 text-sm md:text-base">Pantau kesehatan dan tumbuh kembang anak secara rutin.</p>
+                            alt="" />
+                        <div class="block text-start ml-12 left-0 bottom-0 absolute right-[15%] pt-5 pb-5 text-white">
+                            <h5 class="mb-1 text-white">Ayo ke Posyandu!</h5>
+                            <p class="dark:opacity-80">Pantau kesehatan dan tumbuh kembang anak secara rutin.</p>
                         </div>
                     </div>
 
-                    {{-- SLIDE 2 --}}
                     <div class="slide absolute w-full h-full transition-all duration-500 ease-in-out opacity-0 z-0">
                         <img class="object-cover h-full w-full"
                             src="https://prod-swara.storage.googleapis.com/wp-content/uploads/2021/12/19220802/Screen-Shot-2021-12-20-at-18.52.57.png"
-                            alt="Layanan Posyandu" />
-                        <div class="block text-start ml-6 md:ml-12 left-0 bottom-0 absolute right-4 md:right-[15%] pt-5 pb-5 text-white bg-gradient-to-t from-black/60 to-transparent rounded-b-2xl">
-                            <h5 class="mb-1 text-white text-lg md:text-xl">Layanan Cepat & Praktis</h5>
-                            <p class="dark:opacity-80 text-sm md:text-base">Dapatkan informasi layanan Posyandu terdekat dengan satu klik.</p>
+                            alt="" />
+                        <div class="block text-start ml-12 left-0 bottom-0 absolute right-[15%] pt-5 pb-5 text-white">
+                            <h5 class="mb-1 text-white">Layanan Cepat & Praktis</h5>
+                            <p class="dark:opacity-80">Tidak perlu bingung lagi, dapatkan informasi layanan Posyandu
+                                terdekat dengan satu klik.</p>
                         </div>
                     </div>
 
-                    {{-- TOMBOL NAVIGASI --}}
                     <button onclick="nextSlide()"
-                        class="absolute z-20 w-8 h-8 md:w-10 md:h-10 p-2 text-lg text-white border-none opacity-70 cursor-pointer hover:opacity-100 hover:scale-110 transition-all duration-200 top-1/2 right-2 md:right-4 -translate-y-1/2 bg-black/30 rounded-full">
+                        class="absolute z-20 w-10 h-10 p-2 text-lg text-white border-none opacity-50 cursor-pointer hover:opacity-100 hover:scale-110 transition-all duration-200 top-1/2 right-4 -translate-y-1/2">
                         <i class="fas fa-chevron-right"></i>
                     </button>
                     <button onclick="prevSlide()"
-                        class="absolute z-20 w-8 h-8 md:w-10 md:h-10 p-2 text-lg text-white border-none opacity-70 cursor-pointer hover:opacity-100 hover:scale-110 transition-all duration-200 top-1/2 right-12 md:right-16 -translate-y-1/2 bg-black/30 rounded-full">
+                        class="absolute z-20 w-10 h-10 p-2 text-lg text-white border-none opacity-50 cursor-pointer hover:opacity-100 hover:scale-110 transition-all duration-200 top-1/2 right-16 -translate-y-1/2">
                         <i class="fas fa-chevron-left"></i>
                     </button>
 
@@ -280,9 +276,9 @@
             </div>
         </div>
 
-        {{-- CARD IDENTITAS PENGEMBANG --}}
-        <div class="w-full max-w-full px-3 mt-6 lg:mt-0 lg:w-5/12 lg:flex-none">
-            <div class="relative flex flex-col min-w-0 break-words bg-white shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border h-full">
+        <div class="w-full max-w-full px-3 mt-0 lg:w-5/12 lg:flex-none">
+            <div
+                class="relative flex flex-col min-w-0 break-words bg-white shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border h-full">
                 <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
                     <h6 class="dark:text-white font-bold">Identitas Pengembang</h6>
                 </div>
@@ -294,9 +290,10 @@
                                 class="w-16 h-16 rounded-full shadow-lg border-2 border-emerald-500 object-cover">
                         </div>
 
-                        <h5 class="mb-1 text-xl font-bold text-slate-700 dark:text-white text-center">Clearesta Rahimah Thee</h5>
-                        <p class="mb-0 text-sm font-semibold text-slate-500 dark:text-white/60 text-center">NIM: 2457301029</p>
-                        <p class="mb-4 text-sm text-slate-500 dark:text-white/60 text-center">D4 Sistem Informasi - Politeknik Caltex Riau</p>
+                        <h5 class="mb-1 text-xl font-bold text-slate-700 dark:text-white">Clearesta Rahimah Thee</h5>
+                        <p class="mb-0 text-sm font-semibold text-slate-500 dark:text-white/60">NIM: 2457301029</p>
+                        <p class="mb-4 text-sm text-slate-500 dark:text-white/60">D4 Sistem Informasi - Politeknik Caltex
+                            Riau</p>
 
                         <div class="flex w-full justify-center gap-4 mt-4">
                             {{-- GitHub --}}
@@ -334,10 +331,13 @@
         const totalSlides = slides.length;
 
         function showSlide(index) {
+            // Reset semua slide ke hidden
             slides.forEach((slide) => {
                 slide.classList.remove('opacity-100', 'z-10');
                 slide.classList.add('opacity-0', 'z-0');
             });
+
+            // Tampilkan slide yang aktif
             slides[index].classList.remove('opacity-0', 'z-0');
             slides[index].classList.add('opacity-100', 'z-10');
         }
@@ -354,28 +354,5 @@
 
         // Auto-play setiap 5 detik
         setInterval(nextSlide, 5000);
-
-        // --- TAMBAHAN: FITUR SWIPE (GESER) UNTUK HP ---
-        let touchStartX = 0;
-        let touchEndX = 0;
-        const sliderContainer = document.getElementById('slider-carousel');
-
-        if(sliderContainer){
-            sliderContainer.addEventListener('touchstart', e => {
-                touchStartX = e.changedTouches[0].screenX;
-            }, {passive: true});
-
-            sliderContainer.addEventListener('touchend', e => {
-                touchEndX = e.changedTouches[0].screenX;
-                handleSwipe();
-            }, {passive: true});
-        }
-
-        function handleSwipe() {
-            // Jika geser ke kiri (Next)
-            if (touchEndX < touchStartX - 50) nextSlide();
-            // Jika geser ke kanan (Prev)
-            if (touchEndX > touchStartX + 50) prevSlide();
-        }
     </script>
 @endsection

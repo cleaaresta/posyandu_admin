@@ -31,8 +31,6 @@ Route::post('/login', [LoginController::class, 'login']);
 // Logout
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-
-// --- 2. Rute Terproteksi (Harus Login) ---
 // Semua rute di sini mengharuskan user sudah login (Middleware: checkislogin)
 Route::middleware(['checkislogin'])->group(function () {
 
