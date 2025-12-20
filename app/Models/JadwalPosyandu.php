@@ -29,13 +29,14 @@ class JadwalPosyandu extends Model
     {
         return $this->belongsTo(Posyandu::class, 'posyandu_id', 'posyandu_id');
     }
-
+   
     // RELASI KE MEDIA (POSTER)
-    public function poster()
-    {
-        return $this->morphOne(Media::class, 'model', 'ref_table', 'ref_id')
-                    ->latest();
-    }
+public function poster()
+{
+    // Gunakan hasOne biasa karena di Controller Anda mengisi 'ref_id' secara manual
+    return $this->hasOne(Media::class, 'ref_id', 'jadwal_id')
+                ->where('ref_table', 'jadwal_posyandu');
+}
     
     // Accessor: URL Poster Aman
 // Accessor: URL Poster Aman
