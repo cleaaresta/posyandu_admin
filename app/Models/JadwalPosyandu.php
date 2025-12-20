@@ -12,7 +12,7 @@ class JadwalPosyandu extends Model
     use HasFactory;
 
     protected $table = 'jadwal_posyandu';
-    protected $primaryKey = 'jadwal_id'; // Kunci utama Anda
+    protected $primaryKey = 'jadwal_id';
 
     protected $fillable = [
         'posyandu_id', 
@@ -21,31 +21,34 @@ class JadwalPosyandu extends Model
         'keterangan'
     ];
 
-    protected $casts = [
-        'tanggal' => 'date'
-    ];
+    protected $casts = ['tanggal' => 'date'];
 
     public function posyandu()
     {
         return $this->belongsTo(Posyandu::class, 'posyandu_id', 'posyandu_id');
     }
 
-    // PERBAIKAN: Gunakan hasOne biasa agar sinkron dengan cara simpan di Controller
     public function poster()
     {
-        return $this->hasOne(Media::class, 'ref_id', 'jadwal_id')
-                    ->where('ref_table', 'jadwal_posyandu');
+        return $this->morphOne(Media::class, 'model', 'ref_table', 'ref_id')
+                    ->latest();
     }
     
-    // Accessor untuk menampilkan gambar
+    /**
+     * Logika Prioritas:
+     * 1. Jika ada upload di storage -> Pakai file upload.
+     * 2. Jika tidak ada -> Pakai default assets.
+     */
     public function getPosterUrlAttribute()
     {
         if ($this->poster && $this->poster->file_url) {
+            // Cek apakah file fisik benar-benar ada di storage
             if (Storage::disk('public')->exists($this->poster->file_url)) {
                 return asset('storage/' . $this->poster->file_url);
             }
         }
-        // Gambar default jika file tidak ada
+
+        // Default jika tidak ada upload
         return asset('assets-admin/img/team/jadwal1.png'); 
     }
 
@@ -56,7 +59,10 @@ class JadwalPosyandu extends Model
         
         return $query->where(function ($q) use ($searchTerm) {
             $q->where('tema', 'like', '%' . $searchTerm . '%')
-              ->orWhere('keterangan', 'like', '%' . $searchTerm . '%');
+              ->orWhere('keterangan', 'like', '%' . $searchTerm . '%')
+              ->orWhereHas('posyandu', function ($rel) use ($searchTerm) {
+                  $rel->where('nama', 'like', '%' . $searchTerm . '%');
+              });
         });
     }
 }
