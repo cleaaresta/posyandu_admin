@@ -5,7 +5,7 @@
 
 @push('styles')
     <style>
-        /* --- STYLE UMUM CARD (Sama persis dengan file referensi) --- */
+        /* --- STYLE UMUM CARD --- */
         .custom-card {
             background-color: #ffffff;
             border-radius: 16px;
@@ -50,6 +50,7 @@
             object-fit: cover;
             border: 3px solid #f1f5f9;
             margin-right: 16px;
+            background-color: #f1f5f9; /* Background jika gambar transparan */
         }
 
         .mini-profile-info h5 {
@@ -183,7 +184,7 @@
 @endpush
 
 @section('content')
-    {{-- TOOLBAR (Sama style, link disesuaikan ke Posyandu) --}}
+    {{-- TOOLBAR --}}
     <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
         <a href="{{ route('posyandu.index') }}"
             class="inline-flex items-center px-4 py-2 text-sm font-bold text-slate-700 bg-white border border-slate-300 rounded-lg shadow-sm hover:bg-slate-50 hover:shadow-md hover:-translate-y-px active:opacity-85 transition-all">
@@ -191,13 +192,13 @@
         </a>
 
         <div class="flex gap-2">
-            {{-- Tombol Edit --}}
+            {{-- Edit --}}
             <a href="{{ route('posyandu.edit', $posyandu->posyandu_id) }}"
                 class="inline-flex items-center px-4 py-2 text-xs font-bold text-white uppercase transition-all bg-gradient-to-tl from-blue-600 to-cyan-400 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-px active:opacity-85">
                 <i class="fas fa-edit mr-2"></i> Edit Data
             </a>
             
-            {{-- Tombol Hapus --}}
+            {{-- Hapus --}}
             <form action="{{ route('posyandu.destroy', $posyandu->posyandu_id) }}" method="POST"
                 onsubmit="return confirm('Hapus posyandu ini?');">
                 @csrf @method('DELETE')
@@ -222,12 +223,13 @@
 
                     {{-- Profil Singkat --}}
                     <div class="mini-profile">
+                        {{-- LOGIKA FOTO: Prioritas Gambar Uploaded -> Gambar Default Assets --}}
                         @if (!empty($posyandu->foto))
                             <img src="{{ $posyandu->foto_url }}" class="mini-profile-img" alt="Foto Posyandu">
                         @else
-                            <div class="mini-profile-img flex items-center justify-center bg-slate-100 text-slate-400">
-                                <i class="fas fa-clinic-medical text-2xl"></i>
-                            </div>
+                            <img src="{{ asset('assets-admin/img/team/posyandu1.png') }}" 
+                                 class="mini-profile-img" 
+                                 alt="Default Profile">
                         @endif
 
                         <div class="mini-profile-info">
@@ -239,8 +241,6 @@
                     </div>
 
                     {{-- Data List --}}
-                    
-                    {{-- Alamat --}}
                     <div class="info-list-item">
                         <div class="icon-box gradient-pink">
                             <i class="fas fa-map-marked-alt"></i>
@@ -253,7 +253,6 @@
                         </div>
                     </div>
 
-                    {{-- RT / RW --}}
                     <div class="info-list-item">
                         <div class="icon-box gradient-orange">
                             <i class="fas fa-house-user"></i>
@@ -266,7 +265,6 @@
                         </div>
                     </div>
 
-                    {{-- Kontak --}}
                     <div class="info-list-item">
                         <div class="icon-box gradient-blue">
                             <i class="fas fa-phone-alt"></i>
@@ -281,7 +279,7 @@
             </div>
         </div>
 
-        {{-- CARD 2: FOTO POSYANDU (KANAN - 7/12) --}}
+        {{-- CARD 2: FOTO POSYANDU BESAR (KANAN - 7/12) --}}
         <div class="w-full lg:w-7/12 px-4 mb-6">
             <div class="custom-card">
                 <div class="card-header border-l-4 border-l-orange-500">
@@ -305,7 +303,7 @@
                             </div>
                         </div>
                     @else
-                        {{-- STATE KOSONG (JIKA TIDAK ADA FOTO) --}}
+                        {{-- STATE KOSONG --}}
                         <div class="empty-gallery">
                             <i class="far fa-image text-5xl mb-4 text-slate-300"></i>
                             <p class="font-bold text-slate-500">Belum ada foto</p>
