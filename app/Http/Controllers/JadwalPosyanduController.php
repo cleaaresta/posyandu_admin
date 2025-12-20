@@ -13,7 +13,6 @@ class JadwalPosyanduController extends Controller
 {
     public function index(Request $request)
     {
-        // Eager load 'poster' agar tidak lemot (N+1 Problem)
         $jadwals = JadwalPosyandu::with(['posyandu', 'poster'])
             ->search($request)
             ->orderBy('tanggal', 'desc')
@@ -31,7 +30,6 @@ class JadwalPosyanduController extends Controller
 
     public function store(Request $request)
     {
-        // 1. Validasi Input
         $data = $request->validate([
             'posyandu_id' => 'required|exists:posyandu,posyandu_id',
             'tanggal'     => 'required|date',
@@ -43,18 +41,17 @@ class JadwalPosyanduController extends Controller
         try {
             DB::beginTransaction();
 
-            // 2. Simpan Data Utama
+            // 1. Simpan Jadwal
             $jadwal = JadwalPosyandu::create($data);
 
-            // 3. Simpan File Poster jika ada
+            // 2. Simpan Poster (Pastikan menggunakan ID yang baru saja dibuat)
             if ($request->hasFile('poster')) {
                 $file = $request->file('poster');
                 $path = $file->store('uploads/jadwal', 'public');
 
-                // Gunakan relasi hasOne yang mengarah ke ref_id
                 $jadwal->poster()->create([
                     'ref_table' => 'jadwal_posyandu',
-                    'ref_id'    => $jadwal->jadwal_id, // Primary key model Anda
+                    'ref_id'    => $jadwal->jadwal_id, // Mengambil ID dari record baru
                     'file_url'  => $path,
                     'caption'   => 'Poster ' . $jadwal->tema,
                     'mime_type' => $file->getClientMimeType(),
@@ -62,11 +59,11 @@ class JadwalPosyanduController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('jadwal-posyandu.index')->with('success', 'Jadwal berhasil dibuat.');
+            return redirect()->route('jadwal-posyandu.index')->with('success', 'Jadwal dan Poster berhasil disimpan.');
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withInput()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            return back()->with('error', 'Gagal menyimpan: ' . $e->getMessage());
         }
     }
 
@@ -98,20 +95,16 @@ class JadwalPosyanduController extends Controller
         try {
             DB::beginTransaction();
 
-            // 1. Update Data Teks
             $jadwal->update($data);
 
-            // 2. Update Poster jika user mengunggah file baru
             if ($request->hasFile('poster')) {
-                // Hapus poster lama dari storage & database
+                // Hapus file fisik dan record lama
                 if ($jadwal->poster) {
-                    if (Storage::disk('public')->exists($jadwal->poster->file_url)) {
-                        Storage::disk('public')->delete($jadwal->poster->file_url);
-                    }
+                    Storage::disk('public')->delete($jadwal->poster->file_url);
                     $jadwal->poster()->delete();
                 }
 
-                // Simpan poster baru
+                // Upload baru
                 $file = $request->file('poster');
                 $path = $file->store('uploads/jadwal', 'public');
 
@@ -125,32 +118,22 @@ class JadwalPosyanduController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('jadwal-posyandu.index')->with('success', 'Jadwal berhasil diperbarui.');
+            return redirect()->route('jadwal-posyandu.index')->with('success', 'Data berhasil diperbarui.');
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withInput()->with('error', 'Gagal memperbarui: ' . $e->getMessage());
+            return back()->with('error', 'Gagal update: ' . $e->getMessage());
         }
     }
 
     public function destroy($id)
     {
         $jadwal = JadwalPosyandu::findOrFail($id);
-
-        try {
-            // Hapus file fisik dari folder storage
-            if ($jadwal->poster) {
-                if (Storage::disk('public')->exists($jadwal->poster->file_url)) {
-                    Storage::disk('public')->delete($jadwal->poster->file_url);
-                }
-                $jadwal->poster()->delete();
-            }
-
-            $jadwal->delete();
-            return redirect()->route('jadwal-posyandu.index')->with('success', 'Jadwal berhasil dihapus.');
-            
-        } catch (\Exception $e) {
-            return back()->with('error', 'Gagal menghapus data.');
+        if ($jadwal->poster) {
+            Storage::disk('public')->delete($jadwal->poster->file_url);
+            $jadwal->poster()->delete();
         }
+        $jadwal->delete();
+        return redirect()->route('jadwal-posyandu.index')->with('success', 'Data dihapus.');
     }
 }

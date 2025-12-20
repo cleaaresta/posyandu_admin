@@ -12,7 +12,7 @@ class JadwalPosyandu extends Model
     use HasFactory;
 
     protected $table = 'jadwal_posyandu';
-    protected $primaryKey = 'jadwal_id'; // Sudah benar
+    protected $primaryKey = 'jadwal_id'; // Kunci utama Anda
 
     protected $fillable = [
         'posyandu_id', 
@@ -21,29 +21,31 @@ class JadwalPosyandu extends Model
         'keterangan'
     ];
 
-    protected $casts = ['tanggal' => 'date'];
+    protected $casts = [
+        'tanggal' => 'date'
+    ];
 
     public function posyandu()
     {
         return $this->belongsTo(Posyandu::class, 'posyandu_id', 'posyandu_id');
     }
 
-    // --- PERBAIKAN DI SINI ---
+    // PERBAIKAN: Gunakan hasOne biasa agar sinkron dengan cara simpan di Controller
     public function poster()
     {
-        // Gunakan hasOne, arahkan ke ref_id, dan kunci ke jadwal_id
         return $this->hasOne(Media::class, 'ref_id', 'jadwal_id')
                     ->where('ref_table', 'jadwal_posyandu');
     }
     
+    // Accessor untuk menampilkan gambar
     public function getPosterUrlAttribute()
     {
         if ($this->poster && $this->poster->file_url) {
-            // Pastikan path benar di storage/app/public/uploads/jadwal/...
             if (Storage::disk('public')->exists($this->poster->file_url)) {
                 return asset('storage/' . $this->poster->file_url);
             }
         }
+        // Gambar default jika file tidak ada
         return asset('assets-admin/img/team/jadwal1.png'); 
     }
 
